@@ -22,7 +22,7 @@ class _TabsState extends State<Tabs> {
     // CustomerPageWidget(),
     // BusinessPageWidget(),
     MyPage(),
-    BillPageWidget()];
+    BillPage()];
     
   @override
   Widget build(BuildContext context) {

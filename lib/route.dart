@@ -10,6 +10,8 @@ import 'pages/home/homePage.dart';
 import 'pages/customer/CustomerPage.dart';
 import 'pages/404.dart';
 import 'view/homePage1.dart';
+import 'pages/contract/ContractAddPage.dart';
+import 'pages/contract/ContractDetailAddPage.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
@@ -23,9 +25,12 @@ final routes = {
   '/': (content,{arguments}) => LoginPageZ(),
   '/tabs': (content) => Tabs(),
   '/billSearch': (content) =>BillSearch(),
-  '/bill': (content) =>BillPageWidget(),
+  '/bill': (content,{arguments}) =>BillPage(arguments: arguments),
   '/customer': (content) =>CustomerPage(),
   '/404': (content) =>WidgetNotFound(),
+  '/contractAdd':(content) => ContractAddPage(),
+  '/conDetailAdd':(content) => ContractDetailAddPage(),
+  '/cDA':(content) => ContractDetailAddPage(),
   //以下为测试用页面
 
    '/busi': (content) =>BusinessPageWidget(),
