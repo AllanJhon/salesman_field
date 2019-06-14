@@ -12,10 +12,12 @@ class WidgetItem extends StatelessWidget {
   final int index; //用于计算border
   final int totalCount;
   final int rowLength;
+  final Icon widgetIcon;
   final String textSize;
 
   WidgetItem(
       {this.title,
+      this.widgetIcon,
       this.onTap,
       this.index,
       this.totalCount,
@@ -61,17 +63,17 @@ class WidgetItem extends StatelessWidget {
         //首字母转为大写
         title.substring(0, 1),
         title.substring(0, 1).toUpperCase());
-    Icon widgetIcon;
-    // if (WidgetName2Icon.icons[_widgetName] != null) {
-    //   widgetIcon = Icon(WidgetName2Icon.icons[_widgetName]);
-    // } else {
-      widgetIcon = Icon(
-        Icons.crop,
-      );
-    // }
     final textStyle = (textSize == 'middle')
         ? TextStyle(fontSize: 13.8, fontFamily: 'MediumItalic')
         : TextStyle(fontSize: 16.0);
+        Icon _widgetIcon;
+        if(widgetIcon==null){
+            _widgetIcon=Icon(
+              Icons.crop,
+            );
+        }else{
+          _widgetIcon=widgetIcon;
+        }
     return InkWell(
       onTap: onTap,
       child: Container(
@@ -84,7 +86,7 @@ class WidgetItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: <Widget>[
-            widgetIcon,
+           _widgetIcon,
             SizedBox(
               height: 8.0,
             ),
