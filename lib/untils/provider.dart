@@ -42,7 +42,7 @@ class Provider {
 
   // 检查数据库中, 表是否完整, 在部份android中, 会出现表丢失的情况
   Future checkTableIsRight() async {
-    List<String> expectTables = ['cat', 'widget', 'collection'];
+    List<String> expectTables = ['cat', 'dictionary', 'collection'];
 
     List<String> tables = await getTables();
 
@@ -60,7 +60,7 @@ class Provider {
   Future init(bool isCreate) async {
     //Get a location using getDatabasesPath
     String databasesPath = await getDatabasesPath();
-    String path = join(databasesPath, 'flutter.db');
+    String path = join(databasesPath, 'salesman_field.db');
     print(path);
     try {
       db = await openDatabase(path);

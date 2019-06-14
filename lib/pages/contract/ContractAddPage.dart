@@ -57,7 +57,7 @@ class _ContractAddPageState extends State<ContractAddPage> {
                   setState(() { });
                 },
                 onTapDown:(TapDownDetails details){
-                  setState(() {_color=Colors.black;  });
+                  setState(() {_color=Colors.black; });
                 } ,
                  onTapUp:(TapUpDetails details){
                   setState(() {_color=Colors.white;  });

@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:convert';
 class Customer {
   String name;
   String code;

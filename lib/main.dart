@@ -5,11 +5,20 @@ import 'routers/application.dart';
 import 'routers/routers.dart';
 import 'service/customer_api.dart';
 import 'env.dart';
+import 'untils/provider.dart';
+import 'untils/shared_preferences.dart';
 
 const int ThemeColor = 0xFFC91B3A;
+SpUtil sp;
+var db;
 
-void main() {
+void main() async{
   Env.apiClient = CustomerAPI();
+  final provider = new Provider();
+  await provider.init(true);
+  sp = await SpUtil.getInstance();
+  // new SearchHistoryList(sp);
+  db = Provider.db;
   runApp(new MyApp());
 }
 

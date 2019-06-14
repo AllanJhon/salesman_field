@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import 'package:saller_demo01/pages/contract/ContractAddPage.1.dart';
 
 import 'package:saller_demo01/pages/contract/ContractAddPage.dart';
 import 'package:saller_demo01/pages/contract/ContractDetailAddPage.dart';
@@ -18,7 +19,7 @@ var contractHandler = new Handler(
     // String name = params["type"]?.first;
     String name = params["type"][0];
     if(name=='contract')
-      return new ContractAddPage();
+      return new ContractAddPage1();
     else{
       return new ContractDetailAddPage();
     }
