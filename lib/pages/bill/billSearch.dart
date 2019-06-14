@@ -1,5 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
+import '../../data/listData.dart';
+
+var _bDate =
+    DateTime.now().add(new Duration(days: -14)).toString().substring(0, 10);
+var _eDate = DateTime.now().toString().substring(0, 10);
+
+TextEditingController bDateController =
+    TextEditingController.fromValue(TextEditingValue(text: _bDate));
+TextEditingController eDateController =
+    TextEditingController.fromValue(TextEditingValue(text: _eDate));
+TextEditingController customerController = TextEditingController();
+TextEditingController billController = TextEditingController();
 
 class BillSearch extends StatefulWidget {
   BillSearch({Key key}) : super(key: key);
@@ -8,83 +19,212 @@ class BillSearch extends StatefulWidget {
 }
 
 class _BillSearchState extends State<BillSearch> {
- DateTime _dateTime = DateTime.now(); // 要做个初始化，不然后面不能传入null
+  //开始日期默认取两周前
+  _showDataPicker(flag) async {
+    Locale myLocale = Localizations.localeOf(context);
+    var picker = await showDatePicker(
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2016),
+        lastDate: DateTime(2099),
+        locale: myLocale);
+    setState(() {
+      if (flag == "B") {
+        _bDate = picker.toString().substring(0, 10);
+        bDateController.text = _bDate;
+      } else if (flag == "E") {
+        _eDate = picker.toString().substring(0, 10);
+        eDateController.text = _eDate;
+      }
+    });
+  }
 
- 
-// Future<DateTime> showDatePicker ({
-//     @required BuildContext context, // 上下文
-//     @required DateTime initialDate, // 初始日期
-//     @required DateTime firstDate,   // 日期范围，开始
-//     @required DateTime lastDate,    // 日期范围，结尾
-//     SelectableDayPredicate selectableDayPredicate,
-//     DatePickerMode initialDatePickerMode: DatePickerMode.day,
-//     Locale locale,                  // 国际化
-//     TextDirection textDirection,
-// });
+  _goSearch(){
+    var vBegDate = bDateController.text;
+    var vEendDate = eDateController.text;
+    var cusName = customerController.text;
+    var billNo  = billController.text;
+    List filterListDate = billData1.where((value) {
+      return DateTime.parse(value["创建日期"])
+              .isAfter(DateTime.parse(vBegDate)) &&
+          DateTime.parse(value["创建日期"]).isBefore(DateTime.parse(vEendDate)) &&
+          value["客户编码"].toString().contains(cusName);
+    }).toList();
 
- 
+    billData = filterListDate;
+    // bDateController.clear();
+    // eDateController.clear();
+    customerController.clear();
+    billController.clear();
+
+    Navigator.popAndPushNamed(context, '/bill',arguments:{"vBegDate":vBegDate,"vEendDate":vEendDate,"cusName":cusName,"billNo":billNo});
+    // Navigator.of(context).pop({"vBegDate":vBegDate,"vEendDate":vEendDate,"cusName":cusName,"billNo":billNo});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: new MaterialButton(
-    child: new Text('选择日期'),
-    onPressed: () {
-    
-        // 调用函数打开
-        showDatePicker(
-            context: context,
-            
-            initialDate: new DateTime.now(),
-            firstDate: new DateTime.now().subtract(new Duration(days: 30)), // 减 30 天
-            lastDate: new DateTime.now().add(new Duration(days: 30)),       // 加 30 天
-   
-        ).then((DateTime val) {
-            print(val);   // 2018-07-12 00:00:00.000
-        }).catchError((err) {
-            print(err);
-        });
-    }
-    
-),
+    return Scaffold(
+      appBar:
+          AppBar(centerTitle: true, title: Text('订单查询条件'), actions: <Widget>[
+        new IconButton(
+          tooltip: '确定',
+          onPressed: () {
+            // Navigator.popUntil(context, ModalRoute.withName('/'));
+            _goSearch();
+          },
+          icon: Icon(Icons.check),
+        ),
+      ]),
+      body: Container(
+        // padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),
+            ),
+            Container(
+              decoration: new BoxDecoration(
+                // color: _color,
+                border: Border(
+                  bottom:
+                      const BorderSide(width: 1.0, color: Color(0xFFEFEFEF)),
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                      child: Text('开始日期:'),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      keyboardType:TextInputType.datetime,
+                      maxLines: 1,
+                      controller: bDateController,
+                      decoration: InputDecoration(
+                        suffixIcon: new IconButton(
+                          icon: Icon(
+                            Icons.watch_later,
+                            size: 35,
+                          ),
+                          onPressed: () {
+                            _showDataPicker("B");
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              decoration: new BoxDecoration(
+                border: Border(
+                  bottom:
+                      const BorderSide(width: 1.0, color: Color(0xFFEFEFEF)),
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                      child: Text('结束日期:'),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      maxLines: 1,
+                      keyboardType:TextInputType.datetime,
+                      controller: eDateController,
+                      decoration: InputDecoration(
+                        suffixIcon: new IconButton(
+                          icon: Icon(
+                            Icons.watch_later,
+                            size: 35,
+                          ),
+                          onPressed: () {
+                            _showDataPicker("E");
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              decoration: new BoxDecoration(
+                border: Border(
+                  bottom:
+                      const BorderSide(width: 1.0, color: Color(0xFFEFEFEF)),
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                      child: Text('客户名称:'),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      controller: customerController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10.0),
+                        hintText: '请输入客户名称',
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              decoration: new BoxDecoration(
+                border: Border(
+                  bottom:
+                      const BorderSide(width: 1.0, color: Color(0xFFEFEFEF)),
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                      child: Text('订单编号:'),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: TextField(
+                      controller: billController,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.all(10.0),
+                        hintText: '请输入SAP订单编号',
+                      ),
+                      maxLines: 1,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
-    // return Scaffold(
-    //   appBar: AppBar(
-    //     title: Text('BottomNavigationBar Sample'),
-    //   ),
-    //   body: Center(
-    //     child: new ListView(
-    //       children: <Widget>[
-    //         new FlatButton(
-    //           onPressed: _showDatePicker,
-    //           child: new Text('date picker'),
-    //         ),
-    //         new Padding(
-    //           padding: new EdgeInsets.all(10.0),
-    //           child: new Text(_dateTime.toString()),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
-  }
- 
-  void _showDatePicker() {
-    _selectDate(context);
-  }
- 
-  Future<Null> _selectDate(BuildContext context) async {
-    final DateTime _picked = await showDatePicker(
-      context: context,
-      initialDate: _dateTime, // 不能传入null
-      firstDate: new DateTime(2017),
-      lastDate: new DateTime(2021),
-    );
- 
-    if (_picked != null) {
-      print(_picked);
-      setState(() {
-        _dateTime = _picked;
-      });
-    }
   }
 }

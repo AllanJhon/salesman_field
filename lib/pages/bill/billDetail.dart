@@ -6,15 +6,34 @@ class BillDetail extends StatelessWidget {
   List _getMapData() {
     List<Widget> list = new List();
     this.arguments.forEach((key, value) {
-      list.add(Container(
-        child: ListTile(
-          title: Text("$key".padRight(16 - "$key".length, ".") + "" + "$value",),
-        ),
-        decoration: BoxDecoration(
-            //加边框的效果
-            border: Border.all(
-                color: Color.fromRGBO(233, 233, 233, 0.9), width: 1)),
-      ));
+      list.add(
+           Container(
+              decoration: new BoxDecoration(
+                border: Border(
+                  bottom:
+                      const BorderSide(width: 1.0, color: Color(0xFFEFEFEF)),
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 12.0, 5.0, 5),
+                      child: Text('$key:'),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                         child: Padding(
+                      padding: EdgeInsets.fromLTRB(10.0, 15.0, 5.0, 5),
+                      child: Text('$value'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+      );
     });
     return list;
   }
