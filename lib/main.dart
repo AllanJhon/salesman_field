@@ -7,6 +7,7 @@ import 'service/customer_api.dart';
 import 'env.dart';
 import 'untils/provider.dart';
 import 'untils/shared_preferences.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 const int ThemeColor = 0xFFC91B3A;
 SpUtil sp;
@@ -26,9 +27,7 @@ class MyApp extends StatelessWidget {
 
   MyApp()  {
     final router = new Router();
-
     Routes.configureRoutes(router);
-
     Application.router = router;
   }
   @override
@@ -48,9 +47,17 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      // home: LoginPageZ(), //Tabs(),
       initialRoute: "/",
       onGenerateRoute: onGenerateRoute,
+      // 2019-06-14增加本地化设置
+      localizationsDelegates: [                             
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [                                   
+        const Locale('zh','CH'),
+        const Locale('en','US'),
+      ],
     );
   }
 }
