@@ -27,7 +27,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           desc: '合同新增',
           depth: 1,
           parentId: 0,
-          path: 'contract/contract');
+          path: '/contractAdd');
       categories.add(cat);
       Cat cat1 = new Cat(
           id: 1,
@@ -51,7 +51,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           desc: '要货码查询',
           depth: 1,
           parentId: 0,
-          path: '/cust');
+          path: '/goods');
       categories.add(cat3);
     });
   }
