@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../components/cate_card.dart';
-import '../../components/widget_item_container.dart';
-import '../../models/cat.dart';
+// import 'package:second/view/homePage1.dart';
+import 'package:flutter/widgets.dart';
 
 class MyPage extends StatefulWidget {
   MyPage({Key key}) : super(key: key);
@@ -10,122 +9,154 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
-  List<Cat> categories = [];
-
-  @override
-  void initState() {
-    super.initState();
-    renderCats();
-  }
-
-  void renderCats() {
-    setState(() {
-      Cat cat = new Cat(
-          id: 1,
-          name: '手机打卡',
-          desc: '手机定位',
-          depth: 1,
-          parentId: 0,
-          path: '/');
-      categories.add(cat);
-      Cat cat1 = new Cat(
-          id: 1,
-          name: '工作日报',
-          desc: '工作日报',
-          depth: 1,
-          parentId: 0,
-          path: '/');
-      categories.add(cat1);
-      Cat cat2 = new Cat(
-          id: 1,
-          name: '质量投诉',
-          desc: '质量投诉',
-          depth: 1,
-          parentId: 0,
-          path: '/');
-      categories.add(cat2);
-      Cat cat3 = new Cat(
-          id: 1,
-          name: '工作轨迹',
-          desc: '工作轨迹',
-          depth: 1,
-          parentId: 0,
-          path: '/');
-      categories.add(cat3);
-        Cat cat4 = new Cat(
-          id: 1,
-          name: '修改密码',
-          desc: '修改密码',
-          depth: 1,
-          parentId: 0,
-          path: '/');
-      categories.add(cat4);
-    });
-  }
-
-  Widget buildGrid() {
-    // 存放最后的widget
-    List<Widget> tiles = [];
-    for (Cat item in categories) {
-      tiles.add(new CateCard(category: item));
-    }
-    return new ListView(
-      children: tiles,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //   child:   GridView.count(
-    //       crossAxisCount: 3,
-    //       mainAxisSpacing: 10.0,
-    //       crossAxisSpacing: 4.0,
-    //       padding: const EdgeInsets.all(30.0),
-    //       childAspectRatio: 1.3,
-    //     children: <Widget>[
-    //       GridTile(
-    //         child: Container(
-    //           child: IconButton(icon:Icon(Icons.add_a_photo),),
-    //         ),
-    //       ),
-    //       GridTile(
-    //         child: Container(
-    //           child: Text("审批状态查询"),
-    //         ),
-    //       ),
-    //     ],
-    //   )
-    // );
-
     return new Scaffold(
-      appBar: new AppBar(
-        centerTitle: true,
-        title: new Text(
-          '我的',
-          style: TextStyle(
+        appBar: new AppBar(
+          centerTitle: true,
+          title: new Text(
+            '我的业务',
+            style: TextStyle(
+                // color: Colors.red,
+                ),
           ),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.search),
+                tooltip: '搜索',
+                onPressed: () {
+                  Navigator.pushNamed(context, '/billSearch');
+                })
+          ],
         ),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              tooltip: '搜索',
-              onPressed: () {
-                print('Shopping cart opened.');
-              })
-        ],
-      ),
-      body: 
-      Container(
-        padding: const EdgeInsets.only(bottom: 10.0, top: 5.0),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/paimaiLogo.png'),
-              alignment: Alignment.bottomRight),
+        body: GridView.count(
+          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
+          crossAxisSpacing: 2.5,
+          mainAxisSpacing: 2.5,
+          // padding: EdgeInsets.all(10),
+          crossAxisCount: 4,
+          children: <Widget>[
+            Container(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 10),
+                  CircleAvatar(
+                    child: Icon(Icons.settings),
+                  ),
+                  SizedBox(height: 10),
+                  Text("设置"),
+                ],
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white70,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
+                ),
+              ),
+              height: 40,
+            ),
+            Container(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    CircleAvatar(
+                      child: Icon(
+                        Icons.location_on,color: Colors.white,
+                      ),
+                      backgroundColor: Colors.orange,
+                    ),
+                    SizedBox(height: 10),
+                    Text("定位打卡"),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                )),
+            Container(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    CircleAvatar(
+                      child: Icon(
+                        Icons.spellcheck,color: Colors.white,
+                      ),
+                      backgroundColor: Colors.orange,
+                    ),
+                    SizedBox(height: 10),
+                    Text("工作日报"),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                )),
+            Container(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    CircleAvatar(
+                      child: Icon(
+                        Icons.attach_file,
+                      ),
+                      // backgroundColor: Colors.amber[100],
+                    ),
+                    SizedBox(height: 10),
+                    Text("质量投诉"),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                )),
+            Container(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    CircleAvatar(
+                      radius:20,
+                      child: Icon(
+                        Icons.vpn_key,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text("修改口令"),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                )),
+                Container(
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    CircleAvatar(
+                      radius:20,
+                      child: Icon(
+                        Icons.linear_scale,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text("敬请等待"),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white70,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(5),
+                  ),
+                )),
+          ],
         ),
-        child: WidgetItemContainer(
-            categories: this.categories, columnCount: 3, isWidgetPoint: false),
-      ),
-    );
+        backgroundColor: Color.fromARGB(90, 237, 235, 236));
   }
 }
