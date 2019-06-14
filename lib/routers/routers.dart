@@ -21,6 +21,7 @@ class Routes {
     router.define(home, handler: homeHandler);
     router.define("/pages/contract/ContractAddPage",handler:contractHandler);
     router.define('/contract/:type', handler: contractHandler);
+    router.define('/customer/:type', handler: customerHandler);
     router.define('/category/error/404', handler: widgetNotFoundHandler);
     // router.define(codeView,handler:fullScreenCodeDialog);
     // router.define(webViewPage,handler:webViewPageHand);

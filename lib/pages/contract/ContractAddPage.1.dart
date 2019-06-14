@@ -1,8 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:saller_demo01/components/contract_edit_container.dart';
+import 'package:saller_demo01/models/customer.dart';
 import 'package:saller_demo01/models/dictionary.dart';
-import 'package:saller_demo01/pages/bill/billPage.dart';
 import 'package:saller_demo01/routers/application.dart';
 
 import 'contractAdd_detailList.dart';
@@ -19,7 +19,7 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
   String contract_type;
   String take_type;
   DictionaryControlModel dictionaryControl = new DictionaryControlModel();
-
+  String customerName='请选择客户';
   List<Dictionary> _contract_types=new List<Dictionary>();//合同类型
   List<Dictionary> _agreement_types=new List<Dictionary>();//补充协议类型
   List<Dictionary> _fact_contract_types=new List<Dictionary>();//补充协议类型
@@ -78,7 +78,7 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
         title: Text('合同新增'),
         actions:<Widget>[
             new IconButton(
-              tooltip: '增加子项',
+              tooltip: '保存上传',
               onPressed: () {
                 // // Navigator.popUntil(context, ModalRoute.withName('/'));
                 // Application.router
@@ -113,20 +113,28 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
         Container( 
           child: Column(
             children: <Widget>[
-              ContractEditContainer(onTap: () {
-                  setState(() { });
+              ContractEditContainer(
+                
+                height: 60.0,onTap: () {
+                  Application.router
+                        .navigateTo(context, "contract/chooseCustomer", transition: TransitionType.inFromRight).then((result) {//回传值
+                  if (result != null) {
+                    Customer customer= result;
+                    customerName=customer.name;
+                  }
+                });
                 },
                 children: <Widget>[
                   Expanded(
-                    flex: 1,
+                    flex: 10,
                     child: Text('客户名称'),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: Text('唐山乐山教育局'),
+                    flex: 17,
+                    child: Text(customerName),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 3,
                     child:Align(alignment: FractionalOffset.topRight,child:  Icon(Icons.chevron_right,),),
                   ),
                 ],

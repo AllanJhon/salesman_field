@@ -31,6 +31,7 @@ class WidgetItemContainer extends StatelessWidget {
             Expanded(
               flex: 1,
               child: WidgetItem(
+                widgetIcon: item.cat_icon,
                 title: item.name,
                 onTap: () {
                   String targetRouter = (item.path == null || item.path.isEmpty)

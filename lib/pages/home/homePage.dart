@@ -22,6 +22,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
   void renderCats() {
     setState(() {
       Cat cat = new Cat(
+          cat_icon: Icon(Icons.people_outline),
           id: 1,
           name: '合同新增',
           desc: '合同新增',

@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class ContractEditContainer extends StatefulWidget {
   final List<Widget> children;
   final Color color;
+  final double height;
   final VoidCallback onTap;
 
    // 所有的可用demos;
   ContractEditContainer(
       {Key key,
       this.children = const <Widget>[],
+      this.height=50.0,
       this.color=Colors.white,
       @required this.onTap,})
       : super(key: key);
@@ -37,7 +39,7 @@ class _ContractEditContainerState extends State<ContractEditContainer> {
                     width: 1.0,color:Color(0xFFEFEFEF))),
         ),
         padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-        height: 50.0,
+        height: widget.height,
         child: Row(
                 children: widget.children,
         ),
