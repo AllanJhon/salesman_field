@@ -100,13 +100,6 @@ class HomePageWidgetState extends State<HomePageWidget> {
           style: TextStyle(
           ),
         ),
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              tooltip: '搜索',
-              onPressed: () {
-              })
-        ],
       ),
       body: 
       Container(

@@ -12,6 +12,7 @@ import 'pages/404.dart';
 import 'view/homePage1.dart';
 import 'pages/contract/ContractAddPage.dart';
 import 'pages/contract/ContractDetailAddPage.dart';
+import 'pages/bill/goodsCodePage.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
@@ -31,6 +32,7 @@ final routes = {
   '/contractAdd':(content) => ContractAddPage(),
   '/conDetailAdd':(content) => ContractDetailAddPage(),
   '/cDA':(content) => ContractDetailAddPage(),
+  '/goods':(content) => GoodsCodePage(),
   //以下为测试用页面
 
    '/busi': (content) =>BusinessPageWidget(),
