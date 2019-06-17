@@ -3,13 +3,13 @@ class Customer {
   String code;
   String avatar =
       'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=200';
-  String register_address;
-  String trade_partner;
+  String registerAddress;
+  String tradePartner;
   String phone;
-  String public_relations_type;
-  String tax_no;
-  String legal_user_name;
-  String business_contacts;
+  String publicRelationsType;
+  String taxNo;
+  String legalUserName;
+  String businessContacts;
   List<Customer> customers;
 
   Customer({this.name, this.code,this.avatar});
@@ -29,12 +29,12 @@ class Customer {
   Customer.get(Map data){
     this.code = data['code'];
     this.name = data['title'];
-    this.register_address = data['register_address'];
-    this.trade_partner= data['trade_partner'];
+    this.registerAddress = data['registerAddress'];
+    this.tradePartner= data['tradePartner'];
     this.phone=data['phone'];
-    this.public_relations_type=data['public_relations_type'];
-    this.tax_no=data['tax_no'];
-    this.legal_user_name=data['legal_user_name'];
-    this.business_contacts=data['business_contacts'];
+    this.publicRelationsType=data['publicRelationsType'];
+    this.taxNo=data['tax_no'];
+    this.legalUserName=data['legalUserName'];
+    this.businessContacts=data['business_contacts'];
   }
 }

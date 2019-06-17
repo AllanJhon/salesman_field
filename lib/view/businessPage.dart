@@ -43,7 +43,6 @@ class BusinessPageWidgetState extends State<BusinessPageWidget> {
 class MyCenter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Center(
       child: MyContainer(),
     );
@@ -53,7 +52,6 @@ class MyCenter extends StatelessWidget {
 class MyContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       child: ClipOval(
         child: Image.network(
@@ -69,7 +67,6 @@ class MyContainer extends StatelessWidget {
 class MyContainer1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
         child: Text(
           "如何高效实现混合云环境中的容器迁移？英特尔有办法",
@@ -136,8 +133,7 @@ class HomeContent extends StatelessWidget {
   }
   
   @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
+  Widget build(BuildContext context) { 
     return ListView(children: this._getData1(context));
   }
 }

@@ -30,35 +30,6 @@ class HomePageTestState extends State<HomePageTest> {
 }
 
 class MyHomeContent extends StatelessWidget {
-  List<Widget> _getData() {
-    List<Widget> list = new List();
-    list.add(new Container(
-      child: Column(
-        children: <Widget>[
-          Icon(Icons.home, size: 80.0, color: Colors.blue),
-          Text("第一位置"),
-        ],
-      ),
-      alignment: Alignment.center,
-    ));
-    list.add(new Container(
-      child: new Center(
-        child: Icon(Icons.save, size: 80.0, color: Colors.blue),
-      ),
-      alignment: Alignment.center,
-    ));
-    list.add(new Container(
-      child: new Center(
-        child: Icon(
-          Icons.school,
-          size: 80.0,
-          color: Colors.blue,
-        ),
-      ),
-      alignment: Alignment.center,
-    ));
-    return list;
-  }
 
   @override
   Widget build(BuildContext context) {

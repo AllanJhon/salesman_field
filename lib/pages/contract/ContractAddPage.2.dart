@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:saller_demo01/components/contract_edit_container.dart';
+import 'package:saller_demo01/models/contractDetail.dart';
+import 'package:saller_demo01/models/customer.dart';
 import 'package:saller_demo01/models/dictionary.dart';
-import 'package:saller_demo01/pages/bill/billPage.dart';
 import 'package:saller_demo01/routers/application.dart';
+
+import 'contractAdd_detailList.dart';
 
 class ContractAddPage1 extends StatefulWidget {
   @override
@@ -17,11 +22,12 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
   String contract_type;
   String take_type;
   DictionaryControlModel dictionaryControl = new DictionaryControlModel();
-
+  String customerName='请选择';
   List<Dictionary> _contract_types=new List<Dictionary>();//合同类型
   List<Dictionary> _agreement_types=new List<Dictionary>();//补充协议类型
   List<Dictionary> _fact_contract_types=new List<Dictionary>();//补充协议类型
   List<Dictionary> _take_types=new List<Dictionary>();//提货方式
+  List<ContractDetail> contractDetails=new List<ContractDetail>();//合同详细
 
   @override
   void initState() {
@@ -76,39 +82,63 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
         title: Text('合同新增'),
         actions:<Widget>[
             new IconButton(
-              tooltip: '增加子项',
+              tooltip: '保存上传',
               onPressed: () {
-                // Navigator.popUntil(context, ModalRoute.withName('/'));
-                Application.router
-                        .navigateTo(context, "contract/detailAdd", transition: TransitionType.inFromRight);
+                // // Navigator.popUntil(context, ModalRoute.withName('/'));
+                // Application.router
+                //         .navigateTo(context, "contract/detailAdd", transition: TransitionType.inFromRight);
+                showDialog<Null>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return  SimpleDialog(
+                      title:  Text("正在上传..."),
+                      children: <Widget>[
+                      SizedBox(
+                        height: 20,
+                        width: 20,
+                        child:LinearProgressIndicator(),
+                      ),
+                      ],
+                    );
+                  },
+                );
+                
               },
-              icon: Icon(Icons.add_circle),
+              icon: Icon(Icons.save_alt),
             ),]
       ),
       body: new SingleChildScrollView(
-            child:WillPopScope(
+        controller: new ScrollController(initialScrollOffset: 0.0,keepScrollOffset: true),
+        child:WillPopScope(
         onWillPop: () {
           return back();
         },
         child:Column(children: <Widget>[
-        Container(
-          
+        Container( 
           child: Column(
             children: <Widget>[
-              ContractEditContainer(onTap: () {
-                  setState(() { });
+              ContractEditContainer(
+                
+                height: 60.0,onTap: () {
+                  Application.router
+                        .navigateTo(context, "contract/chooseCustomer", transition: TransitionType.inFromRight).then((result) {//回传值
+                  if (result != null) {
+                    Customer customer= result;
+                    customerName=customer.name;
+                  }
+                  });
                 },
                 children: <Widget>[
                   Expanded(
-                    flex: 1,
+                    flex: 10,
                     child: Text('客户名称'),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: Text('唐山乐山教育局'),
+                    flex: 17,
+                    child: Text(customerName),
                   ),
                   Expanded(
-                    flex: 1,
+                    flex: 3,
                     child:Align(alignment: FractionalOffset.topRight,child:  Icon(Icons.chevron_right,),),
                   ),
                 ],
@@ -185,7 +215,7 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
                     value: contract_type,
                     icon: Icon(null),
                     underline: new Text(''),
-                    hint: const Text('请选择正确的类型               '),
+                    hint: const Text('请选择'),
                     onChanged: (String newValue) {
                     setState(() {
                       contract_type = newValue;
@@ -237,11 +267,11 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
                     child:
                   DropdownButton<String>(
                     value: take_type,
-                    icon: Icon(null),
+                    icon: Container(),
                     underline: new Text(''),
                     hint: Container(child:Row(
                       children: <Widget>[
-                       const Text('请选择正确的提货方式',),
+                       const Text('请选择',),
                
                     ],) ,),
                     
@@ -316,9 +346,27 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
                   Expanded(
                     flex: 1,
                     child: GestureDetector(
-                      onTap: (){ Application.router
-                        .navigateTo(context, "contract/detailAdd", transition: TransitionType.inFromRight);},
-                      child: Row(children: <Widget>[Icon(Icons.add_circle),Text('新增详细')],),),
+                      onTap: (){ 
+                      Map  mapValue = {'customerName' : customerName,'takeType': take_type};
+                      String jsonString = json.encode(mapValue);
+                      var jsons = jsonEncode(Utf8Encoder().convert(jsonString));
+                        // Application.router
+                        // .navigateTo(context, "contract/detailAddR?informationString=${jsons}", transition: TransitionType.inFromRight);
+                        Application.router
+                        .navigateTo(context, "contract/detailAddR?informationString=${jsons}", transition: TransitionType.inFromRight).then((result) {//回传值
+                        if (result != null) {
+                          ContractDetail contractDetail= result;
+                          // print(contractDetail.cementType);
+                          this.setState(() {
+                            contractDetails.add(contractDetail);
+                          });
+                        }
+                        });
+                        
+                      },
+                        
+                      child: Align(alignment: FractionalOffset.centerRight,child:  Icon(Icons.add_circle,),) 
+                      ),
                   ),],),),
             
                 
@@ -328,8 +376,8 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
         Container(
           color: Colors.white,
                   height: MediaQuery.of(context).size.height-80,
-                  child: MyHomeContent(),
-                ),
+                  child: ContractAddDetailListWidget(contractDetails:contractDetails),
+        ),
         ],)
         ))
         

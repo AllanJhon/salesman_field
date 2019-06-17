@@ -25,9 +25,9 @@ class Cat implements CatInterface {
   int depth;
   String path;
   int parentId;
-  Icon cat_icon;
+  Icon catIcon;
 
-  Cat({this.id, this.name,this.cat_icon, this.desc, this.depth, this.parentId,this.path});
+  Cat({this.id, this.name,this.catIcon, this.desc, this.depth, this.parentId,this.path});
 
   Cat.fromJSON(Map json)
       : id = json['id'],
@@ -36,7 +36,7 @@ class Cat implements CatInterface {
         depth = json['depth'],
         path = json['path'],
         parentId = json['parentId'],
-        cat_icon=json['cat_icon'];
+        catIcon=json['catIcon'];
 
   String toString() {
     return '(Cat $name)';
@@ -50,7 +50,7 @@ class Cat implements CatInterface {
       'depth': depth,
       'parentId': parentId,
       'path':path,
-      'cat_icon':cat_icon
+      'cat_icon':catIcon
     };
   }
   Map toSqlCondition() {
