@@ -14,9 +14,7 @@ class _GoodsCodePageState extends State<GoodsCodePage> {
   var _res = "查询状态";
   bool _goodsStat = true;
 
-  void _goSearch() {
-    // 通过 setState() 更新数据
-    // 组件树就会自动刷新了
+  void _goSearch(flag) {
     _goodsStat = !_goodsStat;
     setState(() {
       _res = _goodsStat ? "要货码下发成功" : "要货码下发失败";
@@ -69,8 +67,8 @@ class _GoodsCodePageState extends State<GoodsCodePage> {
               icon: Icon(Icons.search, size: 32),
               tooltip: '搜索',
               onPressed: () {
-                // print(goodsController.text);
-                _goSearch();
+                print(goodsController.text);
+                // _goSearch();
               })
         ],
       ),
@@ -84,7 +82,30 @@ class _GoodsCodePageState extends State<GoodsCodePage> {
                 Navigator.pushNamed(context, '/billD',
                     arguments: billData[index]);
               },
-              trailing: new Icon(Icons.check,size: 18,),
+              trailing: billData[index]["flag"]
+                  ? Icon(Icons.check_circle, size: 28, color: Colors.green)
+                  : new PopupMenuButton(
+                      onSelected: (String value) {
+                        setState(() {
+                          //  _bodyStr = value;
+                          print(billData[index]["付货通知单号"]);
+                          switch (value) {
+                            case "query":
+                              print("调用查询页面");
+                              break;
+                            case "send":
+                              print("调用发送接口");
+                              break;
+                          }
+                        });
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuItem<String>>[
+                            new PopupMenuItem(
+                                value: "query", child: new Text("查看详情")),
+                            new PopupMenuItem(
+                                value: "send", child: new Text("重新下发"))
+                          ]),
             ),
             decoration: BoxDecoration(
                 border: Border.all(
