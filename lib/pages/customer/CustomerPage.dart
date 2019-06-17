@@ -3,7 +3,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import '../../env.dart';
 import '../../models/customer.dart';
-// import 'package:saller_demo01/widgets/BottomNavigationWidget.dart' as BottomNavigationBarDemo;
 
 /*
  * Created by 李卓原 on 2018/9/13.

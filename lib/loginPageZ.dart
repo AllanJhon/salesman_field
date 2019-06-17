@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:saller_demo01/tabs.dart';
+import 'tabs.dart';
 
 class User {
   final String account, email;

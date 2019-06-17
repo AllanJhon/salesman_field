@@ -1,12 +1,8 @@
-
-import 'package:fluro/fluro.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
-import 'package:saller_demo01/components/contract_edit_container.dart';
-import 'package:saller_demo01/routers/application.dart';
+import '../../components/contract_edit_container.dart';
 import '../../env.dart';
 import '../../models/customer.dart';
-// import 'package:saller_demo01/widgets/BottomNavigationWidget.dart' as BottomNavigationBarDemo;
 
 /*
  * Created by 李卓原 on 2018/9/13.

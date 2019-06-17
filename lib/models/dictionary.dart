@@ -1,4 +1,4 @@
-import 'package:saller_demo01/untils/sql.dart';
+import '../untils/sql.dart';
 
 class Dictionary {
   String type;

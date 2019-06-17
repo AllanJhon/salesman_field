@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'package:saller_demo01/pages/contract/ContractAddPage.1.dart';
-import 'package:saller_demo01/pages/contract/ContractDetailAddPage.dart';
-import 'package:saller_demo01/pages/contract/customerChoosePage.dart';
-import 'package:saller_demo01/pages/customer/CustomerPage.dart';
-import 'package:saller_demo01/pages/home/homePage.dart';
+import '../pages/contract/ContractAddPage.1.dart';
+import '../pages/contract/ContractDetailAddPage.dart';
+import '../pages/contract/customerChoosePage.dart';
+import '../pages/customer/CustomerPage.dart';
+import '../pages/home/homePage.dart';
 import '../pages/404.dart';
 
 // app的首页

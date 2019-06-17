@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:saller_demo01/components/contract_edit_container.dart';
-import 'package:saller_demo01/models/contractDetail.dart';
-import 'package:saller_demo01/models/customer.dart';
-import 'package:saller_demo01/models/dictionary.dart';
-import 'package:saller_demo01/routers/application.dart';
+import '../../components/contract_edit_container.dart';
+import '../../models/contractDetail.dart';
+import '../../models/customer.dart';
+import '../../models/dictionary.dart';
+import '../../routers/application.dart';
 
 import 'contractAdd_detailList.dart';
 
