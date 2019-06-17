@@ -49,8 +49,18 @@ class _ContractAddDetailListState extends State<ContractAddDetailListWidget> {
     _listRows = [];
     for (int i = 0, length = widget.contractDetails.length; i < length; i ++) {
         ContractDetail item = widget.contractDetails[i];
-          _listRows.add(
+          _listRows.add(new Material(
+              color: Colors.white,
+              child:InkWell(
+              onTap: (){},
+            child:
             Container(
+              decoration: new BoxDecoration(
+              // color: Colors.white,
+              border: Border(
+                    bottom: const BorderSide(
+                    width: 1.0,color:Color(0xFFEFEFEF))),
+              ),
               child: 
               ListTile(
                 title: Text(
@@ -74,11 +84,8 @@ class _ContractAddDetailListState extends State<ContractAddDetailListWidget> {
                   //     arguments: billData[index]);
                 },
               ),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Color.fromRGBO(233, 233, 233, 0.9), width: 1)),
             )
-          );
+          )));
       }
       if(widget.contractDetails==null||widget.contractDetails.length==0){
          _listRows.add(
