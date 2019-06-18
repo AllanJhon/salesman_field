@@ -1,14 +1,7 @@
-
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import '../../env.dart';
 import '../../models/customer.dart';
-
-/*
- * Created by 李卓原 on 2018/9/13.
- * email: zhuoyuan93@gmail.com
- *
- */
 
 class CustomerPage extends StatefulWidget {
   CustomerPage({Key key, this.title}) : super(key: key);
@@ -51,32 +44,29 @@ class _CustomerPage extends State<CustomerPage> {
       }
       _customer.add(newCustomerEnvelope);
       setState(() {
-      list=_customer.value.customers;
-      isLoading = false;
-      });      
+        list = _customer.value.customers;
+        isLoading = false;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-       appBar: new AppBar(
-          centerTitle: true,
-          title: new Text(
-            '客户查询',
-            style: TextStyle(
-                // color: Colors.red,
-                ),
-          ),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search),
-                tooltip: '搜索',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/billSearch');
-                })
-          ],
+      appBar: new AppBar(
+        centerTitle: true,
+        title: new Text(
+          '客户查询',
         ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.search),
+              tooltip: '搜索',
+              onPressed: () {
+                Navigator.pushNamed(context, '/billSearch');
+              })
+        ],
+      ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         child: ListView.builder(
@@ -85,7 +75,6 @@ class _CustomerPage extends State<CustomerPage> {
           controller: _scrollController,
         ),
       ),
-      //  bottomNavigationBar:BottomNavigationBarDemo.BottomNavigationBarFullDefault(),
     );
   }
 
@@ -94,48 +83,19 @@ class _CustomerPage extends State<CustomerPage> {
     TextStyle textStyle =
         new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
     if (index < list.length) {
-       //设置Padding
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children:<Widget>[
-            Expanded(
-              child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Icon(Icons.sd_card),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 3),
-                    ),
-                    Text(
-                      list[index].code,
-                      style: textStyle,
-                    ),
-                  ],
-
-                ),
-                Text(
-                  list[index].name,
-                  style: TextStyle(
-                  fontSize: 16, color: Colors.black),
-                ),]))),
-          GestureDetector(
-            onTap: () {
-              },
-            child: Icon(
-              Icons.more_vert,
-              size: 20,
-              color: true
-              ? Colors.red
-              : Colors.white,
-            ),
-          )
-        ]
-      ));
+      //设置Padding
+      return Container(
+        child: ListTile(
+          title: Text(
+            list[index].code,
+          ),
+          subtitle: Text(list[index].name),
+          trailing: new Icon(index%2==0?Icons.play_arrow:Icons.keyboard_arrow_right,size: 18,),
+        ),
+        decoration: BoxDecoration(
+            border:
+                Border.all(color: Color.fromRGBO(233, 233, 233, 1), width: 1)),
+      );
     }
     return _getMoreWidget();
   }
@@ -144,7 +104,7 @@ class _CustomerPage extends State<CustomerPage> {
    * 下拉刷新方法,为list重新赋值
    */
   Future<Null> _onRefresh() async {
-    _page=0;
+    _page = 0;
     Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
       var newCustomerEnvelope = customerEnvelope;
 
@@ -154,8 +114,8 @@ class _CustomerPage extends State<CustomerPage> {
       }
       _customer.add(newCustomerEnvelope);
       setState(() {
-      list=_customer.value.customers;
-      isLoading = false;
+        list = _customer.value.customers;
+        isLoading = false;
       });
     });
   }
@@ -169,17 +129,18 @@ class _CustomerPage extends State<CustomerPage> {
         isLoading = true;
       });
       Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
-      var newCustomerEnvelope = customerEnvelope;
-      print('加载更多');
-      if (_customer.value != null) {
-        newCustomerEnvelope.customers = _customer.value.customers..addAll(customerEnvelope.customers);
-      }
-      _customer.add(newCustomerEnvelope);
-      setState(() {
-      list=_customer.value.customers;
-      isLoading = false;
+        var newCustomerEnvelope = customerEnvelope;
+        print('加载更多');
+        if (_customer.value != null) {
+          newCustomerEnvelope.customers = _customer.value.customers
+            ..addAll(customerEnvelope.customers);
+        }
+        _customer.add(newCustomerEnvelope);
+        setState(() {
+          list = _customer.value.customers;
+          isLoading = false;
+        });
       });
-    });
     }
   }
 
@@ -187,25 +148,25 @@ class _CustomerPage extends State<CustomerPage> {
    * 加载更多时显示的组件,给用户提示
    */
   Widget _getMoreWidget() {
-    if(isLoading){
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '加载中...',
-              style: TextStyle(fontSize: 16.0),
-            ),
-            CircularProgressIndicator(
-              strokeWidth: 1.0,
-            )
-          ],
+    if (isLoading) {
+      return Center(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                '加载中...',
+                style: TextStyle(fontSize: 16.0),
+              ),
+              CircularProgressIndicator(
+                strokeWidth: 1.0,
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
     }
   }
 

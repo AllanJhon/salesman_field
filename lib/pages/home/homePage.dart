@@ -37,7 +37,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           desc: '合同审批查询',
           depth: 1,
           parentId: 0,
-          path: '/busi');
+          path: '/contractQuery');
       categories.add(cat1);
       Cat cat2 = new Cat(
         catIcon: Icon(Icons.receipt),
@@ -58,10 +58,10 @@ class HomePageWidgetState extends State<HomePageWidget> {
           path: '/goods');
       categories.add(cat3);
       Cat cat4 = new Cat(
-        catIcon: Icon(Icons.donut_large),
+        catIcon: Icon(Icons.data_usage),
           id: 1,
-          name: '要货码下发',
-          desc: '要货码下发',
+          name: '要货码下发新',
+          desc: '要货码下发新',
           depth: 1,
           parentId: 0,
           path: '/goods1');

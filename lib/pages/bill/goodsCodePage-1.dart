@@ -67,7 +67,7 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
                           _index = -1;
                         });
                       }).then((data) {
-                        print(data);
+                        // print(data);
                       });
                     });
                   }
