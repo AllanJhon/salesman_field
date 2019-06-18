@@ -21,41 +21,6 @@ class _GoodsCodePageState extends State<GoodsCodePage> {
     });
   }
 
-  List _getMapData() {
-    List<Widget> list = new List();
-    Map m1 = new Map();
-    m1.forEach((key, value) {
-      list.add(
-        Container(
-          decoration: new BoxDecoration(
-            border: Border(
-              bottom: const BorderSide(width: 1.0, color: Color(0xFFEFEFEF)),
-            ),
-          ),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(10.0, 12.0, 5.0, 5),
-                  child: Text('$key:'),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(10.0, 15.0, 5.0, 5),
-                  child: Text('$value'),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    });
-    return list;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

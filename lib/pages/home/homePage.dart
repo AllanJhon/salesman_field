@@ -54,6 +54,14 @@ class HomePageWidgetState extends State<HomePageWidget> {
           parentId: 0,
           path: '/goods');
       categories.add(cat3);
+      Cat cat4 = new Cat(
+          id: 1,
+          name: '要货码查询1',
+          desc: '要货码查询1',
+          depth: 1,
+          parentId: 0,
+          path: '/goods1');
+      categories.add(cat4);
     });
   }
 

@@ -47,8 +47,9 @@ class WidgetItemContainer extends StatelessWidget {
                     // Application.router.navigateTo(context, "$targetRouter", transition: TransitionType.inFromRight);
                     Navigator.pushNamed(context, targetRouter);
                   } else {
-                    Application.router
-                    .navigateTo(context, "${item.path}", transition: TransitionType.inFromRight);
+                    // Application.router
+                    // .navigateTo(context, "${item.path}", transition: TransitionType.inFromRight);
+                    Navigator.pushNamed(context, targetRouter);
                   }
                 },
                 index: addI,

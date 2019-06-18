@@ -35,7 +35,58 @@ class BusinessPageWidgetState extends State<BusinessPageWidget> {
               })
         ],
       ),
-      body: HomeContent(),
+      body: Stack(
+            children: <Widget>[
+              Positioned(
+                  left: 150.0,
+                  top: 20.0,
+                  child: CircularProgressIndicator(
+                    backgroundColor: Color(0xffff0000),
+                  )
+              ),
+              Positioned(
+                  left: 150.0,
+                  top: 70.0,
+                  child: CircularProgressIndicator(
+                    value: 0.3,
+                    backgroundColor: Color(0xffff0000),
+                  )
+              ),
+              Positioned(
+                  left: 150.0,
+                  top: 120.0,
+                  child: CircularProgressIndicator(
+//                    value: 0.3,
+                    strokeWidth: 4.0,
+                    backgroundColor: Color(0xffff0000),
+                    valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                  )
+              ),
+              Positioned(
+                  left: 150.0,
+                  top: 170.0,
+                  child: CircularProgressIndicator(
+//                    value: 0.3,
+                    strokeWidth: 8.0,
+                    backgroundColor: Color(0xffff0000),
+                    valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                  )
+              ),
+              Positioned(
+                  left: 150.0,
+                  top: 220.0,
+                  child: SizedBox(
+                    width: 50.0,
+                    height: 50.0,
+                    child: CircularProgressIndicator(
+//                    value: 0.3,
+                      backgroundColor: Color(0xffff0000),
+                      valueColor: new AlwaysStoppedAnimation<Color>(Colors.red),
+                    ),
+                  )
+              ),
+            ],
+          )
     );
   }
 }
