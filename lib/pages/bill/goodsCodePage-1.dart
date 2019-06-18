@@ -3,6 +3,7 @@ import '../../data/listData.dart';
 
 TextEditingController goodsController = TextEditingController();
 List _dataList = new List();
+FocusNode _contentFocusNode = FocusNode();
 
 _getState(){
 //模拟一个获取状态的方法，按照随机数获取，技术代表失败，偶数代表成功
@@ -17,9 +18,10 @@ class GoodsCodePage1 extends StatefulWidget {
 
 class _GoodsCodePageState1 extends State<GoodsCodePage1> {
   var _index;
-  bool _goodsStat = true; //要通过接口获取此处下发是否成功？ 还是执行下发操作完了就不管了
+  bool _goodsStat = true; 
 
   void _goSearch() {
+    _contentFocusNode.unfocus();
     setState(() {
       var _search = goodsController.text;
       if (_search == null || _search.isEmpty) {
@@ -30,6 +32,7 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
         }).toList();
       }
     });
+    goodsController.clear();
   }
 
   @override
@@ -58,7 +61,7 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
                   if (!_dataList[index]["flag"]) {
                     setState(() {
                       _index = index;
-                      new Future.delayed(new Duration(seconds: 5), () async {
+                      new Future.delayed(new Duration(seconds: 3), () async {
                         setState(() {
                           _dataList[index]["flag"] = !_dataList[index]["flag"];
                           _index = -1;
@@ -96,6 +99,7 @@ class TextFileWidget extends StatelessWidget {
     //theme设置局部主题
     return TextField(
       controller: goodsController,
+      focusNode: _contentFocusNode,
       cursorColor: Colors.black, //设置光标
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.send,

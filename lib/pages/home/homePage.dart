@@ -31,10 +31,10 @@ class HomePageWidgetState extends State<HomePageWidget> {
           path: '/contract/contract');
       categories.add(cat);
       Cat cat1 = new Cat(
-          catIcon: Icon(Icons.assessment),
+          catIcon: Icon(Icons.library_books),
           id: 1,
-          name: '合同查询',
-          desc: '合同查询',
+          name: '合同审批查询',
+          desc: '合同审批查询',
           depth: 1,
           parentId: 0,
           path: '/busi');

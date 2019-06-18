@@ -38,7 +38,7 @@ class _TabsState extends State<Tabs> {
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("首页")),
             BottomNavigationBarItem(icon: Icon(Icons.people), title: Text("客户")),
-            BottomNavigationBarItem(icon: Icon(Icons.attach_money), title: Text("我的")),
+            BottomNavigationBarItem(icon: Icon(Icons.accessibility_new), title: Text("我的")),
           ],
         ),
         drawer: Drawer(
