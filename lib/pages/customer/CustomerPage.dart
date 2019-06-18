@@ -60,6 +60,23 @@ class _CustomerPage extends State<CustomerPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+       appBar: new AppBar(
+          centerTitle: true,
+          title: new Text(
+            '客户查询',
+            style: TextStyle(
+                // color: Colors.red,
+                ),
+          ),
+          actions: <Widget>[
+            IconButton(
+                icon: Icon(Icons.search),
+                tooltip: '搜索',
+                onPressed: () {
+                  Navigator.pushNamed(context, '/billSearch');
+                })
+          ],
+        ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         child: ListView.builder(

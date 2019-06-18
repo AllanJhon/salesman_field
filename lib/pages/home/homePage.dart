@@ -22,7 +22,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
   void renderCats() {
     setState(() {
       Cat cat = new Cat(
-          catIcon: Icon(Icons.people_outline),
+          catIcon: Icon(Icons.library_add),
           id: 1,
           name: '合同新增',
           desc: '合同新增',
@@ -31,6 +31,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           path: '/contract/contract');
       categories.add(cat);
       Cat cat1 = new Cat(
+          catIcon: Icon(Icons.assessment),
           id: 1,
           name: '合同查询',
           desc: '合同查询',
@@ -39,6 +40,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           path: '/busi');
       categories.add(cat1);
       Cat cat2 = new Cat(
+        catIcon: Icon(Icons.receipt),
           id: 1,
           name: '订单查询',
           desc: '订单查询',
@@ -47,17 +49,19 @@ class HomePageWidgetState extends State<HomePageWidget> {
           path: '/bill');
       categories.add(cat2);
       Cat cat3 = new Cat(
+         catIcon: Icon(Icons.local_shipping),
           id: 1,
-          name: '要货码查询',
-          desc: '要货码查询',
+          name: '要货码下发',
+          desc: '要货码下发',
           depth: 1,
           parentId: 0,
           path: '/goods');
       categories.add(cat3);
       Cat cat4 = new Cat(
+        catIcon: Icon(Icons.donut_large),
           id: 1,
-          name: '要货码查询1',
-          desc: '要货码查询1',
+          name: '要货码下发',
+          desc: '要货码下发',
           depth: 1,
           parentId: 0,
           path: '/goods1');

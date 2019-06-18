@@ -154,33 +154,35 @@ _log(context){
   var user = userController.text;
   var pwd = pwdController.text;
 
-  if (user == null || user.isEmpty){
-     showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text('用户名不能为空'),
-              ));
-  return;
-  }
-   if (pwd==null || pwd.isEmpty){
-     showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text('密码不能为空'),
-              ));
-  return;
-  }
-  //需要校验的逻辑
-  if (user=="hh" && pwd=="123"){
-     Navigator.pushNamed(context, "/tabs");
-  }else{
-    showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text('用户名密码不正确'),
-              ));
-     userController.clear();
-     pwdController.clear();
-  }
+   Navigator.pushNamed(context, "/tabs");
+
+  // if (user == null || user.isEmpty){
+  //    showDialog(
+  //         context: context,
+  //         builder: (context) => AlertDialog(
+  //               title: Text('用户名不能为空'),
+  //             ));
+  // return;
+  // }
+  //  if (pwd==null || pwd.isEmpty){
+  //    showDialog(
+  //         context: context,
+  //         builder: (context) => AlertDialog(
+  //               title: Text('密码不能为空'),
+  //             ));
+  // return;
+  // }
+  // //需要校验的逻辑
+  // if (user=="hh" && pwd=="123"){
+  //    Navigator.pushNamed(context, "/tabs");
+  // }else{
+  //   showDialog(
+  //         context: context,
+  //         builder: (context) => AlertDialog(
+  //               title: Text('用户名密码不正确'),
+  //             ));
+  //    userController.clear();
+  //    pwdController.clear();
+  // }
 
 }

@@ -20,14 +20,6 @@ class _MyPageState extends State<MyPage> {
                 // color: Colors.red,
                 ),
           ),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search),
-                tooltip: '搜索',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/billSearch');
-                })
-          ],
         ),
         body: GridView.count(
           padding: EdgeInsets.fromLTRB(0, 5, 0, 0),

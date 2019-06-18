@@ -92,9 +92,9 @@ class _LoginPageZState extends State<LoginPageZ> {
          RaisedButton(
           child: Text("登录"),
           onPressed: () {
-            //  Navigator.pushNamed(context, "/tabs");
-            Navigator.of(context).pushAndRemoveUntil(
-                  new MaterialPageRoute(builder: (context) => Tabs()), (route) => route == null);
+             Navigator.pushNamed(context, "/login");
+            // Navigator.of(context).pushAndRemoveUntil(
+            //       new MaterialPageRoute(builder: (context) => Tabs()), (route) => route == null);
              /*
             if(_usernameController.text=='admin'&&_emailController.text=='123456'){
               Navigator.pushNamed(context, "/tabs");
