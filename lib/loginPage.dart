@@ -71,7 +71,7 @@ class inputEdtextNameWiget extends StatelessWidget {
       child: new Container(
         padding: EdgeInsets.fromLTRB(20, 2, 8, 2),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(15),
           color: Colors.black12,
         ),
         alignment: Alignment.center,
@@ -95,7 +95,7 @@ class inputEdtextPassWordWiget extends StatelessWidget {
       child: new Container(
         padding: EdgeInsets.fromLTRB(20, 2, 8, 2),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(15),
           color: Colors.black12,
         ),
         alignment: Alignment.center,
