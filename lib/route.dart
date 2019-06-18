@@ -10,10 +10,11 @@ import 'pages/home/homePage.dart';
 import 'pages/customer/CustomerPage.dart';
 import 'pages/404.dart';
 import 'view/homePage1.dart';
-import 'pages/contract/ContractAddPage.dart';
+import 'pages/contract/ContractAddPage.1.dart';
 import 'pages/contract/ContractDetailAddPage.dart';
 import 'pages/bill/goodsCodePage.dart';
 import 'pages/bill/goodsCodePage-1.dart';
+// import ''
 
 //以下为测试页面
 import 'view/businessPage.dart';
@@ -30,11 +31,13 @@ final routes = {
   '/bill': (content,{arguments}) =>BillPage(arguments: arguments),
   '/customer': (content) =>CustomerPage(),
   '/404': (content) =>WidgetNotFound(),
-  '/contractAdd':(content) => ContractAddPage(),
+  // '/contractAdd':(content) => ContractAddPage(),
   '/conDetailAdd':(content) => ContractDetailAddPage(),
   '/cDA':(content) => ContractDetailAddPage(),
   '/goods':(content) => GoodsCodePage(),
   '/goods1':(content) => GoodsCodePage1(),
+  '/contract/contract':(content) => ContractAddPage1(),
+  
   //以下为测试用页面
 
    '/busi': (content) =>BusinessPageWidget(),

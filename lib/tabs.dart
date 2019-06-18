@@ -19,8 +19,6 @@ class _TabsState extends State<Tabs> {
   List _listPage=[
     HomePageWidget(),
     CustomerPage(),
-    // CustomerPageWidget(),
-    // BusinessPageWidget(),
     MyPage(),
     BillPage()];
     
@@ -41,7 +39,6 @@ class _TabsState extends State<Tabs> {
             BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("首页")),
             BottomNavigationBarItem(icon: Icon(Icons.people), title: Text("客户")),
             BottomNavigationBarItem(icon: Icon(Icons.attach_money), title: Text("我的")),
-            // BottomNavigationBarItem(icon: Icon(Icons.business), title: Text("订单")),
           ],
         ),
         drawer: Drawer(
