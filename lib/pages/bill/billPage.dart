@@ -7,7 +7,7 @@ import '../../data/listData.dart';
 
 class BillPage extends StatelessWidget {
   final arguments;
-  int warningNum = 100;
+  int warningNum = 100;  //先模拟一个预警量的值
 
   BillPage({this.arguments});
 
