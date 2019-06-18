@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-/**
+/*
  *注册界面
  */
 TextEditingController userController = TextEditingController();
@@ -13,7 +13,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body:SafeArea(
         child: SingleChildScrollView(
@@ -68,7 +67,6 @@ class _LoginPageState extends State<LoginPage> {
 class inputEdtextNameWiget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new SizedBox(
       child: new Container(
         padding: EdgeInsets.fromLTRB(20, 2, 8, 2),
@@ -93,7 +91,6 @@ class inputEdtextNameWiget extends StatelessWidget {
 class inputEdtextPassWordWiget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new SizedBox(
       child: new Container(
         padding: EdgeInsets.fromLTRB(20, 2, 8, 2),
@@ -120,7 +117,6 @@ class loginButtonWiget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return new SizedBox(
       child: new Container(
         padding: EdgeInsets.fromLTRB(2, 15, 2, 15),

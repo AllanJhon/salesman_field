@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import './widget_item.dart';
 import '../routers/application.dart';
-import '../pages/index.dart';
 
 class WidgetItemContainer extends StatelessWidget {
   final int columnCount; //一行几个
@@ -31,14 +30,14 @@ class WidgetItemContainer extends StatelessWidget {
             Expanded(
               flex: 1,
               child: WidgetItem(
-                widgetIcon: item.cat_icon,
+                widgetIcon: item.catIcon,
                 title: item.name,
                 onTap: () {
                   String targetRouter = (item.path == null || item.path.isEmpty)
                       ? '/pages/404'
                       : item.path;
                   if (isWidgetPoint) {
-                    String targetName = item.name;
+                    // String targetName = item.name;
 
                     // widgetDemosList.forEach((item) {
                     //   if (item.name == targetName) {

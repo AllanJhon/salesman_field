@@ -1,8 +1,8 @@
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:saller_demo01/pages/index.dart';
-import 'package:saller_demo01/untils/analytics.dart';
+import '../pages/index.dart';
+import '../untils/analytics.dart';
 
 import './router_handler.dart';
 

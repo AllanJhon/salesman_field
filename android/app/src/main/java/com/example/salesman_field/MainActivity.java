@@ -1,4 +1,4 @@
-package com.example.saller_demo01;
+package com.example.salesman_field;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

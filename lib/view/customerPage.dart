@@ -68,13 +68,12 @@ class CustomerPageWidgetState extends State<CustomerPageWidget> {
 }
 
 class IconContainer extends StatelessWidget {
-  IconData icon;
-  double size = 20;
-  Color color = Colors.white;
-  IconContainer(this.icon, {this.size, this.color}) {}
+  final IconData icon;
+  final double size ;
+  final Color color ;
+  IconContainer(this.icon, {this.size=20, this.color=Colors.white});
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       height: 100,
       width: 100,

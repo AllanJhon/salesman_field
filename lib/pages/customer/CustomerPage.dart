@@ -3,7 +3,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import '../../env.dart';
 import '../../models/customer.dart';
-// import 'package:saller_demo01/widgets/BottomNavigationWidget.dart' as BottomNavigationBarDemo;
 
 /*
  * Created by 李卓原 on 2018/9/13.
@@ -40,7 +39,7 @@ class _CustomerPage extends State<CustomerPage> {
     });
   }
 
-  /**
+  /*
    * 初始化list数据 加延时模仿网络请求
    */
   Future getData() async {
@@ -124,7 +123,7 @@ class _CustomerPage extends State<CustomerPage> {
     return _getMoreWidget();
   }
 
-  /**
+  /*
    * 下拉刷新方法,为list重新赋值
    */
   Future<Null> _onRefresh() async {
@@ -144,7 +143,7 @@ class _CustomerPage extends State<CustomerPage> {
     });
   }
 
-  /**
+  /*
    * 上拉加载更多
    */
   Future _getMore() async {
@@ -167,7 +166,7 @@ class _CustomerPage extends State<CustomerPage> {
     }
   }
 
-  /**
+  /*
    * 加载更多时显示的组件,给用户提示
    */
   Widget _getMoreWidget() {
@@ -195,7 +194,6 @@ class _CustomerPage extends State<CustomerPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _scrollController.dispose();
   }

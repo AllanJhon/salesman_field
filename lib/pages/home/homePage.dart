@@ -22,13 +22,13 @@ class HomePageWidgetState extends State<HomePageWidget> {
   void renderCats() {
     setState(() {
       Cat cat = new Cat(
-          cat_icon: Icon(Icons.people_outline),
+          catIcon: Icon(Icons.people_outline),
           id: 1,
           name: '合同新增',
           desc: '合同新增',
           depth: 1,
           parentId: 0,
-          path: '/contractAdd');
+          path: '/contract/contract');
       categories.add(cat);
       Cat cat1 = new Cat(
           id: 1,

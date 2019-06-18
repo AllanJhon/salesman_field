@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:saller_demo01/routers/application.dart';
+import '../../routers/application.dart';
 
 class ContractAddPage extends StatefulWidget {
   @override
