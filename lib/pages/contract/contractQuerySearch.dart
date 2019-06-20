@@ -8,7 +8,7 @@ TextEditingController bDateController =
 TextEditingController eDateController =
     TextEditingController.fromValue(TextEditingValue(text: _eDate));
 TextEditingController customerController = TextEditingController();
-var _status;
+String _selectValue;
 
 class ContractQuerySearch extends StatefulWidget {
   ContractQuerySearch({Key key}) : super(key: key);
@@ -38,21 +38,9 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
 
   List<DropdownMenuItem> getListData() {
     List<DropdownMenuItem> items = new List();
-    DropdownMenuItem dropdownMenuItem1 = new DropdownMenuItem(
-      child: new Text('审批中'),
-      value: '审批中',
-    );
-    items.add(dropdownMenuItem1);
-    DropdownMenuItem dropdownMenuItem2 = new DropdownMenuItem(
-      child: new Text('审批通过'),
-      value: '审批通过',
-    );
-    items.add(dropdownMenuItem2);
-    DropdownMenuItem dropdownMenuItem3 = new DropdownMenuItem(
-      child: new Text('全部'),
-      value: '全部',
-    );
-    items.add(dropdownMenuItem3);
+    items.add(DropdownMenuItem(child: Text('审批中'), value: '审批中'));
+    items.add(DropdownMenuItem(child: Text('审批通过'), value: '审批通过'));
+    items.add(DropdownMenuItem(child: Text('全部'), value: '全部'));
     return items;
   }
 
@@ -199,7 +187,7 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
                     flex: 1,
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                      child: Text('订单编号:'),
+                      child: Text('审批状态:'),
                     ),
                   ),
                   Expanded(
@@ -207,15 +195,14 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
                     child: new DropdownButton(
                       items: getListData(),
                       underline: new Text(''),
-                      hint: new Text('请选择合同审批状态'),
-                      value: _status, 
-                      onChanged: (value) {
-                        print(value);
+                      hint: new Text('请选择审批状态'),
+                      value: _selectValue,
+                      onChanged: (T) {
                         setState(() {
-                          _status = value;
+                          _selectValue = T;
                         });
                       },
-                      elevation: 24, 
+                      elevation: 24,
                     ),
                   ),
                 ],
