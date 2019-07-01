@@ -33,6 +33,7 @@ dependencies:
   shared_preferences: ^0.4.3
   firebase_analytics: ^2.0.2+1
   sqflite: ^0.12.1
+  dio: ^2.0.1
 
 dev_dependencies:
   flutter_test:

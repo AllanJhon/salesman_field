@@ -191,20 +191,32 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
                     ),
                   ),
                   Expanded(
-                    flex: 2,
-                    child: new DropdownButton(
-                      items: getListData(),
-                      underline: new Text(''),
-                      hint: new Text('请选择审批状态'),
-                      value: _selectValue,
-                      onChanged: (T) {
-                        setState(() {
-                          _selectValue = T;
-                        });
-                      },
-                      elevation: 24,
-                    ),
-                  ),
+                      flex: 2,
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            flex: 3,
+                            child: new DropdownButton(
+                              items: getListData(),
+                              underline: new Text(''),
+                              hint: new Text('请选择审批状态'),
+                              icon: Icon(null),
+                              value: _selectValue,
+                              onChanged: (T) {
+                                setState(() {
+                                  _selectValue = T;
+                                });
+                              },
+                              elevation: 24,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Align(alignment: FractionalOffset.centerRight,child:  Icon(Icons.arrow_drop_down,),),
+                          ),
+                        ],
+                      )
+                      ),
                 ],
               ),
             ),

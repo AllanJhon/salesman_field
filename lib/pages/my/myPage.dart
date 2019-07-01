@@ -33,7 +33,12 @@ class _MyPageState extends State<MyPage> {
                 children: <Widget>[
                   SizedBox(height: 10),
                   CircleAvatar(
-                    child: Icon(Icons.settings),
+                    child: new IconButton(
+                      icon:Icon(Icons.settings),
+                      onPressed: (){
+                        Navigator.popAndPushNamed(context, "/busi");
+                      },
+                      ),
                   ),
                   SizedBox(height: 10),
                   Text("设置"),
