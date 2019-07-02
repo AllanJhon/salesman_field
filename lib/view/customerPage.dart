@@ -1,207 +1,112 @@
 /*
-import 'package:rxdart/rxdart.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import '../../env.dart';
-import '../../models/customer.dart';
+import "dart:math";
 
-class CustomerPage extends StatefulWidget {
-  CustomerPage({Key key, this.title}) : super(key: key);
-  final String title;
-
-  @override
-  _CustomerPage createState() => new _CustomerPage();
+class Test extends StatefulWidget{
+    _TestState createState() => _TestState();
 }
 
-class _CustomerPage extends State<CustomerPage> {
-  List<Customer> list = new List(); //列表要展示的数据
-  ScrollController _scrollController = ScrollController(); //listview的控制器
-  final BehaviorSubject<Customer> _customer = BehaviorSubject();
-  Observable<Customer> get customerEnvelope => _customer.stream;
-  int _page = 1; //加载的页数
-  bool isLoading = false; //是否正在加载数据
+class _TestState extends State<Test> {
 
-  @override
-  void initState() {
-    super.initState();
-    getData();
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
-        print('滑动到了最底部');
-        _getMore();
-      }
-    });
-  }
+    String _year;
+    int _sales;
+     //点击柱状图触发的函数
+     _onSelectionChanged(charts.SelectionModel model) {
+        final selectedDatum = model.selectedDatum;
+        setState(() {
+            //改变两个显示的数值
+            _year = selectedDatum.first.datum.year;
+            _sales = selectedDatum.first.datum.sales;
+        });
+    }
 
-  /*
-   * 初始化list数据 加延时模仿网络请求
-   */
-  Future getData() async {
-    Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
-      var newCustomerEnvelope = customerEnvelope;
-      if (_customer.value != null) {
-        newCustomerEnvelope.customers = _customer.value.customers
-          ..addAll(customerEnvelope.customers);
-      }
-      _customer.add(newCustomerEnvelope);
-      setState(() {
-      list=_customer.value.customers;
-      isLoading = false;
-      });      
-    });
-  }
+    
 
   @override
   Widget build(BuildContext context) {
+
     return new Scaffold(
-       appBar: new AppBar(
-          centerTitle: true,
-          title: new Text(
-            '客户查询',
-          ),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search),
-                tooltip: '搜索',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/billSearch');
-                })
-          ],
+        appBar: AppBar(
+            title: Text("图表"),
+            centerTitle: true,
         ),
-      body: RefreshIndicator(
-        onRefresh: _onRefresh,
-        child: ListView.builder(
-          itemBuilder: _renderRow,
-          itemCount: list.length + 1,
-          controller: _scrollController,
-        ),
-      ),
+        body:Container(
+            child: Column(
+                children: <Widget>[
+                    Row(
+                        children: <Widget>[
+                            Expanded(
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    child: Text("年份：${_year}"),
+                                ),
+                            ),
+                            Expanded(
+                                child: Container(
+                                    alignment: Alignment.center,
+                                    child: Text("数值：${_sales}"),
+                                ),
+                            )
+                        ],
+                    ),
+                    Container(
+                        width: double.infinity,
+                        height: 200.0,
+                        child: charts.PieChart(
+                          ChartFlutterBean.createSampleData(),
+                          defaultRenderer: new charts.ArcRendererConfig(
+                                  arcWidth: 30, startAngle: 4 / 5 * pi, arcLength: 7 / 5 * pi)
+
+                        )
+                        // charts.BarChart(
+                        //     //通过下面获取数据传入
+                        //     ChartFlutterBean.createSampleData(),
+                        //     //配置项，以及设置触发的函数
+                        //     selectionModels: [
+                        //         charts.SelectionModelConfig(
+                        //             type: charts.SelectionModelType.info,
+                        //             changedListener: _onSelectionChanged,
+                        //         )
+                        //     ],
+                        // ),
+                    ),
+                ],
+            ),
+        )     
     );
   }
 
-  Widget _renderRow(BuildContext context, int index) {
-    //设置字体样式
-    TextStyle textStyle =
-        new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
-    if (index < list.length) {
-       //设置Padding
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children:<Widget>[
-            Expanded(
-              child: Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Icon(Icons.sd_card),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 3),
-                    ),
-                    Text(
-                      list[index].code,
-                      style: textStyle,
-                    ),
-                  ],
-                ),
-                Text(
-                  list[index].name,
-                  style: TextStyle(
-                  fontSize: 16, color: Colors.black),
-                ),]))),
-          GestureDetector(
-            onTap: () {
-              },
-            child: Icon(
-              Icons.more_vert,
-              size: 20,
-              color: true
-              ? Colors.red
-              : Colors.white,
-            ),
-          )
-        ]
-      ));
-    }
-    return _getMoreWidget();
-  }
 
-  /*
-   * 下拉刷新方法,为list重新赋值
-   */
-  Future<Null> _onRefresh() async {
-    _page=0;
-    Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
-      var newCustomerEnvelope = customerEnvelope;
+}
+//一下为组合柱状图数据部分
+class OrdinalSales {
+  final String year;
+  final int sales;
 
-      if (_customer.value != null) {
-        newCustomerEnvelope.customers = _customer.value.customers
-          ..addAll(customerEnvelope.customers);
-      }
-      _customer.add(newCustomerEnvelope);
-      setState(() {
-      list=_customer.value.customers;
-      isLoading = false;
-      });
-    });
-  }
+  OrdinalSales(this.year, this.sales);
+}
 
-  /*
-   * 上拉加载更多
-   */
-  Future _getMore() async {
-    if (!isLoading) {
-      setState(() {
-        isLoading = true;
-      });
-      Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
-      var newCustomerEnvelope = customerEnvelope;
-      print('加载更多');
-      if (_customer.value != null) {
-        newCustomerEnvelope.customers = _customer.value.customers..addAll(customerEnvelope.customers);
-      }
-      _customer.add(newCustomerEnvelope);
-      setState(() {
-      list=_customer.value.customers;
-      isLoading = false;
-      });
-    });
-    }
-  }
 
-  /*
-   * 加载更多时显示的组件,给用户提示
-   */
-  Widget _getMoreWidget() {
-    if(isLoading){
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              '加载中...',
-              style: TextStyle(fontSize: 16.0),
-            ),
-            CircularProgressIndicator(
-              strokeWidth: 1.0,
-            )
-          ],
-        ),
-      ),
-    );
-    }
-  }
+class ChartFlutterBean {
 
-  @override
-  void dispose() {
-    super.dispose();
-    _scrollController.dispose();
+  static List<charts.Series<OrdinalSales, String>> createSampleData() {
+    final data = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
+      new OrdinalSales('2017', 75),
+    ];
+
+    return [
+      new charts.Series<OrdinalSales, String>(
+        id: 'Sales',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: data,
+      )
+    ];
   }
 }
 */

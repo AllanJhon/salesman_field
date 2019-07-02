@@ -18,6 +18,7 @@ import 'pages/contract/contractQuerySearch.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
+import 'view/myTest.dart';
 // import 'view/homePage1.dart';
 
 final routes = {
@@ -41,6 +42,7 @@ final routes = {
   //以下为测试用页面
 
   '/busi': (content) => BusinessPageWidget(),
+  '/test': (content) => Test(),
 };
 
 var onGenerateRoute = (RouteSettings settings) {

@@ -57,10 +57,17 @@ class _MyPageState extends State<MyPage> {
                   children: <Widget>[
                     SizedBox(height: 10),
                     CircleAvatar(
-                      child: Icon(
-                        Icons.location_on,color: Colors.white,
+                      child: new IconButton(
+                      icon:Icon(Icons.location_on,color: Colors.white),
+                      onPressed: (){
+                        Navigator.popAndPushNamed(context, "/test");
+                      },
                       ),
                       backgroundColor: Colors.orange,
+                      // child: Icon(
+                      //   Icons.location_on,color: Colors.white,
+                      // ),
+                      // backgroundColor: Colors.orange,
                     ),
                     SizedBox(height: 10),
                     Text("定位打卡"),

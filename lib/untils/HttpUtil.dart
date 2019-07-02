@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:connectivity/connectivity.dart';
 
 class HttpUtil {
   static HttpUtil instance;
   Dio dio;
   BaseOptions options;
-  // static Config _config = new Config();
+  static const int CONNECT_TIMEOUT = 10000;
+  static const int RECEIVE_TIMEOUT = 3000;
 
   static HttpUtil getInstance() {
     if (instance == null) {
@@ -13,11 +15,21 @@ class HttpUtil {
     return instance;
   }
 
+  Future<bool> networkCheck() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    }
+    return false;
+  }
+
   HttpUtil() {
     options = BaseOptions(
-      baseUrl: "https://www.xx.com/api",
-      connectTimeout: 10000,
-      receiveTimeout: 3000,
+      baseUrl: "https://www.jdsn.com.cn",
+      connectTimeout: CONNECT_TIMEOUT,
+      receiveTimeout: RECEIVE_TIMEOUT,
       headers: {},
     );
     dio = new Dio(options);
@@ -25,6 +37,9 @@ class HttpUtil {
 
   get(url, {queryParameters, options, cancelToken}) async {
     Response response;
+    if (!await networkCheck()) {
+      return "{网络尚未连接}";
+    }
     try {
       response = await dio.get(
         url,
@@ -37,13 +52,14 @@ class HttpUtil {
       }
       print('get请求发生错误：$e');
     }
-    print(response.statusCode);
-    print(response.statusMessage);
     return response.data;
   }
 
   post(url, {data, options, cancelToken}) async {
     Response response;
+    if (!await networkCheck()) {
+      return "{网络尚未连接}";
+    }
     try {
       response = await dio.post(
         url,
@@ -56,6 +72,6 @@ class HttpUtil {
       }
       print('post请求发生错误：$e');
     }
-    return response.data;
+    return response;
   }
 }
