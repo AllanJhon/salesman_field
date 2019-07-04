@@ -4,11 +4,13 @@ import "dart:math";
 double percentRage = 41;
 bool isContract = true;
 
-class Test extends StatefulWidget {
-  _TestState createState() => _TestState();
+class CustomerDetail extends StatefulWidget {
+  final arguments;
+  CustomerDetail({Key key, this.arguments}) : super(key: key);
+  _CustomerDetailState createState() => _CustomerDetailState();
 }
 
-class _TestState extends State<Test> {
+class _CustomerDetailState extends State<CustomerDetail> {
   _queryContract() {
     setState(() {
       isContract = true;
@@ -25,7 +27,7 @@ class _TestState extends State<Test> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
-          title: Text("图表"),
+          title: Text(widget.arguments.toString()),
           centerTitle: true,
         ),
         body: Container(
@@ -39,8 +41,8 @@ class _TestState extends State<Test> {
                     width: 120,
                     height: 120,
                     child: new CustomPaint(
-                      foregroundPainter: new MoneyCanvas(Colors.grey[300],
-                          Colors.red[400], 83, 40.0),
+                      foregroundPainter: new MoneyCanvas(
+                          Colors.grey[300], Colors.red[400], 83, 40.0),
                       child: new Center(
                         // padding: const EdgeInsets.all(8.0),
                         child: Text("83%"),
@@ -54,8 +56,8 @@ class _TestState extends State<Test> {
                     width: 120,
                     height: 120,
                     child: new CustomPaint(
-                      foregroundPainter: new MoneyCanvas(Colors.grey[300],
-                          Colors.orange[300], 55, 40.0),
+                      foregroundPainter: new MoneyCanvas(
+                          Colors.grey[300], Colors.orange[300], 55, 40.0),
                       child: new Center(
                         // padding: const EdgeInsets.all(8.0),
                         child: Text("55%"),
@@ -188,6 +190,7 @@ class MoneyCanvas extends CustomPainter {
     canvas.drawCircle(center, argRadius, _paint);
 
     double arcAngle = 2 * pi * (completePercent / 100);
+
     // 定义画内弧的画布
     Paint _money = Paint()
       ..color = completeColor

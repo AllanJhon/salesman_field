@@ -15,6 +15,7 @@ import 'pages/bill/goodsCodePage.dart';
 import 'pages/bill/goodsCodePage-1.dart';
 import 'pages/contract/contractQuery.dart';
 import 'pages/contract/contractQuerySearch.dart';
+import 'pages/customer/CustomerDetail.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
@@ -38,6 +39,7 @@ final routes = {
   '/goods1': (content) => GoodsCodePage1(),
   '/contract/contract': (content) => ContractAddPage1(),
   '/contractQuerySearch': (content) => ContractQuerySearch(),
+  '/customerDetail': (content, {arguments}) => CustomerDetail(arguments: arguments),
 
   //以下为测试用页面
 

@@ -91,6 +91,10 @@ class _CustomerPage extends State<CustomerPage> {
           ),
           subtitle: Text(list[index].name),
           trailing: new Icon(index%2==0?Icons.play_arrow:Icons.keyboard_arrow_right,size: 18,),
+           onTap: () {
+                Navigator.pushNamed(context, '/customerDetail',
+                    arguments: list[index].name);
+              },
         ),
         decoration: BoxDecoration(
             border:
