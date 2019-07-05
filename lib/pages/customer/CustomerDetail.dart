@@ -27,7 +27,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
-          title: Text(widget.arguments.toString()),
+          title: Text(widget.arguments.toString(),style:TextStyle(fontSize: 16)),
           centerTitle: true,
         ),
         body: Container(

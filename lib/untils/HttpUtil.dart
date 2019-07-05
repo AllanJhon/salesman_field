@@ -30,7 +30,13 @@ class HttpUtil {
       baseUrl: "https://www.jdsn.com.cn",
       connectTimeout: CONNECT_TIMEOUT,
       receiveTimeout: RECEIVE_TIMEOUT,
-      headers: {},
+      headers: {
+        "Content-Type": "text/xml;charset=UTF-8",
+        "cache-control": "no-cache",
+        "SOAPAction":
+            "urn:sap-com:document:sap:rfc:functions:Zif_WQ_IN_WS:ZIF_WQ_IN_WSRequest",
+        "Authorization": "Basic VFJGQzAxOjEyMzQ1Ng==",
+      },
     );
     dio = new Dio(options);
   }
@@ -51,8 +57,11 @@ class HttpUtil {
         print('get请求取消! ' + e.message);
       }
       print('get请求发生错误：$e');
+      print("e.response.data............" + e.response.data);
+      print("e.response.headers............" + e.response.headers.toString());
+      print("e.response.request............" + e.response.request.toString());
     }
-    return response.data;
+    return response;
   }
 
   post(url, {data, options, cancelToken}) async {
@@ -71,6 +80,12 @@ class HttpUtil {
         print('post请求取消! ' + e.message);
       }
       print('post请求发生错误：$e');
+      print("e.response.data............" + e.response.data);
+      print("e.response.headers............" + e.response.headers.toString());
+      print("e.response.request............" + e.response.request.toString());
+      print("e.request............" );
+      print(e.request.uri);
+      print("e.response............" + e.response.toString());
     }
     return response;
   }

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../data/listData.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
+import 'package:http/http.dart' as http;
+import 'package:xml/xml.dart' as xml;
+import 'package:oktoast/oktoast.dart';
 
 TextEditingController goodsController = TextEditingController();
 List _dataList = new List();
+var date = new DateTime.now();
+String timestamp =
+    "${date.year.toString()}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}${date.hour.toString().padLeft(2, '0')}${date.minute.toString().padLeft(2, '0')}${date.second.toString().padLeft(2, '0')}";
+String md5Sign =
+    md5.convert(utf8.encode(timestamp + "WQWS")).toString().toUpperCase();
+String inputxmlstr;
+
 FocusNode _contentFocusNode = FocusNode();
-
-_getState(){
-//模拟一个获取状态的方法，按照随机数获取，技术代表失败，偶数代表成功
-
-
-}
 
 class GoodsCodePage1 extends StatefulWidget {
 // _
@@ -18,20 +23,89 @@ class GoodsCodePage1 extends StatefulWidget {
 
 class _GoodsCodePageState1 extends State<GoodsCodePage1> {
   var _index;
-  bool _goodsStat = true; 
 
-  void _goSearch() {
+  void _showCustomWidgetToast() {
+    var w = Center(
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        color: Colors.black.withOpacity(0.7),
+        child: Row(
+          children: <Widget>[
+            Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            Text(
+              '添加成功',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+          mainAxisSize: MainAxisSize.min,
+        ),
+      ),
+    );
+    showToastWidget(w);
+  }
+
+  Future getCustomerList(int start) async {
     _contentFocusNode.unfocus();
+    var _search = goodsController.text;
+    if (_search == null || _search.isEmpty) {
+      // showToast("请输入至少三位要货码", position: ToastPosition.bottom);
+      _showCustomWidgetToast();
+      return;
+    }
+    if (_search.length < 2) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text('请输入至少三位要货码'),
+              ));
+      return;
+    }
+    inputxmlstr =
+        '<![CDATA[<?xml version="1.0" encoding="UTF-8"?> <ZIF_BH_ORDER><ZSEND_NO>' +
+            _search +
+            '</ZSEND_NO></ZIF_BH_ORDER>]]>';
+
+    String soap = '''
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
+        <soapenv:Body>
+            <urn:ZIF_WQ_IN_WS>
+              <FLAG>YHMCX</FLAG>
+             <INPUTXMLSTR>$inputxmlstr</INPUTXMLSTR>
+              <SIGN>$md5Sign</SIGN>
+              <TS>$timestamp</TS>
+            </urn:ZIF_WQ_IN_WS>
+        </soapenv:Body>
+      </soapenv:Envelope>''';
+
+    var response = await http.post(
+        Uri.parse(
+            'http://dstbj.jdsn.com.cn:8081/sap/bc/srt/rfc/sap/zif_wq_in_ws/102/service/binding'),
+        headers: {
+          "SOAPAction":
+              "urn:sap-com:document:sap:rfc:functions:Zif_WQ_IN_WS:ZIF_WQ_IN_WSRequest",
+          "Content-Type": "text/xml;charset=UTF-8",
+          'Authorization': 'Basic VFJGQzAxOjEyMzQ1Ng=='
+        },
+        body: utf8.encode(soap),
+        encoding: Encoding.getByName("UTF-8"));
+    if (response.statusCode != 200) {
+      print("Server Error !!!" + response.statusCode.toString());
+    }
     setState(() {
-      var _search = goodsController.text;
-      if (_search == null || _search.isEmpty) {
-        return;
-      } else {
-        _dataList = billData1.where((value) {
-          return value["付货通知单号"].toString().contains(_search);
-        }).toList();
-      }
+      var document = xml.parse(response.body);
+      var outputxmlstr = document.findAllElements('OUTPUTXMLSTR').single.text;
+      _dataList = xml
+          .parse(outputxmlstr)
+          .findAllElements('DATA')
+          .map((node) => (node.findElements('SEND_NO').single.text +
+              "-" +
+              node.findElements('ZFLAG').single.text))
+          .toList();
     });
+
     goodsController.clear();
   }
 
@@ -44,9 +118,9 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.search, size: 32),
-              tooltip: '搜索',
+              tooltip: '搜索要货码',
               onPressed: () {
-                _goSearch();
+                getCustomerList(0);
               })
         ],
       ),
@@ -55,15 +129,17 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
         itemBuilder: (context, index) {
           return Container(
             child: ListTile(
-                title: Text(_dataList[index]["付货通知单号"]),
+                title: Text(
+                    _dataList[index].substring(0, _dataList[index].length - 2)),
                 onTap: () {},
                 onLongPress: () {
-                  if (!_dataList[index]["flag"]) {
+                  if (_dataList[index].substring(_dataList[index].length - 1) ==
+                      "N") {
                     setState(() {
                       _index = index;
                       new Future.delayed(new Duration(seconds: 3), () async {
                         setState(() {
-                          _dataList[index]["flag"] = !_dataList[index]["flag"];
+                          // _dataList[index]["flag"] = !_dataList[index]["flag"];
                           _index = -1;
                         });
                       }).then((data) {
@@ -77,11 +153,15 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
                         ? new CircularProgressIndicator(
                             backgroundColor: Color(0xffff0000))
                         : new Icon(
-                            _dataList[index]["flag"]
+                            _dataList[index].substring(
+                                        _dataList[index].length - 1) ==
+                                    "Y"
                                 ? Icons.check_circle
                                 : Icons.cancel,
                             size: 28,
-                            color: _dataList[index]["flag"]
+                            color: _dataList[index].substring(
+                                        _dataList[index].length - 1) ==
+                                    "Y"
                                 ? Colors.green
                                 : Colors.red))),
             decoration: BoxDecoration(

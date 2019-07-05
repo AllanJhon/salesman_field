@@ -10,6 +10,9 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   _queryContract() {
+    String a = "abc";
+  
+    // a.substring(startIndex)
     setState(() {
       isContract = true;
     });
