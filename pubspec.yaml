@@ -38,7 +38,7 @@ dependencies:
   connectivity: ^0.4.3+2
 
   charts_flutter: ^0.6.0
-  
+  fluttertoast: ^3.1.0
   oktoast: ^2.0.0
   #加密包
   crypto: ^2.0.6

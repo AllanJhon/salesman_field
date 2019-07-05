@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
 import 'package:oktoast/oktoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 TextEditingController goodsController = TextEditingController();
 List _dataList = new List();
@@ -56,11 +57,20 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
       return;
     }
     if (_search.length < 2) {
-      showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-                title: Text('请输入至少三位要货码'),
-              ));
+      // showDialog(
+      //     context: context,
+      //     builder: (context) => AlertDialog(
+      //           title: Text('请输入至少三位要货码'),
+      //         ));
+      Fluttertoast.showToast(
+        msg: "This is Center Short Toast",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
       return;
     }
     inputxmlstr =
