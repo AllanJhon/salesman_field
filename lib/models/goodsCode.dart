@@ -1,5 +1,15 @@
-class goodsCOde{
+class GoodsCode {
   String send_no;
   String zflag;
-  goodsCOde(this.send_no,this.zflag);
+  GoodsCode(this.send_no, this.zflag);
+
+  // setZflag(zflag) {
+  //   this.zflag = zflag;
+  // }
+}
+
+class GoodsResult {
+  String status;
+  String message;
+  GoodsResult(this.status, this.message);
 }
