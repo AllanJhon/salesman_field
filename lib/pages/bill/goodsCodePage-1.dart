@@ -80,7 +80,6 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
   }
 
   Future _getGoodsCodeList(int start) async {
-    _contentFocusNode.unfocus();
     _search = goodsController.text;
     // if (_search == null || _search.isEmpty || _search.length < 3) {
     //   // if (new DateTime.now().difference(priTouchTime).inSeconds > 5) {
@@ -137,6 +136,7 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
               tooltip: '搜索要货码',
               onPressed: () async {
                 _search = goodsController.text;
+                _contentFocusNode.unfocus();
                 if (_search == null || _search.isEmpty || _search.length < 3) {
                   _showToast("请输入至少三位要货码");
                   return;
@@ -236,7 +236,6 @@ class TextFileWidget extends StatelessWidget {
     }
 
     var cancleView = new Text("");
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
