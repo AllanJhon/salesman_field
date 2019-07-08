@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import '../../models/contract.dart';
+import '../../models/company.dart';
 import '../../components/contract_edit_container.dart';
 import '../../models/contractDetail.dart';
 import '../../models/customer.dart';
@@ -23,11 +25,14 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
   String take_type;
   DictionaryControlModel dictionaryControl = new DictionaryControlModel();
   String customerName='请选择';
+  String contractName='请选择';
+  String companytName='请选择';
   List<Dictionary> _contract_types=new List<Dictionary>();//合同类型
   List<Dictionary> _agreement_types=new List<Dictionary>();//补充协议类型
   List<Dictionary> _fact_contract_types=new List<Dictionary>();//补充协议类型
   List<Dictionary> _take_types=new List<Dictionary>();//提货方式
   List<ContractDetail> contractDetails=new List<ContractDetail>();//合同详细
+  double mainCodeLen=0.0;
 
   @override
   void initState() {
@@ -62,13 +67,14 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
   onChange(val) {
     this.setState(() {
       if(groupValue != val){
-        print(val);
         contract_type=null;
         groupValue = val;
         if(val==1){
           _fact_contract_types=_contract_types;
+          mainCodeLen=0.0;
         }else{
           _fact_contract_types=_agreement_types;
+          mainCodeLen=60.0;
         }
       }
     });
@@ -200,6 +206,7 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
                 ],
               ),
 
+
               ContractEditContainer(onTap: () {
                   setState(() { });
                 },
@@ -235,26 +242,62 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
                 ],
               ),
 
-              ContractEditContainer(onTap: () {
-                  setState(() { });
+              ContractEditContainer(
+                height: 60.0,
+                onTap: () {
+                  Application.router
+                        .navigateTo(context, "contract/chooseCompany", transition: TransitionType.inFromRight).then((result) {//回传值
+                  if (result != null) {
+                    Company company= result;
+                    companytName=company.name;
+                  }
+                  });
                 },
                 children: <Widget>[
                   Expanded(
-                    flex: 1,
-                    child:Text('主合同号'),
+                    flex: 10,
+                    child:Text('签约单位'),
                   ),
                   Expanded(
-                    flex: 1,
-                    child: Text('请选择'),
+                    flex: 17,
+                    child: Text(companytName),
                   ),
                   Expanded(
-                    flex: 1,
-                    child:Align(alignment: FractionalOffset.centerRight,child:  Icon(Icons.arrow_drop_down,),),
+                    flex: 3,
+                    child:Align(alignment: FractionalOffset.topRight,child:  Icon(Icons.chevron_right,),),
                   ),
                 ],
               ),
 
-              ContractEditContainer(onTap: () {
+              ContractEditContainer(
+                height: mainCodeLen,
+                onTap: () {
+                  Application.router
+                        .navigateTo(context, "contract/chooseCotract", transition: TransitionType.inFromRight).then((result) {//回传值
+                  if (result != null) {
+                    Contract contract= result;
+                    contractName=contract.name;
+                  }
+                  });
+                },
+                children: <Widget>[
+                  Expanded(
+                    flex: 10,
+                    child:Text('主合同号'),
+                  ),
+                  Expanded(
+                    flex: 17,
+                    child: Text(contractName),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child:Align(alignment: FractionalOffset.topRight,child:  Icon(Icons.chevron_right,),),
+                  ),
+                ],
+              ),
+
+              ContractEditContainer(
+                onTap: () {
                   setState(() { });
                 },
                 children: <Widget>[
@@ -295,7 +338,7 @@ class _ContractAddPageState1 extends State<ContractAddPage1> {
               ),
 
               ContractEditContainer(
-                // color: Colors.grey,
+                color: Colors.grey,
                 onTap: () {
                   setState(() { });
                 },

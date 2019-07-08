@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
+import 'package:salesman_field/pages/contract/companyChoosePage.dart';
+import 'package:salesman_field/pages/contract/contractCodeChoosePage.dart';
 import '../pages/contract/ContractAddPage.1.dart';
 import '../pages/contract/ContractDetailAddPage.dart';
 import '../pages/contract/customerChoosePage.dart';
@@ -24,6 +26,10 @@ var contractHandler = new Handler(
       return new ContractAddPage1();
     else if(name=='chooseCustomer'){
       return new CustomerChoosePage();
+    }else if(name=='chooseCompany'){
+      return new CompanyChoosePage();
+    }else if(name=='chooseCotract'){
+      return new ContractCodeChoosePage();
     }else{
       String informationString = params['informationString']?.first;
       // String takeType = params['takeType']?.first;
