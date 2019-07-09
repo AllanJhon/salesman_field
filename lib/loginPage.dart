@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: new TextField(
                         controller: _pwdController,
                         obscureText: isObscure,
-                        keyboardType: TextInputType.number,
+                        // keyboardType: TextInputType.number,
                         decoration: new InputDecoration(
                           hintText: '请输入密码',
                           icon: new Icon(
