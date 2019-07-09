@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'loginPage.dart';
 import 'tabs.dart';
 import 'loginPage.dart';
-import 'loginPageZ.dart';
 import 'pages/bill/billPage.dart';
 import 'pages/bill/billDetail.dart';
 import 'pages/bill/billSearch.dart';
@@ -28,7 +27,6 @@ final routes = {
   '/home': (content) => HomePageWidget(),
   '/billD': (content, {arguments}) => BillDetail(arguments: arguments),
   '/login': (content) => LoginPage(),
-  '/': (content, {arguments}) => LoginPageZ(),
   '/tabs': (content) => Tabs(),
   '/billSearch': (content) => BillSearch(),
   '/bill': (content, {arguments}) => BillPage(arguments: arguments),
