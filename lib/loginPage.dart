@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: '请输入用户名',
                           icon: new Icon(
                             Icons.person,
-                            size: 36,
+                            size: 32,
                           ),
                         ),
                         onSubmitted: (value) {
@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: '请输入密码',
                           icon: new Icon(
                             Icons.lock_outline,
-                            size: 36,
+                            size: 32,
                           ),
                           suffixIcon: new IconButton(
                             icon: Icon(isObscure

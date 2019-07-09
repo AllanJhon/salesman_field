@@ -27,6 +27,7 @@ final routes = {
   '/home': (content) => HomePageWidget(),
   '/billD': (content, {arguments}) => BillDetail(arguments: arguments),
   '/login': (content) => LoginPage(),
+  '/': (content) => LoginPage(),
   '/tabs': (content) => Tabs(),
   '/billSearch': (content) => BillSearch(),
   '/bill': (content, {arguments}) => BillPage(arguments: arguments),

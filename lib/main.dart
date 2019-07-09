@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      initialRoute: "/login",
+      initialRoute: "/",
       onGenerateRoute: onGenerateRoute,
       // 2019-06-14增加本地化设置
       localizationsDelegates: [                             
