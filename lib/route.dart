@@ -16,10 +16,12 @@ import 'pages/bill/goodsCodePage-1.dart';
 import 'pages/contract/contractQuery.dart';
 import 'pages/contract/contractQuerySearch.dart';
 import 'pages/customer/CustomerDetail.dart';
+import 'pages/my/password.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
 import 'view/myTest.dart';
+import 'view/myClipper.dart';
 // import 'view/homePage1.dart';
 
 final routes = {
@@ -40,11 +42,13 @@ final routes = {
   '/contract/contract': (content) => ContractAddPage1(),
   '/contractQuerySearch': (content) => ContractQuerySearch(),
   '/customerDetail': (content, {arguments}) => CustomerDetail(arguments: arguments),
+  '/password': (content) => Password(),
 
   //以下为测试用页面
 
   '/busi': (content) => BusinessPageWidget(),
   '/test': (content) => Test(),
+  '/arc': (content) => ArcBannerImage(),
 };
 
 var onGenerateRoute = (RouteSettings settings) {

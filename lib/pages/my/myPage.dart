@@ -34,11 +34,11 @@ class _MyPageState extends State<MyPage> {
                   SizedBox(height: 10),
                   CircleAvatar(
                     child: new IconButton(
-                      icon:Icon(Icons.settings),
-                      onPressed: (){
+                      icon: Icon(Icons.settings),
+                      onPressed: () {
                         Navigator.popAndPushNamed(context, "/busi");
                       },
-                      ),
+                    ),
                   ),
                   SizedBox(height: 10),
                   Text("设置"),
@@ -58,16 +58,12 @@ class _MyPageState extends State<MyPage> {
                     SizedBox(height: 10),
                     CircleAvatar(
                       child: new IconButton(
-                      icon:Icon(Icons.location_on,color: Colors.white),
-                      onPressed: (){
-                        Navigator.popAndPushNamed(context, "/test");
-                      },
+                        icon: Icon(Icons.location_on, color: Colors.white),
+                        onPressed: () {
+                          Navigator.popAndPushNamed(context, "/test");
+                        },
                       ),
                       backgroundColor: Colors.orange,
-                      // child: Icon(
-                      //   Icons.location_on,color: Colors.white,
-                      // ),
-                      // backgroundColor: Colors.orange,
                     ),
                     SizedBox(height: 10),
                     Text("定位打卡"),
@@ -84,8 +80,14 @@ class _MyPageState extends State<MyPage> {
                   children: <Widget>[
                     SizedBox(height: 10),
                     CircleAvatar(
-                      child: Icon(
-                        Icons.spellcheck,color: Colors.white,
+                      child: new IconButton(
+                        icon: Icon(Icons.spellcheck, color: Colors.white),
+                        onPressed: () {
+                          Navigator.popAndPushNamed(
+                            context,
+                            "/arc",
+                          );
+                        },
                       ),
                       backgroundColor: Colors.orange,
                     ),
@@ -124,7 +126,7 @@ class _MyPageState extends State<MyPage> {
                   children: <Widget>[
                     SizedBox(height: 10),
                     CircleAvatar(
-                      radius:20,
+                      radius: 20,
                       child: Icon(
                         Icons.vpn_key,
                       ),
@@ -139,12 +141,12 @@ class _MyPageState extends State<MyPage> {
                     Radius.circular(5),
                   ),
                 )),
-                Container(
+            Container(
                 child: Column(
                   children: <Widget>[
                     SizedBox(height: 10),
                     CircleAvatar(
-                      radius:20,
+                      radius: 20,
                       child: Icon(
                         Icons.linear_scale,
                       ),
