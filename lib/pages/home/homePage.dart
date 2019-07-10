@@ -49,7 +49,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           path: '/contractQuery');
       categories.add(cat2);
       Cat cat3 = new Cat(
-         catIcon: Icon(Icons.local_shipping),
+         catIcon: Icon(Icons.format_list_bulleted),
           id: 1,
           name: '订单查询',
           desc: '订单查询',

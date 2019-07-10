@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'tabs.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'data/SYSTEMCONST.dart';
 
 /*
  *注册界面
@@ -26,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    //读取本地存储的用户名、密码
     _readLoginData().then((Map onValue) {
       setState(() {
         _user = onValue["user"];
@@ -64,6 +67,14 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          // new Center(
+          //   child: Text(
+          //     "金隅冀东移动外勤",
+          //     style: TextStyle(
+          //         color: Colors.indigo[800], fontSize: 32, fontWeight: FontWeight.w600),
+          //     textAlign: TextAlign.center,
+          //   ),
+          // ),
           new Center(
               child: new Image.asset(
             'assets/images/normal_user_icon.png',
@@ -99,7 +110,6 @@ class _LoginPageState extends State<LoginPage> {
                       child: new TextField(
                         controller: _pwdController,
                         obscureText: isObscure,
-                        // keyboardType: TextInputType.number,
                         decoration: new InputDecoration(
                           hintText: '请输入密码',
                           icon: new Icon(
@@ -118,9 +128,6 @@ class _LoginPageState extends State<LoginPage> {
                             },
                           ),
                         ),
-                        onSubmitted: (value) {
-                          // _checkInput();
-                        },
                       ),
                     ),
                   ])),
@@ -146,9 +153,44 @@ class _LoginPageState extends State<LoginPage> {
           ),
           new Center(
               child: new FlatButton(
-                  child: new Text("没有帐户？ 注册"),
+                  child: new Text("没有帐户？ 联系我们！"),
                   onPressed: () {
-                    // _openSignUp;
+                    showDialog(
+                        context: context,
+                        child: new SimpleDialog(
+                          title: new Text(
+                            CORPNAME,
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                            textAlign: TextAlign.center,
+                          ),
+                          contentPadding: const EdgeInsets.all(10.0),
+                          children: <Widget>[
+                            Divider(
+                              height: 10.0,
+                              indent: 0.0,
+                              color: Colors.grey,
+                            ),
+                            new Center(
+                                child: new Image.asset(
+                              QRCODE,
+                            )),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            new ListTile(
+                                title: new Text("联系电话："),
+                                subtitle: new Text(TELEPHONE),
+                                trailing: new IconButton(
+                                  icon: Icon(Icons.phone, color: Colors.green),
+                                  onPressed: () {
+                                    doCall("tel:$TELEPHONE");
+                                  },
+                                )),
+                          ],
+                        ));
                   }))
         ],
       )
@@ -185,17 +227,24 @@ _log(context) {
     _showToast("密码不能为空!");
     return;
   }
-
   _md5PWD = md5.convert(utf8.encode(_pwd)).toString();
-
+  
   Future<Null> _writerDataToFile() async {
     await (await _getLocalFile())
         .writeAsString('{"user":"$_user","pwd":"$_pwd","md5PWD":"$_md5PWD"}');
   }
 
   _writerDataToFile();
-  // Navigator.pushNamed(context, "/tabs");
+
   Navigator.of(context).pushAndRemoveUntil(
       new MaterialPageRoute(builder: (context) => Tabs()),
       (route) => route == null);
+}
+
+doCall(url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
