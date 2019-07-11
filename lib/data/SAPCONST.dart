@@ -6,3 +6,19 @@ var sapHeader = {
   "Content-Type": "text/xml;charset=UTF-8",
   'Authorization': 'Basic VFJGQzAxOjEyMzQ1Ng=='
 };
+
+getSAPURL(String funcName){
+  funcName = funcName.toUpperCase();
+  return "http://dstbj.jdsn.com.cn:8081/sap/bc/srt/rfc/sap/$funcName/102/service/binding";
+}
+
+getSAPHeader(String funcName){
+  funcName = funcName.toUpperCase();
+  return {
+  "SOAPAction":
+      "urn:sap-com:document:sap:rfc:functions:$funcName:$funcName"+"Request",
+  "Content-Type": "text/xml;charset=UTF-8",
+  'Authorization': 'Basic VFJGQzAxOjEyMzQ1Ng=='
+};
+
+}

@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
-import 'package:http/http.dart' as http;
-import 'package:xml/xml.dart' as xml;
 import 'package:fluttertoast/fluttertoast.dart';
-import '../../data/SAPCONST.dart';
+import 'package:salesman_field/data/SAPCONST.dart';
 import '../../models/goodsCode.dart';
+import '../../service/GoodsCode_api.dart';
 import '../../untils/ProgressDialog.dart';
+import 'package:connectivity/connectivity.dart';
 
 TextEditingController goodsController = TextEditingController();
 List _dataList = new List();
-var date = new DateTime.now();
 bool _loading = false;
 var _search;
 
-String timestamp =
-    "${date.year.toString()}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}${date.hour.toString().padLeft(2, '0')}${date.minute.toString().padLeft(2, '0')}${date.second.toString().padLeft(2, '0')}";
-String md5Sign =
-    md5.convert(utf8.encode(timestamp + "WQWS")).toString().toUpperCase();
-String inputxmlstr;
 FocusNode _contentFocusNode = FocusNode();
 
 class GoodsCodePage1 extends StatefulWidget {
@@ -26,6 +18,12 @@ class GoodsCodePage1 extends StatefulWidget {
 }
 
 class _GoodsCodePageState1 extends State<GoodsCodePage1> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(getSAPHeader("zif_wq_in_ws"));
+  }
   var _index;
   void _showToast(String toastMsg) {
     Fluttertoast.showToast(
@@ -38,88 +36,40 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
         fontSize: 16.0);
   }
 
-  Future _sendGoodsCode(GoodsCode goodsCode) async {
-    inputxmlstr =
-        '<![CDATA[<?xml version="1.0" encoding="UTF-8"?> <ZIF_BH_ORDER><ZSEND_NO>' +
-            goodsCode.send_no +
-            '</ZSEND_NO></ZIF_BH_ORDER>]]>';
-    String soap = '''
-        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
-        <soapenv:Body>
-            <urn:ZIF_WQ_IN_WS>
-              <FLAG>YHMXF</FLAG>
-             <INPUTXMLSTR>$inputxmlstr</INPUTXMLSTR>
-              <SIGN>$md5Sign</SIGN>
-              <TS>$timestamp</TS>
-            </urn:ZIF_WQ_IN_WS>
-        </soapenv:Body>
-      </soapenv:Envelope>''';
-    var response = await http.post(Uri.parse(sapURL),
-        headers: sapHeader,
-        body: utf8.encode(soap),
-        encoding: Encoding.getByName("UTF-8"));
-    if (response.statusCode != 200) {
-      print("Server Error !!!" + response.statusCode.toString());
+  Future<bool> networkCheck() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile) {
+      return true;
+    } else if (connectivityResult == ConnectivityResult.wifi) {
+      return true;
     }
-    setState(() {
-      var document = xml.parse(response.body);
-      var outputxmlstr = document.findAllElements('OUTPUTXMLSTR').single.text;
-      var result = xml
-          .parse(outputxmlstr)
-          .findAllElements('RESULT')
-          .map((node) => new GoodsResult(
-              node.findElements('Status').single.text,
-              node.findElements('Message').single.text))
-          .toList();
-      if (result.length > 0) {
-        goodsCode.zflag = (result[0].status == "S" ? "Y" : "N");
-        _showToast(result[0].message);
-      }
-      _index = -1;
+    return false;
+  }
+
+  Future _sendGoodsCode(GoodsCode goodsCode) async {
+    GoodsCodeAPI.sendGoodsCode(goodsCode).then((goodsResult) {
+      setState(() {
+        if (goodsResult.goodResultList.length > 0) {
+          goodsCode.zflag =
+              (goodsResult.goodResultList[0].status == "S" ? "Y" : "N");
+          _showToast(goodsResult.goodResultList[0].message);
+        }
+        _index = -1;
+      });
     });
   }
 
   Future _getGoodsCodeList(int start) async {
-    _search = goodsController.text;
-    // if (_search == null || _search.isEmpty || _search.length < 3) {
-    //   // if (new DateTime.now().difference(priTouchTime).inSeconds > 5) {
-    //   _showToast("请输入至少三位要货码");
-    //   // priTouchTime = new DateTime.now();
-    //   // }
-    //   return;
-    // }
-    inputxmlstr =
-        '<![CDATA[<?xml version="1.0" encoding="UTF-8"?> <ZIF_BH_ORDER><ZSEND_NO>' +
-            _search +
-            '</ZSEND_NO></ZIF_BH_ORDER>]]>';
-    String soap = '''
-        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
-        <soapenv:Body>
-            <urn:ZIF_WQ_IN_WS>
-              <FLAG>YHMCX</FLAG>
-             <INPUTXMLSTR>$inputxmlstr</INPUTXMLSTR>
-              <SIGN>$md5Sign</SIGN>
-              <TS>$timestamp</TS>
-            </urn:ZIF_WQ_IN_WS>
-        </soapenv:Body>
-      </soapenv:Envelope>''';
-    var response = await http.post(Uri.parse(sapURL),
-        headers: sapHeader,
-        body: utf8.encode(soap),
-        encoding: Encoding.getByName("UTF-8"));
-    if (response.statusCode != 200) {
-      print("Server Error !!!" + response.statusCode.toString());
+    if (!await networkCheck()) {
+      _showToast("当前无网络");
+      return;
     }
-    setState(() {
-      var document = xml.parse(response.body);
-      var outputxmlstr = document.findAllElements('OUTPUTXMLSTR').single.text;
-      _dataList = xml
-          .parse(outputxmlstr)
-          .findAllElements('DATA')
-          .map((node) => new GoodsCode(node.findElements('SEND_NO').single.text,
-              node.findElements('ZFLAG').single.text))
-          .toList();
-      _loading = false;
+
+    GoodsCodeAPI.getGoodsCodeList(_search).then((goodsCode) {
+      setState(() {
+        _dataList = goodsCode.goodsCodesList;
+        _loading = false;
+      });
     });
     goodsController.clear();
   }
@@ -153,19 +103,14 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
               child: ProgressDialog(
               loading: _loading,
               msg: '正在加载...',
-              child: Center(
-                  // child: RaisedButton(
-                  //   onPressed: () => null,
-                  //   child: Text('显示加载动画'),
-                  // ),
-                  ),
+              child: Center(),
             ))
           : ListView.builder(
               itemCount: _dataList.length,
               itemBuilder: (context, index) {
                 return Container(
                   child: ListTile(
-                      title: Text(_dataList[index].send_no),
+                      title: Text(_dataList[index].sendno),
                       enabled: _dataList[index].zflag == "N" ? true : false,
                       onTap: () {
                         // _showToast();

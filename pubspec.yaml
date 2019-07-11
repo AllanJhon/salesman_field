@@ -44,7 +44,9 @@ dependencies:
   crypto: ^2.0.6
   http: ^0.12.0+2
   xml: ^3.0.0
+  
   path_provider: ^1.1.2
+  #本地应用包 sms:<phone number>，tel:<phone number>
   url_launcher: ^5.0.3
 
 dev_dependencies:

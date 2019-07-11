@@ -116,11 +116,6 @@ class HomePageWidgetState extends State<HomePageWidget> {
       body: 
       Container(
         padding: const EdgeInsets.only(bottom: 10.0, top: 5.0),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/images/paimaiLogo.png'),
-              alignment: Alignment.bottomRight),
-        ),
         child: WidgetItemContainer(
             categories: this.categories, columnCount: 3, isWidgetPoint: false),
       ),
