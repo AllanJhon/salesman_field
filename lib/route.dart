@@ -17,12 +17,12 @@ import 'pages/contract/contractQuerySearch.dart';
 import 'pages/customer/CustomerDetail.dart';
 import 'pages/my/password.dart';
 
-import 'pages/bill/billPageNew.dart';
+// import 'pages/bill/billPageNew.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
 import 'view/myTest.dart';
-import 'view/myClipper.dart';
+// import 'view/myClipper.dart';
 // import 'view/homePage1.dart';
 
 final routes = {
@@ -44,13 +44,13 @@ final routes = {
   '/contractQuerySearch': (content) => ContractQuerySearch(),
   '/customerDetail': (content, {arguments}) => CustomerDetail(arguments: arguments),
   '/password': (content) => Password(),
-  '/billN': (content,) => BillPageNew(),
+  // '/billN': (content,) => BillPageNew(),
 
   //以下为测试用页面
 
   '/busi': (content) => BusinessPageWidget(),
   '/test': (content) => Test(),
-  '/arc': (content) => ArcBannerImage(),
+  // '/arc': (content) => ArcBannerImage(),
 };
 
 var onGenerateRoute = (RouteSettings settings) {
