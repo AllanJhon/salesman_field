@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:salesman_field/data/SAPCONST.dart';
 import '../../models/goodsCode.dart';
 import '../../service/GoodsCode_api.dart';
 import '../../untils/ProgressDialog.dart';
@@ -18,12 +17,6 @@ class GoodsCodePage1 extends StatefulWidget {
 }
 
 class _GoodsCodePageState1 extends State<GoodsCodePage1> {
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    print(getSAPHeader("zif_wq_in_ws"));
-  }
   var _index;
   void _showToast(String toastMsg) {
     Fluttertoast.showToast(
@@ -113,7 +106,8 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
                       title: Text(_dataList[index].sendno),
                       enabled: _dataList[index].zflag == "N" ? true : false,
                       onTap: () {
-                        // _showToast();
+                        print(_dataList[index].sendno);
+                        _showToast("长按以下发此要货码。");
                       },
                       onLongPress: () {
                         if (_dataList[index].zflag == "N") {

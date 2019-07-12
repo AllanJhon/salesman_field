@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'pages/home/homePage.dart';
-import 'pages/bill/billPage.dart';
 import 'pages/my/myPage.dart';
-import 'pages/customer/CustomerPage.dart';
+import 'models/loginUser.dart';
+import 'pages/outwork/outWork.dart';
 
 class Tabs extends StatefulWidget {
   final index;
@@ -16,7 +16,7 @@ class _TabsState extends State<Tabs> {
   _TabsState(index) {
     this._currentIndex = index;
   }
-  List _listPage = [HomePageWidget(), CustomerPage(), MyPage(), BillPage()];
+  List _listPage = [HomePageWidget(), OutWork(), MyPage(), ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _TabsState extends State<Tabs> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("首页")),
-          BottomNavigationBarItem(icon: Icon(Icons.people), title: Text("客户")),
+          BottomNavigationBarItem(icon: Icon(Icons.directions_run), title: Text("外勤")),
           BottomNavigationBarItem(
               icon: Icon(Icons.accessibility_new), title: Text("我的")),
         ],
@@ -45,7 +45,7 @@ class _TabsState extends State<Tabs> {
               children: <Widget>[
                 Expanded(
                   child: UserAccountsDrawerHeader(
-                    accountName: Text("陆小凤"),
+                    accountName: Text(currentUser.displayName),
                     accountEmail: Text("luxiaofeng@163.com"),
                     currentAccountPicture: CircleAvatar(
                       backgroundImage: NetworkImage(

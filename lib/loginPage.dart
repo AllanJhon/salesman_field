@@ -8,10 +8,9 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'tabs.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'data/SYSTEMCONST.dart';
+import 'service/loginAPI.dart';
+// import 'models/loginUser.dart';
 
-/*
- *注册界面
- */
 TextEditingController _userController = TextEditingController();
 TextEditingController _pwdController = TextEditingController();
 String _user;
@@ -36,6 +35,39 @@ class _LoginPageState extends State<LoginPage> {
         _md5PWD = onValue["md5PWD"];
         _userController.text = _user;
         _pwdController.text = _pwd;
+      });
+    });
+  }
+
+  Future _log() async {
+    _user = _userController.text;
+    _pwd = _pwdController.text;
+
+    if (_user == null || _user.isEmpty) {
+      _showToast("用户名不能为空!");
+      return;
+    }
+    if (_pwd == null || _pwd.isEmpty) {
+      _showToast("密码不能为空!");
+      return;
+    }
+    _md5PWD = md5.convert(utf8.encode(_pwd)).toString();
+
+    Future<Null> _writerDataToFile() async {
+      await (await _getLocalFile())
+          .writeAsString('{"user":"$_user","pwd":"$_pwd","md5PWD":"$_md5PWD"}');
+    }
+
+    LoginAPI.login(_user, _pwd).then((loginUser) {
+      setState(() {
+        if (!loginUser.loginUserList[0].isSucess) {
+          _showToast(loginUser.loginUserList[0].error);
+        } else {
+          _writerDataToFile();
+          Navigator.of(context).pushAndRemoveUntil(
+              new MaterialPageRoute(builder: (context) => Tabs()),
+              (route) => route == null);
+        }
       });
     });
   }
@@ -89,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: EdgeInsets.fromLTRB(20, 2, 0, 2),
                       child: new TextField(
                         controller: _userController,
-                        keyboardType: TextInputType.phone,
+                        // keyboardType: TextInputType.phone,
                         decoration: new InputDecoration(
                           hintText: '请输入用户名',
                           icon: new Icon(
@@ -133,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                   ])),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 40,
+            height: 50,
             child: new Container(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: new RaisedButton(
@@ -146,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     textColor: Colors.white,
                     onPressed: () {
-                      _log(context);
+                      _log();
                     },
                     shape: new RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)))),
@@ -213,32 +245,6 @@ Future<File> _getLocalFile() async {
   //获取应用程序的私有位置
   String dir = (await getApplicationDocumentsDirectory()).path;
   return new File('$dir/login.txt');
-}
-
-_log(context) {
-  _user = _userController.text;
-  _pwd = _pwdController.text;
-
-  if (_user == null || _user.isEmpty) {
-    _showToast("用户名不能为空!");
-    return;
-  }
-  if (_pwd == null || _pwd.isEmpty) {
-    _showToast("密码不能为空!");
-    return;
-  }
-  _md5PWD = md5.convert(utf8.encode(_pwd)).toString();
-  
-  Future<Null> _writerDataToFile() async {
-    await (await _getLocalFile())
-        .writeAsString('{"user":"$_user","pwd":"$_pwd","md5PWD":"$_md5PWD"}');
-  }
-
-  _writerDataToFile();
-
-  Navigator.of(context).pushAndRemoveUntil(
-      new MaterialPageRoute(builder: (context) => Tabs()),
-      (route) => route == null);
 }
 
 doCall(url) async {

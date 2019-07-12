@@ -66,6 +66,15 @@ class HomePageWidgetState extends State<HomePageWidget> {
           parentId: 0,
           path: '/goods1');
       categories.add(cat4);
+       Cat cat5 = new Cat(
+        catIcon: Icon(Icons.people),
+          id: 1,
+          name: '客户管理',
+          desc: '客户管理',
+          depth: 1,
+          parentId: 0,
+          path: '/customer');
+      categories.add(cat4);
     });
   }
 
@@ -82,28 +91,6 @@ class HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //   child:   GridView.count(
-    //       crossAxisCount: 3,
-    //       mainAxisSpacing: 10.0,
-    //       crossAxisSpacing: 4.0,
-    //       padding: const EdgeInsets.all(30.0),
-    //       childAspectRatio: 1.3,
-    //     children: <Widget>[
-    //       GridTile(
-    //         child: Container(
-    //           child: IconButton(icon:Icon(Icons.add_a_photo),),
-    //         ),
-    //       ),
-    //       GridTile(
-    //         child: Container(
-    //           child: Text("审批状态查询"),
-    //         ),
-    //       ),
-    //     ],
-    //   )
-    // );
-
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: true,
