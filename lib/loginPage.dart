@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     new Container(
                       padding: EdgeInsets.fromLTRB(20, 2, 0, 2),
@@ -165,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                   ])),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 50,
+            height: 40,
             child: new Container(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: new RaisedButton(

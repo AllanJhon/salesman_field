@@ -16,6 +16,7 @@ import 'pages/contract/contractQuery.dart';
 import 'pages/contract/contractQuerySearch.dart';
 import 'pages/customer/CustomerDetail.dart';
 import 'pages/my/password.dart';
+import 'pages/my/myPage.dart';
 
 // import 'pages/bill/billPageNew.dart';
 
@@ -44,6 +45,7 @@ final routes = {
   '/contractQuerySearch': (content) => ContractQuerySearch(),
   '/customerDetail': (content, {arguments}) => CustomerDetail(arguments: arguments),
   '/password': (content) => Password(),
+  '/my': (content) => MyPage(),
   // '/billN': (content,) => BillPageNew(),
 
   //以下为测试用页面

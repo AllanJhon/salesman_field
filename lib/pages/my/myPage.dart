@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-// import 'package:second/view/homePage1.dart';
 import 'package:flutter/widgets.dart';
+import "dart:math";
+import "../../models/loginUser.dart";
+
+double percentRage = 41;
+bool isContract = true;
 
 class MyPage extends StatefulWidget {
   MyPage({Key key}) : super(key: key);
@@ -15,154 +19,171 @@ class _MyPageState extends State<MyPage> {
         appBar: new AppBar(
           centerTitle: true,
           title: new Text(
-            '我的业务',
+            '我的',
             style: TextStyle(
                 // color: Colors.red,
                 ),
           ),
         ),
-        body: GridView.count(
-          padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-          crossAxisSpacing: 2.5,
-          mainAxisSpacing: 2.5,
-          // padding: EdgeInsets.all(10),
-          crossAxisCount: 4,
-          children: <Widget>[
-            Container(
-              child: Column(
+        body: Container(
+          child: Column(children: <Widget>[
+            new Container(
+              child: Row(
                 children: <Widget>[
-                  SizedBox(height: 10),
-                  CircleAvatar(
-                    child: new IconButton(
-                      icon: Icon(Icons.settings),
-                      onPressed: () {
-                        Navigator.popAndPushNamed(context, "/busi");
-                      },
+                  Expanded(
+                    flex: 1,
+                    child: 
+                    new Container(
+                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      height: 120,
+                      width: 120,
+                      child: new Image.asset(
+                        'assets/images/normal_user_icon.png',
+                        width: MediaQuery.of(context).size.width * 0.3,
+                      ),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Text("设置"),
+                  Expanded(
+                    flex: 2,
+                    child: new Container(
+                      child: new Center(
+                        child: ListTile(
+                          title: Text(currentUser.displayName,style: TextStyle(fontSize: 22),),
+                          subtitle: Text(currentUser.userName),
+                          // trailing: new Icon(
+                          //   Icons.keyboard_arrow_right,
+                          //   size: 24,
+                          // ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              decoration: BoxDecoration(
-                color: Colors.white70,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(5),
+            ),
+            SizedBox(
+              height: 10,
+              child: new Container(
+                color: Colors.grey[300],
+              ),
+            ),
+            new Container(
+              color: Colors.white,
+              child: ListTile(
+                title: Text("修改密码"),
+                leading: new Icon(
+                  Icons.lock_outline,
+                  size: 26,
+                  color: Colors.green,
+                ),
+                trailing: new Icon(
+                  Icons.keyboard_arrow_right,
+                  size: 26,
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/password");
+                },
+              ),
+            ),
+            SizedBox(height: 3),
+            new Container(
+              color: Colors.white,
+              child: ListTile(
+                title: Text("设置"),
+                leading: new Icon(
+                  Icons.settings,
+                  color: Colors.orange[300],
+                  size: 26,
+                ),
+                trailing: new Icon(
+                  Icons.keyboard_arrow_right,
+                  size: 26,
                 ),
               ),
-              height: 40,
             ),
-            Container(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 10),
-                    CircleAvatar(
-                      child: new IconButton(
-                        icon: Icon(Icons.location_on, color: Colors.white),
-                        onPressed: () {
-                          Navigator.popAndPushNamed(context, "/test");
-                        },
-                      ),
-                      backgroundColor: Colors.orange,
-                    ),
-                    SizedBox(height: 10),
-                    Text("定位打卡"),
-                  ],
+          SizedBox(height: 3),
+            new Container(
+              color: Colors.white,
+              child: ListTile(
+                title: Text("切换用户"),
+                leading: new Icon(
+                  Icons.rotate_left,
+                  color: Colors.pink[300],
+                  size: 26,
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                )),
-            Container(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 10),
-                    CircleAvatar(
-                      child: new IconButton(
-                        icon: Icon(Icons.spellcheck, color: Colors.white),
-                        onPressed: () {
-                          Navigator.popAndPushNamed(
-                            context,
-                            "/arc",
-                          );
-                        },
-                      ),
-                      backgroundColor: Colors.orange,
-                    ),
-                    SizedBox(height: 10),
-                    Text("工作日报"),
-                  ],
+                trailing: new Icon(
+                  Icons.keyboard_arrow_right,
+                  size: 26,
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                )),
-            Container(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 10),
-                    CircleAvatar(
-                      child: Icon(
-                        Icons.attach_file,
-                      ),
-                      // backgroundColor: Colors.amber[100],
-                    ),
-                    SizedBox(height: 10),
-                    Text("质量投诉"),
-                  ],
+                onTap: (){
+                  Navigator.popAndPushNamed(context, "/");
+                },
+              ),
+            ),
+            SizedBox(height: 3),
+            new Container(
+              color: Colors.white,
+              child: ListTile(
+                title: Text("退出登录"),
+                leading: new Icon(
+                  Icons.exit_to_app,
+                  color: Colors.red[400],
+                  size: 26,
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                )),
-            Container(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 10),
-                    CircleAvatar(
-                      radius: 20,
-                      child: Icon(
-                        Icons.vpn_key,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text("修改口令"),
-                  ],
+                trailing: new Icon(
+                  Icons.keyboard_arrow_right,
+                  size: 26,
                 ),
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                )),
-            Container(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 10),
-                    CircleAvatar(
-                      radius: 20,
-                      child: Icon(
-                        Icons.linear_scale,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text("敬请等待"),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                )),
-          ],
-        ),
-        backgroundColor: Color.fromARGB(90, 237, 235, 236));
+                onTap: (){
+                  Navigator.popAndPushNamed(context, "/");
+                },
+              ),
+            ),
+          ]),
+          color: Colors.grey[100],
+        ));
   }
+}
+
+//画圆及画弧，显示客户金额消耗情况
+class MoneyCanvas extends CustomPainter {
+  Color lineColor;
+  Color completeColor;
+  double completePercent;
+  double argRadius;
+
+  MoneyCanvas(
+      this.lineColor, this.completeColor, this.completePercent, this.argRadius);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Offset center = Offset(size.width / 2, size.height / 2);
+
+    //定义画外圆的画布
+    Paint _paint = Paint()
+      ..style = PaintingStyle.stroke
+      ..color = lineColor
+      ..strokeWidth = 5;
+    //画圆
+    canvas.drawCircle(center, argRadius, _paint);
+
+    double arcAngle = 2 * pi * (completePercent / 100);
+    // 定义画内弧的画布
+    Paint _money = Paint()
+      ..color = completeColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5
+      ..strokeCap = StrokeCap.round;
+
+    // //画弧
+    canvas.drawArc(
+        Rect.fromCircle(center: center, radius: argRadius - 8),
+        -pi / 2, //  从正上方开始
+        arcAngle,
+        false,
+        _money);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

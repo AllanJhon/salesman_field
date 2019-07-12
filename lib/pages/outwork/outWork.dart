@@ -13,7 +13,7 @@ class _OutWorkState extends State<OutWork> {
         appBar: new AppBar(
           centerTitle: true,
           title: new Text(
-            '我的业务',
+            '移动外勤',
             style: TextStyle(
                 // color: Colors.red,
                 ),

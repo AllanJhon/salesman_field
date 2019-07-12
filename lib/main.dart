@@ -24,7 +24,6 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
-
   MyApp()  {
     final router = new Router();
     Routes.configureRoutes(router);

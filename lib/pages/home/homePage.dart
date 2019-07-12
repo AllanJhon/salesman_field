@@ -74,7 +74,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           depth: 1,
           parentId: 0,
           path: '/customer');
-      categories.add(cat4);
+      categories.add(cat5);
     });
   }
 
