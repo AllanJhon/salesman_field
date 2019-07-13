@@ -5,10 +5,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:salesman_field/models/loginUser.dart';
 import 'tabs.dart';
+import 'resources/shared_preferences_keys.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'data/SYSTEMCONST.dart';
 import 'service/loginAPI.dart';
+import 'untils/shared_preferences.dart';
 // import 'models/loginUser.dart';
 
 TextEditingController _userController = TextEditingController();
@@ -29,14 +32,30 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     //读取本地存储的用户名、密码
     _readLoginData().then((Map onValue) {
-      setState(() {
-        _user = onValue["user"];
-        _pwd = onValue["pwd"];
-        _md5PWD = onValue["md5PWD"];
-        _userController.text = _user;
-        _pwdController.text = _pwd;
-      });
+      
+      if (this.mounted){
+        setState(() {
+          _user = onValue["user"];
+          _pwd = onValue["pwd"];
+          _md5PWD = onValue["md5PWD"];
+          _userController.text = _user;
+          _pwdController.text = _pwd;
+        });
+      }
     });
+    //判断是否登录
+    checkLgin();
+    
+  }
+  Future checkLgin() async {
+    SpUtil sharePeferences =   await SpUtil.getInstance();
+    print(sharePeferences.get(SharedPreferencesKeys.userInfo));
+    currentUser=LoginUser.get(json.decode(sharePeferences.get(SharedPreferencesKeys.userInfo)));
+    if(currentUser!=null){
+      Navigator.of(context).pushAndRemoveUntil(
+              new MaterialPageRoute(builder: (context) => Tabs()),
+              (route) => route == null);
+    }
   }
 
   Future _log() async {
@@ -56,19 +75,24 @@ class _LoginPageState extends State<LoginPage> {
     Future<Null> _writerDataToFile() async {
       await (await _getLocalFile())
           .writeAsString('{"user":"$_user","pwd":"$_pwd","md5PWD":"$_md5PWD"}');
+    
+      await SpUtil.getInstance()
+              ..putString(SharedPreferencesKeys.userInfo, currentUser.toString());
     }
 
     LoginAPI.login(_user, _pwd).then((loginUser) {
-      setState(() {
-        if (!loginUser.loginUserList[0].isSucess) {
-          _showToast(loginUser.loginUserList[0].error);
-        } else {
-          _writerDataToFile();
-          Navigator.of(context).pushAndRemoveUntil(
-              new MaterialPageRoute(builder: (context) => Tabs()),
-              (route) => route == null);
-        }
-      });
+      if (this.mounted){
+        setState(() {
+          if (!loginUser.loginUserList[0].isSucess) {
+            _showToast(loginUser.loginUserList[0].error);
+          } else {
+            _writerDataToFile();
+            Navigator.of(context).pushAndRemoveUntil(
+                new MaterialPageRoute(builder: (context) => Tabs()),
+                (route) => route == null);
+          }
+        });
+      }
     });
   }
 
@@ -154,9 +178,11 @@ class _LoginPageState extends State<LoginPage> {
                                 : Icons.visibility),
                             iconSize: 28,
                             onPressed: () async {
-                              setState(() {
-                                isObscure = !isObscure;
-                              });
+                              if (this.mounted){
+                                setState(() {
+                                  isObscure = !isObscure;
+                                });
+                              }
                             },
                           ),
                         ),
@@ -227,6 +253,10 @@ class _LoginPageState extends State<LoginPage> {
         ],
       )
     ])));
+  }
+  @override
+  void dispose() {
+    super.dispose();
   }
 }
 

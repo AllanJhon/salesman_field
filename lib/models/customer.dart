@@ -26,7 +26,6 @@ class Customer {
       customers.add(customer);
     });
     this.customers = customers;
-    print(customers.length);
   }
 
   Customer.xml2List(outputxmlstr) {

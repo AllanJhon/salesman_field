@@ -13,6 +13,7 @@ const int ThemeColor = 0xFFC91B3A;
 SpUtil sp;
 var db;
 
+
 void main() async{
   Env.apiClient = CustomerAPI();
   final provider = new Provider();
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
     Routes.configureRoutes(router);
     Application.router = router;
   }
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

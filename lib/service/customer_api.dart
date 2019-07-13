@@ -1,6 +1,7 @@
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import '../models/customer.dart';
+import '../models/loginUser.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
 
@@ -18,7 +19,7 @@ class CustomerAPI {
   // }
 
   // static Future<Customer> getCustomerList(String sales_code, String sales_office,String year) async {
-    Future<Customer> getCustomerList(int _page) async {
+    Future<Customer> getCustomerList(int year) async {
     var date = new DateTime.now();
     String timestamp =
         "${date.year.toString()}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}${date.hour.toString().padLeft(2, '0')}${date.minute.toString().padLeft(2, '0')}${date.second.toString().padLeft(2, '0')}";
@@ -27,9 +28,9 @@ class CustomerAPI {
     String inputxmlstr;
     inputxmlstr = '''<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
             <data>
-              <sales_code>100</sales_code>
-              <sales_office>1011</sales_office>
-              <year>2019</year>
+              <sales_code>${currentUser.salesCode}</sales_code>
+              <sales_office>${currentUser.salesOffice}</sales_office>
+              <year>${date.year.toString()}</year>
             </data>]]>''';
     String soap = '''
         <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sal="http://sales.open.ttx.io/">
@@ -45,8 +46,8 @@ class CustomerAPI {
         </soap:Envelope>''';
 
     var response = await http.post(
-        // Uri.parse("http://10.0.65.48:8287/services/customerApiServiceV1?wsdl"),http://192.168.0.106/
-        Uri.parse("http://192.168.0.106/sales/services/customerApiServiceV1?wsdl"),
+        Uri.parse("http://10.0.65.48:8287/services/customerApiServiceV1?wsdl"),
+        // Uri.parse("http://192.168.0.106/sales/services/customerApiServiceV1?wsdl"),
         // headers: getSAPHeader("Zif_WQ_IN_WS"),
         body: utf8.encode(soap),
         encoding: Encoding.getByName("UTF-8"));
@@ -57,7 +58,6 @@ class CustomerAPI {
     }
     var document = xml.parse(response.body);
     var outputxmlstr = document.findAllElements('ns:return').single.text;
-    print(outputxmlstr);
     return Customer.xml2List(outputxmlstr);
   }
 }
