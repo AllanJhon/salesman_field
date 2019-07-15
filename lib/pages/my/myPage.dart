@@ -5,6 +5,7 @@ import "dart:math";
 import "../../models/loginUser.dart";
 import '../../untils/shared_preferences.dart';
 import '../../resources/shared_preferences_keys.dart';
+import 'package:flutter/services.dart';
 
 double percentRage = 41;
 
@@ -15,6 +16,10 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
+  static Future<void> pop() async {
+    await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -34,8 +39,7 @@ class _MyPageState extends State<MyPage> {
                 children: <Widget>[
                   Expanded(
                     flex: 1,
-                    child: 
-                    new Container(
+                    child: new Container(
                       padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                       height: 120,
                       width: 120,
@@ -50,8 +54,16 @@ class _MyPageState extends State<MyPage> {
                     child: new Container(
                       child: new Center(
                         child: ListTile(
-                          title: Text(currentUser.displayName,style: TextStyle(fontSize: 22),),
-                          subtitle: Text("用户名:"+currentUser.userName+", 销售员编码:"+ currentUser.salesCode+", 销售办公室编码:"+currentUser.salesOffice),
+                          title: Text(
+                            currentUser.displayName,
+                            style: TextStyle(fontSize: 22),
+                          ),
+                          subtitle: Text("用户名:" +
+                              currentUser.userName +
+                              ", 销售员编码:" +
+                              currentUser.salesCode +
+                              ", 销售办公室编码:" +
+                              currentUser.salesOffice),
                           // trailing: new Icon(
                           //   Icons.keyboard_arrow_right,
                           //   size: 24,
@@ -103,7 +115,7 @@ class _MyPageState extends State<MyPage> {
                 ),
               ),
             ),
-          SizedBox(height: 3),
+            SizedBox(height: 3),
             new Container(
               color: Colors.white,
               child: ListTile(
@@ -117,8 +129,8 @@ class _MyPageState extends State<MyPage> {
                   Icons.keyboard_arrow_right,
                   size: 26,
                 ),
-                onTap: (){
-                  outLgin(context);
+                onTap: () {
+                  outLogin(context);
                 },
               ),
             ),
@@ -136,8 +148,8 @@ class _MyPageState extends State<MyPage> {
                   Icons.keyboard_arrow_right,
                   size: 26,
                 ),
-                onTap: (){
-                  outLgin(context);
+                onTap: () async {
+                  await pop();
                 },
               ),
             ),
@@ -147,12 +159,13 @@ class _MyPageState extends State<MyPage> {
   }
 }
 
- Future outLgin(BuildContext context) async {
-    SpUtil sharePeferences =   await SpUtil.getInstance();
-    sharePeferences.remove(SharedPreferencesKeys.userInfo);
-    sharePeferences.putBool(SharedPreferencesKeys.isLogin,false);
-    Navigator.popAndPushNamed(context, "/");
-  }
+Future outLogin(BuildContext context) async {
+  SpUtil sharePeferences = await SpUtil.getInstance();
+  sharePeferences.remove(SharedPreferencesKeys.userInfo);
+  sharePeferences.putBool(SharedPreferencesKeys.isLogin, false);
+  Navigator.popAndPushNamed(context, "/");
+}
+
 //画圆及画弧，显示客户金额消耗情况
 class MoneyCanvas extends CustomPainter {
   Color lineColor;

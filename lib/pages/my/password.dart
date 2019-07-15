@@ -82,7 +82,7 @@ class _PasswordState extends State<Password> {
     }
     //判断原密码和现在输入的是否一致，暂定在本机判断
     _md5PWD = md5.convert(utf8.encode(_oldPWD)).toString();
-    print("_localPWD = $_localPWD   _oldPWD=$_oldPWD");
+  
     if (_localPWD != _oldPWD) {
       _showToast("原密码不正确，请重新输入!");
       return false;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../models/billModel.dart';
 
 class BillDetail extends StatelessWidget {
   final arguments;
@@ -20,7 +21,8 @@ class BillDetail extends StatelessWidget {
                     flex: 1,
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(10.0, 12.0, 5.0, 5),
-                      child: Text('$key:'),
+                      // child: Text('$key:'),
+                      child: Text(billMap[key]+":"),
                     ),
                   ),
                   Expanded(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../data/listData.dart';
 
 var _bDate =
     DateTime.now().add(new Duration(days: -14)).toString().substring(0, 10);
@@ -44,21 +43,20 @@ class _BillSearchState extends State<BillSearch> {
     var vEendDate = eDateController.text;
     var cusName = customerController.text;
     var billNo  = billController.text;
-    List filterListDate = billData1.where((value) {
-      return DateTime.parse(value["创建日期"])
-              .isAfter(DateTime.parse(vBegDate)) &&
-          DateTime.parse(value["创建日期"]).isBefore(DateTime.parse(vEendDate)) &&
-          value["客户编码"].toString().contains(cusName);
-    }).toList();
 
-    billData = filterListDate;
+    // List filterListDate = billData1.where((value) {
+    //   return DateTime.parse(value["创建日期"])
+    //           .isAfter(DateTime.parse(vBegDate)) &&
+    //       DateTime.parse(value["创建日期"]).isBefore(DateTime.parse(vEendDate)) &&
+    //       value["客户编码"].toString().contains(cusName);
+    // }).toList();
+
     // bDateController.clear();
     // eDateController.clear();
     customerController.clear();
     billController.clear();
 
-    Navigator.popAndPushNamed(context, '/bill',arguments:{"vBegDate":vBegDate,"vEendDate":vEendDate,"cusName":cusName,"billNo":billNo});
-    // Navigator.of(context).pop({"vBegDate":vBegDate,"vEendDate":vEendDate,"cusName":cusName,"billNo":billNo});
+    Navigator.popAndPushNamed(context, '/billN',arguments:{"vBegDate":vBegDate,"vEendDate":vEendDate,"cusName":cusName,"billNo":billNo});
   }
 
   @override

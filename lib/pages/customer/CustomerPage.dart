@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import '../../env.dart';
 import '../../models/customer.dart';
 
+TextEditingController customerController = TextEditingController();
+FocusNode _contentFocusNode = FocusNode();
+String _search;
+
 class CustomerPage extends StatefulWidget {
   CustomerPage({Key key, this.title}) : super(key: key);
   final String title;
@@ -53,17 +57,27 @@ class _CustomerPage extends State<CustomerPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
+      appBar: AppBar(
         centerTitle: true,
-        title: new Text(
-          '客户查询',
-        ),
+        title: TextFileWidget(),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.search),
-              tooltip: '搜索',
-              onPressed: () {
-                Navigator.pushNamed(context, '/billSearch');
+              icon: Icon(Icons.search, size: 32),
+              tooltip: '搜索客户名称',
+              onPressed: () async {
+                _search = customerController.text;
+                _contentFocusNode.unfocus();
+                // if (_search == null || _search.isEmpty) {
+                //   _showToast("请输入客户名称码");
+                //   return;
+                // }
+                setState(() {
+                  // _loading = true;
+                  list = list.where((value) {
+                    return value.name.toString().contains(_search);
+                  }).toList();
+                });
+                // _filterCustmer();
               })
         ],
       ),
@@ -90,11 +104,14 @@ class _CustomerPage extends State<CustomerPage> {
             list[index].code,
           ),
           subtitle: Text(list[index].name),
-          trailing: new Icon(index%2==0?Icons.play_arrow:Icons.keyboard_arrow_right,size: 18,),
-           onTap: () {
-                Navigator.pushNamed(context, '/customerDetail',
-                    arguments: list[index].name);
-              },
+          trailing: new Icon(
+            Icons.keyboard_arrow_right,
+            size: 18,
+          ),
+          onTap: () {
+            Navigator.pushNamed(context, '/customerDetail',
+                arguments: list[index].name);
+          },
         ),
         decoration: BoxDecoration(
             border:
@@ -178,5 +195,58 @@ class _CustomerPage extends State<CustomerPage> {
   void dispose() {
     super.dispose();
     _scrollController.dispose();
+  }
+}
+
+class TextFileWidget extends StatelessWidget {
+  Widget buildTextField() {
+    //theme设置局部主题
+    return TextField(
+      controller: customerController,
+      focusNode: _contentFocusNode,
+      cursorColor: Colors.black, //设置光标
+      textInputAction: TextInputAction.send,
+      decoration: InputDecoration(
+          contentPadding: new EdgeInsets.only(left: 0.0),
+          border: InputBorder.none,
+          hintText: "请输入客户名称",
+          hintStyle: new TextStyle(fontSize: 18, color: Colors.black26)),
+      style: new TextStyle(fontSize: 18, color: Colors.black),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget editView() {
+      return Container(
+        //修饰黑色背景与圆角
+        decoration: new BoxDecoration(
+          border: Border.all(color: Colors.white10, width: 1.0), //灰色的一层边框
+          color: Colors.white,
+          borderRadius: new BorderRadius.all(new Radius.circular(5.0)),
+        ),
+        alignment: Alignment.center,
+        height: 40,
+        padding: EdgeInsets.fromLTRB(10.0, 0.0, 0.0, 0.0),
+        child: buildTextField(),
+      );
+    }
+
+    var cancleView = new Text("");
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Expanded(
+          child: editView(),
+          flex: 1,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(
+            left: 5.0,
+          ),
+          child: cancleView,
+        )
+      ],
+    );
   }
 }

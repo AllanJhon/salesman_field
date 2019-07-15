@@ -201,8 +201,9 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: new RaisedButton(
                     // color: Colors.green,
-                    color: Colors.lightBlue[800],
-                    highlightColor: Colors.green[900],
+                    color: Colors.lightBlue[700],
+                    splashColor:Colors.black,
+                    highlightColor: Colors.lightBlue[900],
                     child: Text(
                       "登录",
                       style: TextStyle(fontSize: 18),

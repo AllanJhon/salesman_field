@@ -34,7 +34,7 @@ class _OutWorkState extends State<OutWork> {
                     child: new IconButton(
                       icon: Icon(Icons.settings),
                       onPressed: () {
-                        Navigator.popAndPushNamed(context, "/busi");
+                        Navigator.popAndPushNamed(context, "/billN");
                       },
                     ),
                   ),

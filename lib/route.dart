@@ -17,7 +17,7 @@ import 'pages/customer/CustomerDetail.dart';
 import 'pages/my/password.dart';
 import 'pages/my/myPage.dart';
 
-// import 'pages/bill/billPageNew.dart';
+import 'pages/bill/billPageNew.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
@@ -45,7 +45,7 @@ final routes = {
   '/customerDetail': (content, {arguments}) => CustomerDetail(arguments: arguments),
   '/password': (content) => Password(),
   '/my': (content) => MyPage(),
-  // '/billN': (content,) => BillPageNew(),
+  '/billN': (content, {arguments}) => BillPageNew(arguments: arguments),
 
   //以下为测试用页面
 
