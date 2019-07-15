@@ -49,9 +49,10 @@ class _LoginPageState extends State<LoginPage> {
   }
   Future checkLgin() async {
     SpUtil sharePeferences =   await SpUtil.getInstance();
-    print(sharePeferences.get(SharedPreferencesKeys.userInfo));
-    currentUser=LoginUser.get(json.decode(sharePeferences.get(SharedPreferencesKeys.userInfo)));
-    if(currentUser!=null){
+    if(sharePeferences.hasKey(sharePeferences.get(SharedPreferencesKeys.userInfo))){
+      currentUser=LoginUser.get(json.decode(sharePeferences.get(SharedPreferencesKeys.userInfo)));
+    }
+    if(sharePeferences.hasKey(SharedPreferencesKeys.isLogin)&&sharePeferences.getBool(SharedPreferencesKeys.isLogin)){
       Navigator.of(context).pushAndRemoveUntil(
               new MaterialPageRoute(builder: (context) => Tabs()),
               (route) => route == null);
@@ -75,9 +76,10 @@ class _LoginPageState extends State<LoginPage> {
     Future<Null> _writerDataToFile() async {
       await (await _getLocalFile())
           .writeAsString('{"user":"$_user","pwd":"$_pwd","md5PWD":"$_md5PWD"}');
-    
-      await SpUtil.getInstance()
-              ..putString(SharedPreferencesKeys.userInfo, currentUser.toString());
+
+      SpUtil sp= await SpUtil.getInstance();
+      sp.putString(SharedPreferencesKeys.userInfo, currentUser.toString());
+      sp.putBool(SharedPreferencesKeys.isLogin,true);
     }
 
     LoginAPI.login(_user, _pwd).then((loginUser) {

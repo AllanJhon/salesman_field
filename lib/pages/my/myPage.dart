@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import "dart:math";
 import "../../models/loginUser.dart";
+import '../../untils/shared_preferences.dart';
+import '../../resources/shared_preferences_keys.dart';
 
 double percentRage = 41;
 bool isContract = true;
@@ -116,7 +118,7 @@ class _MyPageState extends State<MyPage> {
                   size: 26,
                 ),
                 onTap: (){
-                  Navigator.popAndPushNamed(context, "/");
+                  outLgin(context);
                 },
               ),
             ),
@@ -135,7 +137,7 @@ class _MyPageState extends State<MyPage> {
                   size: 26,
                 ),
                 onTap: (){
-                  Navigator.popAndPushNamed(context, "/");
+                  outLgin(context);
                 },
               ),
             ),
@@ -145,6 +147,12 @@ class _MyPageState extends State<MyPage> {
   }
 }
 
+ Future outLgin(BuildContext context) async {
+    SpUtil sharePeferences =   await SpUtil.getInstance();
+    sharePeferences.remove(SharedPreferencesKeys.userInfo);
+    sharePeferences.putBool(SharedPreferencesKeys.isLogin,false);
+    Navigator.popAndPushNamed(context, "/");
+  }
 //画圆及画弧，显示客户金额消耗情况
 class MoneyCanvas extends CustomPainter {
   Color lineColor;

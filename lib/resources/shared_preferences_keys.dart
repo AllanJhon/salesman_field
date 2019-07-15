@@ -5,6 +5,8 @@ class SharedPreferencesKeys {
   static String showWelcome = 'loginWelcone';
 
   static String userInfo='userInfo';//存放当前登录用户
+  
+  static String isLogin='isLogin';//存放当前登录用户
   /// json 
   /// 用于存放搜索页的搜索数据.
   /// [{
