@@ -6,8 +6,8 @@ class LoginUser {
   String userName;
   String displayName;
   String userId;
-  String salesCode; //销售员编码
-  String salesOffice; //销售办公室编码
+  String salesCode;
+  String salesOffice;
   String password;
   bool isSucess;
   String error;
@@ -57,5 +57,16 @@ class LoginUser {
       }
       currentUser = loginUserList[0];
     }
+  }
+
+  String toString(){
+      return '{"userName":"$userName","password":"$password","salesCode":"$salesCode","salesOffice":"$salesOffice","displayName":"$displayName"}';
+  }
+
+  LoginUser.get(Map data){
+    this.displayName = data['displayName'];
+    this.userName = data['userName'];
+    this.salesCode = data['salesCode'];
+    this.salesOffice=data['salesOffice'];
   }
 }
