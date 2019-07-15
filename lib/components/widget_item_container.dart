@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluro/fluro.dart';
 import './widget_item.dart';
-import '../routers/application.dart';
 
 class WidgetItemContainer extends StatelessWidget {
   final int columnCount; //一行几个

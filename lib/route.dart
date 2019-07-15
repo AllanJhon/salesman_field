@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'loginPage.dart';
 import 'tabs.dart';
-import 'loginPage.dart';
 import 'pages/bill/billPage.dart';
 import 'pages/bill/billDetail.dart';
 import 'pages/bill/billSearch.dart';
