@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import "dart:math";
@@ -6,7 +7,6 @@ import '../../untils/shared_preferences.dart';
 import '../../resources/shared_preferences_keys.dart';
 
 double percentRage = 41;
-bool isContract = true;
 
 class MyPage extends StatefulWidget {
   MyPage({Key key}) : super(key: key);
@@ -51,7 +51,7 @@ class _MyPageState extends State<MyPage> {
                       child: new Center(
                         child: ListTile(
                           title: Text(currentUser.displayName,style: TextStyle(fontSize: 22),),
-                          subtitle: Text(currentUser.userName),
+                          subtitle: Text("用户名:"+currentUser.userName+", 销售员编码:"+ currentUser.salesCode+", 销售办公室编码:"+currentUser.salesOffice),
                           // trailing: new Icon(
                           //   Icons.keyboard_arrow_right,
                           //   size: 24,

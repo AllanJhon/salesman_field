@@ -13,8 +13,8 @@ class LoginUser {
   String error;
   List loginUserList;
 
-  LoginUser(this.userName, this.displayName, this.userId, this.salesCode,this.salesOffice,
-      this.password, this.isSucess, this.error);
+  LoginUser(this.userName, this.displayName, this.userId, this.salesCode,
+      this.salesOffice, this.password, this.isSucess, this.error);
 
   LoginUser.xml2List(outputxmlstr) {
     List list = xml
@@ -22,7 +22,7 @@ class LoginUser {
         .findAllElements('response')
         .map((node) => node.findElements('success').single.text)
         .toList();
-        
+
     if (list.length > 0) {
       if (list[0] == "true") {
         loginUserList = xml
