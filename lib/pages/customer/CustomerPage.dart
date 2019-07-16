@@ -107,7 +107,7 @@ class _CustomerPage extends State<CustomerPage> {
           subtitle: Text(list[index].name),
           trailing: new Icon(
             Icons.keyboard_arrow_right,
-            size: 18,
+            size: 24,
           ),
           onTap: () {
             Navigator.pushNamed(context, '/customerDetail',

@@ -8,12 +8,12 @@ Map billMap = {
   'zname1': '客户名称',
   'zskwmeng': '剩余数量',
   'zflag': '交货状态',
-  'zmatnr': '物料编号',
+  'zmatnr': '品种',
   'zdj': '单价',
   'zdkwmeng': '订单数量',
   'zjkwmeng': '交货数量',
   'zyfdj': '运费单价',
-  'zzname1': '供应商名称',
+  'zzname1': '运输单位',
   'zvkgrp': '销售组',
   'zvkgrpms': '销售组描述',
   'zvkbur': '销售部门',
@@ -22,7 +22,10 @@ Map billMap = {
   'zxwdq': '销往地区描述',
   'zzdyh': '终端用户',
   'zfxqd': '分销渠道',
-  'zbstkd': '采购订单编号'
+  'zbstkd': 'EMES订单号',
+  'zarktx':'品种描述',
+  'zwerksms':'提货厂家',
+  'zvtwegms':'卸货地'
 };
 
 class BillModel {
@@ -38,7 +41,7 @@ class BillModel {
   String zdkwmeng; //订单数量
   String zjkwmeng; //交货数量
   String zyfdj; //运费单价
-  String zzname1; //供应商名称
+  String zzname1; //运输单位
   String zvkgrp; //销售组
   String zvkgrpms; //销售组描述
   String zvkbur; //销售部门
@@ -47,7 +50,10 @@ class BillModel {
   String zxwdq; //销往地区描述
   String zzdyh; //终端用户
   String zfxqd; //分销渠道
-  String zbstkd; //客户采购订单编号
+  String zbstkd; //EMES订单号
+  String zarktx; //品种描述
+  String zwerksms; //提货厂家
+  String zvtwegms; //卸货地
   List billModelList;
   // BillClass({this.ZORDER,this.ZVBELN,this.ZERDAT,this.ZVDATU,this.ZKUNNR});
   BillModel(
@@ -72,7 +78,11 @@ class BillModel {
       this.zxwdq,
       this.zzdyh,
       this.zfxqd,
-      this.zbstkd);
+      this.zbstkd,
+      this.zarktx,
+      this.zwerksms,
+      this.zvtwegms
+      );
 
   BillModel.xml2List(outputxmlstr) {
     billModelList = xml
@@ -101,6 +111,9 @@ class BillModel {
               node.findElements('ZZDYH').single.text,
               node.findElements('ZFXQD').single.text,
               node.findElements('ZBSTKD').single.text,
+              node.findElements('ZARKTX').single.text,
+              node.findElements('ZWERKSMS').single.text,
+              node.findElements('ZVTWEGMS').single.text,
             ))
         .toList();
   }

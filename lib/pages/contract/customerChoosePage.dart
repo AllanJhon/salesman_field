@@ -3,12 +3,7 @@ import 'package:flutter/material.dart';
 import '../../components/contract_edit_container.dart';
 import '../../env.dart';
 import '../../models/customer.dart';
-
-/*
- * Created by 李卓原 on 2018/9/13.
- * email: zhuoyuan93@gmail.com
- *
- */
+import '../../service/customer_api.dart';
 
 class CustomerChoosePage extends StatefulWidget {
   CustomerChoosePage({Key key, this.title}) : super(key: key);
@@ -43,7 +38,7 @@ class _CustomerChoosePage extends State<CustomerChoosePage> {
    * 初始化list数据 加延时模仿网络请求
    */
   Future getData() async {
-    Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
+    CustomerAPI.getCustomerList(_page).then((customerEnvelope) {
       var newCustomerEnvelope = customerEnvelope;
       if (_customer.value != null) {
         newCustomerEnvelope.customers = _customer.value.customers
@@ -110,7 +105,7 @@ class _CustomerChoosePage extends State<CustomerChoosePage> {
    */
   Future<Null> _onRefresh() async {
     _page=0;
-    Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
+    CustomerAPI.getCustomerList(_page).then((customerEnvelope) {
       var newCustomerEnvelope = customerEnvelope;
 
       if (_customer.value != null) {
@@ -133,7 +128,7 @@ class _CustomerChoosePage extends State<CustomerChoosePage> {
       setState(() {
         isLoading = true;
       });
-      Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
+      CustomerAPI.getCustomerList(_page).then((customerEnvelope) {
       var newCustomerEnvelope = customerEnvelope;
       print('加载更多');
       if (_customer.value != null) {
