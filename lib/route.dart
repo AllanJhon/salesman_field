@@ -17,7 +17,7 @@ import 'pages/customer/CustomerDetail.dart';
 import 'pages/my/password.dart';
 import 'pages/my/myPage.dart';
 
-import 'pages/bill/billPageNew.dart';
+// import 'pages/bill/billPageNew.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
@@ -32,7 +32,7 @@ final routes = {
   '/': (content) => LoginPage(),
   '/tabs': (content) => Tabs(),
   '/billSearch': (content) => BillSearch(),
-  '/bill': (content, {arguments}) => BillPage(arguments: arguments),
+  '/bill': (content, {arguments}) => BillPageNew(arguments: arguments),
   '/customer': (content) => CustomerPage(),
   '/404': (content) => WidgetNotFound(),
   '/contractQuery': (content) => ContractQuery(),
@@ -45,7 +45,7 @@ final routes = {
   '/customerDetail': (content, {arguments}) => CustomerDetail(arguments: arguments),
   '/password': (content) => Password(),
   '/my': (content) => MyPage(),
-  '/billN': (content, {arguments}) => BillPageNew(arguments: arguments),
+  // '/billN': (content, {arguments}) => BillPageNew(arguments: arguments),
 
   //以下为测试用页面
 

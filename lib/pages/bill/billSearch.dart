@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 var _bDate =
@@ -28,8 +30,10 @@ class _BillSearchState extends State<BillSearch> {
         lastDate: DateTime(2099),
         locale: myLocale);
     setState(() {
+      if (picker == null) return;
       if (flag == "B") {
         _bDate = picker.toString().substring(0, 10);
+        print(_bDate);
         bDateController.text = _bDate;
       } else if (flag == "E") {
         _eDate = picker.toString().substring(0, 10);
@@ -38,11 +42,11 @@ class _BillSearchState extends State<BillSearch> {
     });
   }
 
-  _goSearch(){
+  _goSearch() {
     var vBegDate = bDateController.text;
     var vEendDate = eDateController.text;
     var cusName = customerController.text;
-    var billNo  = billController.text;
+    var billNo = billController.text;
 
     // List filterListDate = billData1.where((value) {
     //   return DateTime.parse(value["创建日期"])
@@ -56,7 +60,12 @@ class _BillSearchState extends State<BillSearch> {
     customerController.clear();
     billController.clear();
 
-    Navigator.popAndPushNamed(context, '/billN',arguments:{"vBegDate":vBegDate,"vEendDate":vEendDate,"cusName":cusName,"billNo":billNo});
+    Navigator.popAndPushNamed(context, '/bill', arguments: {
+      "vBegDate": _bDate,
+      "vEendDate": _eDate,
+      "cusName": cusName,
+      "billNo": billNo
+    });
   }
 
   @override
@@ -77,12 +86,11 @@ class _BillSearchState extends State<BillSearch> {
         // padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),
+            // ),
             Container(
               decoration: new BoxDecoration(
-                // color: _color,
                 border: Border(
                   bottom:
                       const BorderSide(width: 1.0, color: Color(0xFFEFEFEF)),
@@ -93,29 +101,46 @@ class _BillSearchState extends State<BillSearch> {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                      child: Text('开始日期:'),
+                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      child: Text('开始日期:',style: TextStyle(fontSize: 16),),
                     ),
                   ),
                   Expanded(
-                    flex: 2,
-                    child: TextField(
-                      keyboardType:TextInputType.datetime,
-                      maxLines: 1,
-                      controller: bDateController,
-                      decoration: InputDecoration(
-                        suffixIcon: new IconButton(
+                      flex: 2,
+                      child: ListTile(
+                        title: Text(
+                          _bDate,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        trailing: new IconButton(
                           icon: Icon(
-                            Icons.watch_later,
-                            size: 35,
+                            Icons.today,
+                            size: 26,
+                            color: Colors.red,
                           ),
                           onPressed: () {
                             _showDataPicker("B");
                           },
+                          tooltip:"选择开始日期",
                         ),
+                      )
+                      // TextField(
+                      //   keyboardType:TextInputType.datetime,
+                      //   maxLines: 1,
+                      //   controller: bDateController,
+                      //   decoration: InputDecoration(
+                      //     suffixIcon: new IconButton(
+                      //       icon: Icon(
+                      //         Icons.watch_later,
+                      //         size: 35,
+                      //       ),
+                      //       onPressed: () {
+                      //         _showDataPicker("B");
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                       ),
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -132,29 +157,46 @@ class _BillSearchState extends State<BillSearch> {
                   Expanded(
                     flex: 1,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-                      child: Text('结束日期:'),
+                      padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+                      child: Text('结束日期:',style: TextStyle(fontSize: 16),),
                     ),
                   ),
                   Expanded(
-                    flex: 2,
-                    child: TextField(
-                      maxLines: 1,
-                      keyboardType:TextInputType.datetime,
-                      controller: eDateController,
-                      decoration: InputDecoration(
-                        suffixIcon: new IconButton(
+                      flex: 2,
+                      child: ListTile(
+                        title: Text(
+                          _eDate,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        trailing: new IconButton(
                           icon: Icon(
-                            Icons.watch_later,
-                            size: 35,
+                            Icons.today,
+                            size: 26,
+                            color: Colors.red,
                           ),
                           onPressed: () {
                             _showDataPicker("E");
                           },
+                          tooltip:"选择结束日期",
                         ),
+                      )
+                      // TextField(
+                      //   maxLines: 1,
+                      //   keyboardType: TextInputType.datetime,
+                      //   controller: eDateController,
+                      //   decoration: InputDecoration(
+                      //     suffixIcon: new IconButton(
+                      //       icon: Icon(
+                      //         Icons.watch_later,
+                      //         size: 35,
+                      //       ),
+                      //       onPressed: () {
+                      //         _showDataPicker("E");
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                       ),
-                    ),
-                  ),
                 ],
               ),
             ),

@@ -1,18 +1,76 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import '../../data/listData.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import '../../untils/ProgressDialog.dart';
+import '../../service/billAPI.dart';
+import '../../models/billModel.dart';
+import '../../models/loginUser.dart';
 
-// List filterListDate;
+TextEditingController goodsController = TextEditingController();
+List _dataList = new List();
+var date = new DateTime.now();
+bool _loading = false;
+var warningNum = 1000;
 
-class BillPage extends StatelessWidget {
+var zksrq = '09.12.2014'; //开始时期
+var zjsrq = '20.12.2014'; //结束日期
+var zvkbur; //销售部门
+var zvkgrp; //销售组
+var zkunnr; //客户编号
+var zflag; //交货状态
+var zbstkd; //客户采购订单编号
+
+class BillPageNew extends StatefulWidget {
   final arguments;
-  int warningNum = 100;  //先模拟一个预警量的值
+  BillPageNew({this.arguments});
+  _BillPageNewState createState() => _BillPageNewState();
+}
 
-  BillPage({this.arguments});
+class _BillPageNewState extends State<BillPageNew> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    zvkbur = currentUser.salesOffice;
+    zvkgrp = currentUser.salesCode;
+    zksrq = this.widget.arguments != null
+        ? this.widget.arguments["vBegDate"]
+        : DateTime.now()
+            .add(new Duration(days: -14))
+            .toString()
+            .substring(0, 10);  //默认开始日期为两周前
 
-  _getFilterListView() {
+    zjsrq = this.widget.arguments != null
+        ? this.widget.arguments["vEendDate"]
+        : DateTime.now().toString().substring(0, 10); //默认结束日期为今天
 
+    zbstkd = this.widget.arguments != null
+        ? this.widget.arguments["billNo"]
+        : "订单编号";
+    zkunnr = "";
+    zflag = "Y";
+  
+    // _getBillList();
+
+    _dataList = [{
+      "zvbeln":"销售凭证号",
+      "zerdat":"创建日期",
+      "zname1":"我的客户名称",
+      "zskwmeng":"300",
+      "zbstkd":"0SDSF03492234",
+      "zdj":"459",
+      "zmatnr":"PO42.5",
+      "zxwdq":"唐山市路北区",
+    }];
+  }
+
+  Future _getBillList() async {
+    BillAPI.xml2List(zksrq, zjsrq, zvkbur, zvkgrp, zkunnr, zflag, zbstkd)
+        .then((billModel) {
+      setState(() {
+        _dataList = billModel.billModelList;
+        _loading = false;
+      });
+    });
   }
 
   @override
@@ -22,7 +80,7 @@ class BillPage extends StatelessWidget {
         leading: new IconButton(
           icon: new Icon(Icons.arrow_back),
           tooltip: '后退',
-          onPressed: (){
+          onPressed: () {
             Navigator.pushNamed(context, '/tabs');
           },
         ),
@@ -38,42 +96,36 @@ class BillPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/billSearch');
               }),
-          IconButton(
-              icon: Icon(Icons.cached),
-              tooltip: '测试',
-              onPressed: () {
-                _getFilterListView();
-              }),
         ],
       ),
       body: ListView.builder(
-        itemCount: billData.length,
+        itemCount: _dataList.length,
         itemBuilder: (context, index) {
           return Container(
             child: ListTile(
               title: Text(
                 "" +
-                    billData[index]["客户编码"] +
+                    _dataList[index]["zname1"] +
                     ", 余量：" +
-                    billData[index]["剩余量"] +
+                    _dataList[index]["zskwmeng"] +
                     "吨,  " +
-                    billData[index]["创建日期"],
-                style: int.parse(billData[index]["剩余量"]) < warningNum
+                    _dataList[index]["zerdat"],
+                style: int.parse(_dataList[index]["zskwmeng"]) < warningNum
                     ? TextStyle(color: Colors.red)
                     : TextStyle(color: Colors.black),
               ),
               subtitle: Text("" +
-                  billData[index]["付货通知单号"] +
+                  _dataList[index]["zbstkd"] +
                   ", " +
                   "单价:" +
-                  billData[index]["材料单价"] +
+                  _dataList[index]["zdj"] +
                   ", 品种:" +
-                  billData[index]["品种"] +
+                  _dataList[index]["zmatnr"] +
                   ", 销往:" +
-                  billData[index]["销往地区"]),
+                  _dataList[index]["zxwdq"]),
               onTap: () {
                 Navigator.pushNamed(context, '/billD',
-                    arguments: billData[index]);
+                    arguments: _dataList[index]);
               },
             ),
             decoration: BoxDecoration(

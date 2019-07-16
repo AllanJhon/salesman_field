@@ -1,7 +1,6 @@
 import 'package:xml/xml.dart' as xml;
 
 Map billMap = {
-  'zorder': '结构名称',
   'zvbeln': '销售凭证号',
   'zerdat': '创建日期',
   'zvdatu': '交货日期',
@@ -27,7 +26,6 @@ Map billMap = {
 };
 
 class BillModel {
-  String zorder; //结构名称
   String zvbeln; //销售和分销凭证号
   String zerdat; //记录的创建日期
   String zvdatu; //请求交货日期
@@ -53,7 +51,6 @@ class BillModel {
   List billModelList;
   // BillClass({this.ZORDER,this.ZVBELN,this.ZERDAT,this.ZVDATU,this.ZKUNNR});
   BillModel(
-      this.zorder,
       this.zvbeln,
       this.zerdat,
       this.zvdatu,
@@ -82,7 +79,6 @@ class BillModel {
         .parse(outputxmlstr)
         .findAllElements('data')
         .map((node) => new BillModel(
-              node.findElements('ZORDER').single.text,
               node.findElements('ZVBELN').single.text,
               node.findElements('ZERDAT').single.text,
               node.findElements('ZVDATU').single.text,

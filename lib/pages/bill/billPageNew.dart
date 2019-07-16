@@ -9,7 +9,7 @@ TextEditingController goodsController = TextEditingController();
 List _dataList = new List();
 var date = new DateTime.now();
 bool _loading = false;
-var warningNum;
+var warningNum = 1000;
 
 var zksrq = '09.12.2014'; //开始时期
 var zjsrq = '20.12.2014'; //结束日期
@@ -43,13 +43,35 @@ class _BillPageNewState extends State<BillPageNew> {
     super.initState();
     zvkbur = currentUser.salesOffice;
     zvkgrp = currentUser.salesCode;
-    zksrq = this.widget.arguments != null ?  this.widget.arguments["vBegDate"]:"默认开始日期";
-    zjsrq = this.widget.arguments != null ?  this.widget.arguments["vEendDate"]:"默认结束日期";
-    zbstkd = this.widget.arguments != null ? this.widget.arguments["billNo"]:"订单编号";
+    zksrq = this.widget.arguments != null
+        ? this.widget.arguments["vBegDate"]
+        : DateTime.now()
+            .add(new Duration(days: -14))
+            .toString()
+            .substring(0, 10);  //默认开始日期为两周前
+
+    zjsrq = this.widget.arguments != null
+        ? this.widget.arguments["vEendDate"]
+        : DateTime.now().toString().substring(0, 10); //默认结束日期为今天
+
+    zbstkd = this.widget.arguments != null
+        ? this.widget.arguments["billNo"]
+        : "订单编号";
     zkunnr = "";
     zflag = "Y";
-    print("............................$zjsrq");
-    _getBillList();
+  
+    // _getBillList();
+
+    _dataList = [{
+      "zvbeln":"销售凭证号",
+      "zerdat":"创建日期",
+      "zname1":"我的客户名称",
+      "zskwmeng":"300",
+      "zbstkd":"0SDSF03492234",
+      "zdj":"459",
+      "zmatnr":"PO42.5",
+      "zxwdq":"唐山市路北区",
+    }];
   }
 
   Future _getBillList() async {
@@ -94,24 +116,24 @@ class _BillPageNewState extends State<BillPageNew> {
             child: ListTile(
               title: Text(
                 "" +
-                    _dataList[index]["ZNAME1"] +
+                    _dataList[index]["zname1"] +
                     ", 余量：" +
-                    _dataList[index]["ZSKWMENG"] +
+                    _dataList[index]["zskwmeng"] +
                     "吨,  " +
-                    _dataList[index]["ZERDAT"],
-                style: int.parse(_dataList[index]["ZSKWMENG"]) < warningNum
+                    _dataList[index]["zerdat"],
+                style: int.parse(_dataList[index]["zskwmeng"]) < warningNum
                     ? TextStyle(color: Colors.red)
                     : TextStyle(color: Colors.black),
               ),
               subtitle: Text("" +
-                  _dataList[index]["ZBSTKD"] +
+                  _dataList[index]["zbstkd"] +
                   ", " +
                   "单价:" +
-                  _dataList[index]["ZBSTKD"] +
+                  _dataList[index]["zdj"] +
                   ", 品种:" +
-                  _dataList[index]["ZMATNR"] +
+                  _dataList[index]["zmatnr"] +
                   ", 销往:" +
-                  _dataList[index]["ZXWDQ"]),
+                  _dataList[index]["zxwdq"]),
               onTap: () {
                 Navigator.pushNamed(context, '/billD',
                     arguments: _dataList[index]);

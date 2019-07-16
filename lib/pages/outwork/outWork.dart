@@ -1,4 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+void _showToast(String toastMsg) {
+  Fluttertoast.showToast(
+      msg: toastMsg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red[400],
+      textColor: Colors.white,
+      fontSize: 16.0);
+}
 
 class OutWork extends StatefulWidget {
   OutWork({Key key}) : super(key: key);
@@ -32,14 +44,15 @@ class _OutWorkState extends State<OutWork> {
                   SizedBox(height: 10),
                   CircleAvatar(
                     child: new IconButton(
-                      icon: Icon(Icons.settings),
+                      icon: Icon(Icons.gesture),
                       onPressed: () {
-                        Navigator.popAndPushNamed(context, "/billN");
+                        // Navigator.popAndPushNamed(context, "/billN");
+                        _showToast("版本努力升级中。");
                       },
                     ),
                   ),
                   SizedBox(height: 10),
-                  Text("设置"),
+                  Text("行动轨迹"),
                 ],
               ),
               decoration: BoxDecoration(
@@ -58,7 +71,7 @@ class _OutWorkState extends State<OutWork> {
                       child: new IconButton(
                         icon: Icon(Icons.location_on, color: Colors.white),
                         onPressed: () {
-                          Navigator.popAndPushNamed(context, "/test");
+                          Navigator.pushNamed(context, "/test");
                         },
                       ),
                       backgroundColor: Colors.orange,
@@ -81,10 +94,7 @@ class _OutWorkState extends State<OutWork> {
                       child: new IconButton(
                         icon: Icon(Icons.spellcheck, color: Colors.white),
                         onPressed: () {
-                          Navigator.popAndPushNamed(
-                            context,
-                            "/arc",
-                          );
+                          _showToast("版本努力升级中。");
                         },
                       ),
                       backgroundColor: Colors.orange,
@@ -104,8 +114,11 @@ class _OutWorkState extends State<OutWork> {
                   children: <Widget>[
                     SizedBox(height: 10),
                     CircleAvatar(
-                      child: Icon(
-                        Icons.attach_file,
+                      child: new IconButton(
+                        icon: Icon(Icons.attach_file, color: Colors.white),
+                        onPressed: () {
+                          _showToast("版本努力升级中。");
+                        },
                       ),
                       // backgroundColor: Colors.amber[100],
                     ),
@@ -125,28 +138,11 @@ class _OutWorkState extends State<OutWork> {
                     SizedBox(height: 10),
                     CircleAvatar(
                       radius: 20,
-                      child: Icon(
-                        Icons.vpn_key,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text("修改口令"),
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white70,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                )),
-            Container(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(height: 10),
-                    CircleAvatar(
-                      radius: 20,
-                      child: Icon(
-                        Icons.linear_scale,
+                      child: new IconButton(
+                        icon: Icon(Icons.linear_scale, color: Colors.white),
+                        onPressed: () {
+                          _showToast("版本努力升级中。");
+                        },
                       ),
                     ),
                     SizedBox(height: 10),
