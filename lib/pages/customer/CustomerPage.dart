@@ -2,6 +2,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import '../../env.dart';
 import '../../models/customer.dart';
+import '../../service/customer_api.dart';
 
 TextEditingController customerController = TextEditingController();
 FocusNode _contentFocusNode = FocusNode();
@@ -40,7 +41,7 @@ class _CustomerPage extends State<CustomerPage> {
    * 初始化list数据 加延时模仿网络请求
    */
   Future getData() async {
-    Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
+    CustomerAPI.getCustomerList(_page).then((customerEnvelope) {
       var newCustomerEnvelope = customerEnvelope;
       if (_customer.value != null) {
         newCustomerEnvelope.customers = _customer.value.customers
@@ -126,7 +127,7 @@ class _CustomerPage extends State<CustomerPage> {
    */
   Future<Null> _onRefresh() async {
     _page = 0;
-    Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
+    CustomerAPI.getCustomerList(_page).then((customerEnvelope) {
       var newCustomerEnvelope = customerEnvelope;
 
       if (_customer.value != null) {
@@ -149,7 +150,7 @@ class _CustomerPage extends State<CustomerPage> {
       setState(() {
         isLoading = true;
       });
-      Env.apiClient.getCustomerList(_page).then((customerEnvelope) {
+      CustomerAPI.getCustomerList(_page).then((customerEnvelope) {
         var newCustomerEnvelope = customerEnvelope;
         print('加载更多');
         if (_customer.value != null) {

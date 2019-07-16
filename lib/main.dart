@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'route.dart';
 import 'routers/application.dart';
 import 'routers/routers.dart';
-import 'service/customer_api.dart';
-import 'env.dart';
 import 'untils/provider.dart';
 import 'untils/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,7 +13,6 @@ var db;
 
 
 void main() async{
-  Env.apiClient = CustomerAPI();
   final provider = new Provider();
   await provider.init(true);
   sp = await SpUtil.getInstance();
