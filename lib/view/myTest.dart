@@ -10,8 +10,8 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   _queryContract() {
-    String a = "abc";
-  
+    // String a = "abc";
+
     // a.substring(startIndex)
     setState(() {
       isContract = true;
@@ -42,8 +42,8 @@ class _TestState extends State<Test> {
                     width: 120,
                     height: 120,
                     child: new CustomPaint(
-                      foregroundPainter: new MoneyCanvas(Colors.grey[300],
-                          Colors.red[400], 83, 40.0),
+                      foregroundPainter: new MoneyCanvas(
+                          Colors.grey[300], Colors.red[400], 83, 40.0),
                       child: new Center(
                         // padding: const EdgeInsets.all(8.0),
                         child: Text("83%"),
@@ -57,8 +57,8 @@ class _TestState extends State<Test> {
                     width: 120,
                     height: 120,
                     child: new CustomPaint(
-                      foregroundPainter: new MoneyCanvas(Colors.grey[300],
-                          Colors.orange[300], 55, 40.0),
+                      foregroundPainter: new MoneyCanvas(
+                          Colors.grey[300], Colors.orange[300], 55, 40.0),
                       child: new Center(
                         // padding: const EdgeInsets.all(8.0),
                         child: Text("55%"),
@@ -68,10 +68,8 @@ class _TestState extends State<Test> {
                 ),
                 Expanded(
                   flex: 1,
-                  child: new Container(
-                    width: 120,
-                    height: 120,
-                    child: new CustomPaint(
+                  child: 
+                    new CustomPaint(
                       foregroundPainter: new MoneyCanvas(Colors.grey[300],
                           Colors.green[300], percentRage, 40.0),
                       child: new Center(
@@ -79,7 +77,7 @@ class _TestState extends State<Test> {
                         child: Text("$percentRage%"),
                       ),
                     ),
-                  ),
+                    // new ArcClipper(),
                 ),
               ],
             ),
@@ -197,7 +195,7 @@ class MoneyCanvas extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 5
       ..strokeCap = StrokeCap.round;
-      
+
     // //画弧
     canvas.drawArc(
         Rect.fromCircle(center: center, radius: argRadius - 8),
@@ -209,4 +207,30 @@ class MoneyCanvas extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+class ArcClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0.0, size.height);
+    var firstControlPoint = Offset(size.width / 4, size.height - 30);
+    var firstPoint = Offset(size.width / 2, size.height - 30);
+    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
+        firstPoint.dx, firstPoint.dy);
+
+    var secondControlPoint =
+        Offset(size.width - (size.width / 4), size.height - 30);
+    var secondPoint = Offset(size.width, size.height);
+    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
+        secondPoint.dx, secondPoint.dy);
+
+    path.lineTo(size.width, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper oldClipper) => false;
+
 }
