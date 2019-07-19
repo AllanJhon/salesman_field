@@ -13,13 +13,13 @@ class ContractQuery extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        leading: new IconButton(
-          icon: new Icon(Icons.arrow_back),
-          tooltip: '后退',
-          onPressed: () {
-            Navigator.pushNamed(context, '/tabs');
-          },
-        ),
+        // leading: new IconButton(
+        //   icon: new Icon(Icons.arrow_back),
+        //   tooltip: '后退',
+        //   onPressed: () {
+        //     Navigator.pushNamed(context, '/tabs');
+        //   },
+        // ),
         centerTitle: true,
         title: new Text(
           '合同审批查询',
@@ -62,8 +62,8 @@ class ContractQuery extends StatelessWidget {
                   "吨,  当前审批人：" +
                   contractData[index]["当前审批人"]),
               onTap: () {
-                Navigator.pushNamed(context, '/billD',
-                    arguments: contractData[index]);
+                // Navigator.pushNamed(context, '/billD',
+                //     arguments: contractData[index]);
               },
             ),
             decoration: BoxDecoration(

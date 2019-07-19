@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 var _bDate =
@@ -33,18 +31,13 @@ class _BillSearchState extends State<BillSearch> {
       if (picker == null) return;
       if (flag == "B") {
         _bDate = picker.toString().substring(0, 10);
-        print(_bDate);
-        bDateController.text = _bDate;
       } else if (flag == "E") {
         _eDate = picker.toString().substring(0, 10);
-        eDateController.text = _eDate;
       }
     });
   }
 
   _goSearch() {
-    var vBegDate = bDateController.text;
-    var vEendDate = eDateController.text;
     var cusName = customerController.text;
     var billNo = billController.text;
 
@@ -61,11 +54,18 @@ class _BillSearchState extends State<BillSearch> {
     billController.clear();
 
     Navigator.popAndPushNamed(context, '/bill', arguments: {
-      "vBegDate": _bDate,
-      "vEendDate": _eDate,
+      "vBegDate": _bDate.replaceAll("-", ""),
+      "vEendDate": _eDate.replaceAll("-", ""),
       "cusName": cusName,
       "billNo": billNo
     });
+
+    // Navigator.pop(context, {
+    //   "vBegDate": _bDate.replaceAll("-", ""),
+    //   "vEendDate": _eDate.replaceAll("-", ""),
+    //   "cusName": cusName,
+    //   "billNo": billNo
+    // });
   }
 
   @override
@@ -102,7 +102,10 @@ class _BillSearchState extends State<BillSearch> {
                     flex: 1,
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: Text('开始日期:',style: TextStyle(fontSize: 16),),
+                      child: Text(
+                        '开始日期:',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -121,7 +124,7 @@ class _BillSearchState extends State<BillSearch> {
                           onPressed: () {
                             _showDataPicker("B");
                           },
-                          tooltip:"选择开始日期",
+                          tooltip: "选择开始日期",
                         ),
                       )
                       // TextField(
@@ -158,7 +161,10 @@ class _BillSearchState extends State<BillSearch> {
                     flex: 1,
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                      child: Text('结束日期:',style: TextStyle(fontSize: 16),),
+                      child: Text(
+                        '结束日期:',
+                        style: TextStyle(fontSize: 16),
+                      ),
                     ),
                   ),
                   Expanded(
@@ -177,7 +183,7 @@ class _BillSearchState extends State<BillSearch> {
                           onPressed: () {
                             _showDataPicker("E");
                           },
-                          tooltip:"选择结束日期",
+                          tooltip: "选择结束日期",
                         ),
                       )
                       // TextField(

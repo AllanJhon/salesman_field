@@ -23,9 +23,10 @@ Map billMap = {
   'zzdyh': '终端用户',
   'zfxqd': '分销渠道',
   'zbstkd': 'EMES订单号',
-  'zarktx':'品种描述',
-  'zwerksms':'提货厂家',
-  'zvtwegms':'卸货地'
+  'zarktx': '品种描述',
+  'zwerksms': '提货厂家',
+  'zablad': '卸货地',
+  'zarktx':'品种描述'
 };
 
 class BillModel {
@@ -51,11 +52,13 @@ class BillModel {
   String zzdyh; //终端用户
   String zfxqd; //分销渠道
   String zbstkd; //EMES订单号
+  String zablad; //卸货地
   String zarktx; //品种描述
-  String zwerksms; //提货厂家
-  String zvtwegms; //卸货地
+  bool isSucess;
+  String message;
+
   List billModelList;
-  // BillClass({this.ZORDER,this.ZVBELN,this.ZERDAT,this.ZVDATU,this.ZKUNNR});
+
   BillModel(
       this.zvbeln,
       this.zerdat,
@@ -79,15 +82,23 @@ class BillModel {
       this.zzdyh,
       this.zfxqd,
       this.zbstkd,
+      this.zablad,
       this.zarktx,
-      this.zwerksms,
-      this.zvtwegms
-      );
+      this.isSucess,
+      this.message);
 
   BillModel.xml2List(outputxmlstr) {
-    billModelList = xml
+    List list = xml
         .parse(outputxmlstr)
-        .findAllElements('data')
+        .findAllElements('RESULT')
+        .map((node) => node.findElements('Status').single.text)
+        .toList();
+
+    if (list.length > 0){
+      if (list[0]=="S"){
+        billModelList = xml
+        .parse(outputxmlstr)
+        .findAllElements('DATA')
         .map((node) => new BillModel(
               node.findElements('ZVBELN').single.text,
               node.findElements('ZERDAT').single.text,
@@ -111,10 +122,80 @@ class BillModel {
               node.findElements('ZZDYH').single.text,
               node.findElements('ZFXQD').single.text,
               node.findElements('ZBSTKD').single.text,
-              node.findElements('ZARKTX').single.text,
-              node.findElements('ZWERKSMS').single.text,
-              node.findElements('ZVTWEGMS').single.text,
+              node.findElements('ZABLAD').single.text,
+              node.findElements('ZARKTX').single.text,             
+              true,
+              ""
             ))
         .toList();
+      }
+    else {
+        billModelList = xml
+        .parse(outputxmlstr)
+        .findAllElements('RESULT')
+        .map((node) => new BillModel(
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              "error",
+              false,
+              node.findElements('Message').single.text,
+            ))
+        .toList();
+    }
+    }
+    
   }
+
+  
+static billModel2Map(BillModel billModel) {
+  return {
+    '销售凭证号': billModel.zvbeln,
+    '创建日期': billModel.zerdat,
+    '请求交货日期': billModel.zvdatu,
+    '售达方': billModel.zkunnr,
+    '客户名称': billModel.zname1,
+    '剩余数量(吨)': billModel.zskwmeng,
+    '交货状态': billModel.zflag,
+    '品种': billModel.zmatnr,
+    '品种描述': billModel.zarktx,
+    '单价(元)': billModel.zdj,
+    '订单数量(吨)': billModel.zdkwmeng,
+    '交货数量(吨)': billModel.zjkwmeng,
+    '运费单价': billModel.zyfdj,
+    '供应商名称': billModel.zzname1,
+    '销售组': billModel.zvkgrp,
+    '销售组描述': billModel.zvkgrpms,
+    '销售部门': billModel.zvkbur,
+    '销售组描述': billModel.zvkburms,
+    '提货工厂描述': billModel.zthgc,
+    '销往地区描述': billModel.zxwdq,
+    '终端用户': billModel.zzdyh,
+    '分销渠道': billModel.zfxqd,
+    'EMES订单号': billModel.zbstkd,
+    // '提货厂家':billModel.zwerksms,
+    '卸货地': billModel.zablad,
+  };
 }
+}
+

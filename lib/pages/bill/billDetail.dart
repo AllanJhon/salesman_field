@@ -4,9 +4,16 @@ import '../../models/billModel.dart';
 class BillDetail extends StatelessWidget {
   final arguments;
   BillDetail({this.arguments});
+
   List _getMapData() {
+
+    // InstanceMirror instance_mirror = reflect(t);
+    BillModel b ;
+    b = this.arguments;
     List<Widget> list = new List();
-    this.arguments.forEach((key, value) {
+
+
+    BillModel.billModel2Map(this.arguments).forEach((key, value) {
       list.add(
            Container(
               decoration: new BoxDecoration(
@@ -22,7 +29,7 @@ class BillDetail extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.fromLTRB(10.0, 12.0, 5.0, 5),
                       // child: Text('$key:'),
-                      child: Text(billMap[key]+":"),
+                      child: Text('$key:'),
                     ),
                   ),
                   Expanded(
@@ -37,6 +44,7 @@ class BillDetail extends StatelessWidget {
             ),
       );
     });
+    
     return list;
   }
 
@@ -47,8 +55,10 @@ class BillDetail extends StatelessWidget {
           title: Text("订单详情页"),
           centerTitle: true,
         ),
-        body: ListView(
-          children: this._getMapData(),
+        body:  
+        ListView(
+          children:
+           this._getMapData(),
         )
         );
   }
