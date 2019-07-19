@@ -119,6 +119,22 @@ class _MyPageState extends State<MyPage> {
             new Container(
               color: Colors.white,
               child: ListTile(
+                title: Text("版本更新"),
+                leading: new Icon(
+                  Icons.system_update,
+                  color: Colors.amber[900],
+                  size: 26,
+                ),
+                trailing: new Icon(
+                  Icons.keyboard_arrow_right,
+                  size: 26,
+                ),
+              ),
+            ),
+            SizedBox(height: 3),
+            new Container(
+              color: Colors.white,
+              child: ListTile(
                 title: Text("切换用户"),
                 leading: new Icon(
                   Icons.rotate_left,

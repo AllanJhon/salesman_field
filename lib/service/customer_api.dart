@@ -4,6 +4,7 @@ import '../models/customer.dart';
 import '../models/loginUser.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
+import '../data/SAPCONST.dart';
 
 class CustomerAPI {
 
@@ -46,9 +47,8 @@ class CustomerAPI {
         </soap:Envelope>''';
 
     var response = await http.post(
-        Uri.parse("http://10.0.65.48:8287/services/customerApiServiceV1?wsdl"),
+        Uri.parse(getSelfURL()+"customerApiServiceV1?wsdl"),
         // Uri.parse("http://192.168.0.106/sales/services/customerApiServiceV1?wsdl"),
-        // headers: getSAPHeader("Zif_WQ_IN_WS"),
         body: utf8.encode(soap),
         encoding: Encoding.getByName("UTF-8"));
 

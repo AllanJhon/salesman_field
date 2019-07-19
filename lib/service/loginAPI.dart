@@ -3,6 +3,7 @@ import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
 import '../models/loginUser.dart';
+import '../data/SAPCONST.dart';
 
 class LoginAPI {
   static Future<LoginUser> login(String user, String pwd) async {
@@ -31,7 +32,7 @@ class LoginAPI {
         </soap:Envelope>''';
 
     var response = await http.post(
-        Uri.parse("http://10.0.65.48:8287/services/userApiServiceV1?wsdl"),
+        Uri.parse(getSelfURL()+"userApiServiceV1?wsdl"),
         // headers: getSAPHeader("Zif_WQ_IN_WS"),
         body: utf8.encode(soap),
         encoding: Encoding.getByName("UTF-8"));

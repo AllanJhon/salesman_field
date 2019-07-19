@@ -41,31 +41,16 @@ class _BillSearchState extends State<BillSearch> {
     var cusName = customerController.text;
     var billNo = billController.text;
 
-    // List filterListDate = billData1.where((value) {
-    //   return DateTime.parse(value["创建日期"])
-    //           .isAfter(DateTime.parse(vBegDate)) &&
-    //       DateTime.parse(value["创建日期"]).isBefore(DateTime.parse(vEendDate)) &&
-    //       value["客户编码"].toString().contains(cusName);
-    // }).toList();
-
-    // bDateController.clear();
-    // eDateController.clear();
     customerController.clear();
     billController.clear();
 
     Navigator.popAndPushNamed(context, '/bill', arguments: {
-      "vBegDate": _bDate.replaceAll("-", ""),
+      "vBegDate": _bDate.replaceAll("-", ""), //显示日期格式为2019-07-19,传参日期格式为20190719
       "vEendDate": _eDate.replaceAll("-", ""),
       "cusName": cusName,
       "billNo": billNo
     });
 
-    // Navigator.pop(context, {
-    //   "vBegDate": _bDate.replaceAll("-", ""),
-    //   "vEendDate": _eDate.replaceAll("-", ""),
-    //   "cusName": cusName,
-    //   "billNo": billNo
-    // });
   }
 
   @override
@@ -76,7 +61,6 @@ class _BillSearchState extends State<BillSearch> {
         new IconButton(
           tooltip: '确定',
           onPressed: () {
-            // Navigator.popUntil(context, ModalRoute.withName('/'));
             _goSearch();
           },
           icon: Icon(Icons.check),
@@ -86,9 +70,6 @@ class _BillSearchState extends State<BillSearch> {
         // padding: EdgeInsets.fromLTRB(2, 2, 2, 2),
         child: Column(
           children: <Widget>[
-            // Padding(
-            //   padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),
-            // ),
             Container(
               decoration: new BoxDecoration(
                 border: Border(
@@ -127,6 +108,7 @@ class _BillSearchState extends State<BillSearch> {
                           tooltip: "选择开始日期",
                         ),
                       )
+                      //用textField时，优点是可直接输入日期，缺点未找到简洁的日期格式校验方法
                       // TextField(
                       //   keyboardType:TextInputType.datetime,
                       //   maxLines: 1,

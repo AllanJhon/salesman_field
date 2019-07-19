@@ -106,7 +106,7 @@ class _BillPageNewState extends State<BillPageNew> {
             ))
           : !_isSucess
               ? new Center(
-                  child: Text(_dataList[0].message,style: TextStyle(),),
+                  child: Text(_dataList[0].message,style: TextStyle(fontSize: 24,color:Colors.red[400]),),
                 )
               : ListView.builder(
                   itemCount: _dataList.length,

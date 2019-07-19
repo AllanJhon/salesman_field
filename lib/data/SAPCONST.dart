@@ -20,5 +20,16 @@ getSAPHeader(String funcName){
   "Content-Type": "text/xml;charset=UTF-8",
   'Authorization': 'Basic VFJGQzAxOjEyMzQ1Ng=='
 };
+}
+
+getSelfURL(){
+  return "http://10.0.65.48:8287/services/";
+}
+
+setSelfURL(String url,int port){
+
+}
+
+setSAPURL(String url,int port){
 
 }
