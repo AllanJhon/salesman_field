@@ -129,6 +129,9 @@ class _MyPageState extends State<MyPage> {
                   Icons.keyboard_arrow_right,
                   size: 26,
                 ),
+                onTap: (){
+                  Navigator.pushNamed(context, "/upgrade");
+                },
               ),
             ),
             SizedBox(height: 3),
