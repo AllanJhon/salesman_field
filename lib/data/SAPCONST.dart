@@ -26,6 +26,10 @@ getSelfURL(){
   return "http://10.0.65.48:8287/services/";
 }
 
+getOAURL(){
+  return "http://10.0.65.16/services/";
+}
+
 setSelfURL(String url,int port){
 
 }

@@ -1,13 +1,60 @@
 import 'package:flutter/material.dart';
-import '../../data/listData.dart';
+import 'package:salesman_field/models/contract4OA.dart';
+import '../../service/contract4OAAPI.dart';
 
-class ContractQuery extends StatelessWidget {
+List _dataList = new List();
+var sales = "10810111";
+var bDate;
+var eDate;
+var customer;
+var status;
+var qydw;
+bool _isSucess;
+
+class ContractQuery extends StatefulWidget {
   final arguments;
-  int warningNum = 100; //先模拟一个预警量的值
-
   ContractQuery({this.arguments});
+  _ContractQueryState createState() => _ContractQueryState();
+}
 
-  _getFilterListView() {}
+class _ContractQueryState extends State<ContractQuery> {
+  @override
+  void initState() {
+    super.initState();
+    _dataList.clear();
+    bDate = this.widget.arguments != null
+        ? this.widget.arguments["vBegDate"]
+        : DateTime.now()
+            .add(new Duration(days: -14))
+            .toString()
+            .substring(0, 10); //默认开始日期为两周前
+
+    eDate = this.widget.arguments != null
+        ? this.widget.arguments["vEendDate"]
+        : DateTime.now()
+            .toString()
+            .substring(0, 10); //默认结束日期为今天
+
+    customer =
+        this.widget.arguments != null ? this.widget.arguments["customer"] : "";
+    status =
+        this.widget.arguments != null ? this.widget.arguments["status"] : "";
+    qydw = this.widget.arguments != null ? this.widget.arguments["qydw"] : "";
+
+    _getContractList();
+  }
+
+  Future _getContractList() async {
+    Contract4OAAPI.getContractList(sales, bDate, eDate,
+            customer: customer, contractStatus: status, qydw: qydw)
+        .then((contract4OA) {
+      setState(() {
+        _dataList = contract4OA.contract4OAList;
+        _isSucess = _dataList[0].isSucess;
+        // _loading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,32 +82,32 @@ class ContractQuery extends StatelessWidget {
         ],
       ),
       body: ListView.builder(
-        itemCount: contractData.length,
+        itemCount: _dataList.length,
         itemBuilder: (context, index) {
           return Container(
             child: ListTile(
-              isThreeLine:true,
+              isThreeLine: true,
               title: Text(
-                "客户名称：" +
-                    contractData[index]["客户名称"] +
-                    ",  合同日期：" +
-                    contractData[index]["合同日期"] +
-                    ",  状态：" +
-                    contractData[index]["状态"],
-                style: contractData[index]["状态"] == "审批通过"
+                "客户名称:" +
+                    _dataList[index].customerTitle +
+                    ",  合同日期:" +
+                    _dataList[index].sqrq +
+                    ",  状态:" +
+                    _dataList[index].approveStatus,
+                style: _dataList[index].approveStatus == "签批通过"
                     ? TextStyle(color: Colors.black)
                     : TextStyle(color: Colors.red),
               ),
-              subtitle: Text("签约单位：" +
-                  contractData[index]["签约单位"] +
-                  ",  结算方式：" +
-                  contractData[index]["结算方式"] +
-                  ",  运输方式：" +
-                  contractData[index]["运输方式"] +
-                  ",  合同总量：" +
-                  contractData[index]["合同总量"] +
-                  "吨,  当前审批人：" +
-                  contractData[index]["当前审批人"]),
+              subtitle: Text("签约单位:" +
+                  _dataList[index].qydw +
+                  ",  结算方式:" +
+                  _dataList[index].jsfs +
+                  ",  运输方式:" +
+                  _dataList[index].ysfs +
+                  ",  合同总量:" +
+                  _dataList[index].qdzl +
+                  "吨,  当前审批人:" +
+                  _dataList[index].approver),
               onTap: () {
                 // Navigator.pushNamed(context, '/billD',
                 //     arguments: contractData[index]);

@@ -11,7 +11,6 @@ const int ThemeColor = 0xFFC91B3A;
 SpUtil sp;
 var db;
 
-
 void main() async{
   final provider = new Provider();
   await provider.init(true);

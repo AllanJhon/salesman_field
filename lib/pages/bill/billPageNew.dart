@@ -75,7 +75,7 @@ class _BillPageNewState extends State<BillPageNew> {
   }
 
   Future _getBillList() async {
-    BillAPI.xml2List(zksrq, zjsrq, zvkbur, zvkgrp, zkunnr, zflag, zbstkd)
+    BillAPI.xml2List(zksrq, zjsrq, zvkbur, zvkgrp, zkunnr, zbstkd)
         .then((billModel) {
       setState(() {
         _dataList = billModel.billModelList;

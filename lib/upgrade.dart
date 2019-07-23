@@ -82,7 +82,6 @@ class _UpgradeState extends State<Upgrade> {
   Future<void> executeDownload() async {
     if (!ifUpdate) return;
     final path = await _apkLocalPath;
-    print("........................开始下载$path");
     //下载
     final taskId = await FlutterDownloader.enqueue(
         url: downLoadUrl + '/app-release.apk',
@@ -92,7 +91,6 @@ class _UpgradeState extends State<Upgrade> {
     FlutterDownloader.registerCallback((id, status, progress) {
       // 当下载完成时，调用安装
       if (taskId == id && status == DownloadTaskStatus.complete) {
-        print("........................下载完毕$status");
         _installApk();
       }
     });
