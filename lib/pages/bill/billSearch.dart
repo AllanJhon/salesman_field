@@ -50,7 +50,6 @@ class _BillSearchState extends State<BillSearch> {
       "cusName": cusName,
       "billNo": billNo
     });
-
   }
 
   @override

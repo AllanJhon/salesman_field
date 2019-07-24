@@ -36,11 +36,24 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
     });
   }
 
+    _goSearch() {
+    var cusName = customerController.text;
+    customerController.clear();
+
+    Navigator.popAndPushNamed(context, '/contractQuery', arguments: {
+      "vBegDate": _bDate, 
+      "vEendDate": _eDate,
+      "customer": cusName,
+      "status": _selectValue
+    });
+
+  }
+
   List<DropdownMenuItem> getListData() {
     List<DropdownMenuItem> items = new List();
-    items.add(DropdownMenuItem(child: Text('审批中'), value: '审批中'));
-    items.add(DropdownMenuItem(child: Text('审批通过'), value: '审批通过'));
-    items.add(DropdownMenuItem(child: Text('全部'), value: '全部'));
+    items.add(DropdownMenuItem(child: Text('审批中'), value: '1'));
+    items.add(DropdownMenuItem(child: Text('审批通过'), value: '2'));
+    items.add(DropdownMenuItem(child: Text('驳回'), value: '0'));
     return items;
   }
 
@@ -52,7 +65,7 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
         new IconButton(
           tooltip: '确定',
           onPressed: () {
-            // _goSearch();
+            _goSearch();
           },
           icon: Icon(Icons.check),
         ),

@@ -13,22 +13,24 @@ class Contract4OA {
   String qydw;
   // ContractDetail detail;
   List contract4OAList;
+  List detailList;
 
   Contract4OA(
-      this.isSucess,
-      this.message,
-      this.approveStatus,
-      this.jsfs,
-      this.customerTitle,
-      this.sqrq,
-      this.qdzl,
-      this.ysfs,
-      this.approver,
-      this.qydw,
-      // this.detail
-      );
+    this.isSucess,
+    this.message,
+    this.approveStatus,
+    this.jsfs,
+    this.customerTitle,
+    this.sqrq,
+    this.qdzl,
+    this.ysfs,
+    this.approver,
+    this.qydw,
+    this.detailList,
+  );
 
   Contract4OA.xml2List(outputxmlstr) {
+    // print(xml.parse(outputxmlstr).findAllElements('details'));
     List list = xml
         .parse(outputxmlstr)
         .findAllElements('RESULT')
@@ -49,7 +51,15 @@ class Contract4OA {
                 node.findElements('qdzl').single.text,
                 node.findElements('ysfs').single.text,
                 node.findElements('approver').single.text,
-                node.findElements('qydw').single.text))
+                node.findElements('qydw').single.text,
+                node
+                    .findAllElements('detail')
+                    .map((data) => new ContractDetail(
+                        data.findElements("pz").single.text,
+                        data.findElements("hkdj").single.text,
+                        data.findElements("yfj").single.text,
+                        data.findElements("fhcj").single.text))
+                    .toList()))
             .toList();
       } else {
         contract4OAList = xml
@@ -65,16 +75,18 @@ class Contract4OA {
                 "error",
                 "error",
                 "error",
-                "error"))
+                "error",
+                null))
             .toList();
       }
     }
   }
 }
 
-  class ContractDetail{
-    String pz;
-    String hkdj;
-    String yfj;
-    String fhcj;
-  }
+class ContractDetail {
+  String pz;
+  String hkdj;
+  String yfj;
+  String fhcj;
+  ContractDetail(this.pz, this.hkdj, this.yfj, this.fhcj);
+}
