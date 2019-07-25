@@ -64,10 +64,6 @@ class _MyPageState extends State<MyPage> {
                               currentUser.salesCode +
                               ", 销售办公室编码:" +
                               currentUser.salesOffice),
-                          // trailing: new Icon(
-                          //   Icons.keyboard_arrow_right,
-                          //   size: 24,
-                          // ),
                         ),
                       ),
                     ),

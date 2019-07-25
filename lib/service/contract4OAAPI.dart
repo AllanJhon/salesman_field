@@ -22,12 +22,9 @@ class Contract4OAAPI {
               <beginDate>$beginDate</beginDate>
               <endDate>$endDate</endDate>
               <customer>$customer</customer>
-              <qydw>$qydw</qydw>
+              <qydw></qydw>
               <contractStatus>$contractStatus</contractStatus>
             </data>]]>''';
-
-    print("......................inputxmlstr = $inputxmlstr");
-
     String soap = '''
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="webservices.jdsn.com">
     <soapenv:Header/>
@@ -54,7 +51,7 @@ class Contract4OAAPI {
     }
     var document = xml.parse(response.body);
     var outputxmlstr = document.findAllElements('ns1:return').single.text;
-    print(".....................................................$outputxmlstr");
+    // print(".....................................................$outputxmlstr");
 
     return Contract4OA.xml2List(outputxmlstr);
   }

@@ -14,11 +14,6 @@ var qydw;
 bool _isSucess = true;
 bool _loading = false;
 
-// List lt = [
-//   new ContractDetail("pz", "hkdj", " yfj", "fhcj"),
-//   new ContractDetail("pz1", "hkdj1", " yfj1", "fhcj1")
-// ];
-
 class ContractQuery extends StatefulWidget {
   final arguments;
   ContractQuery({this.arguments});
@@ -31,6 +26,9 @@ class _ContractQueryState extends State<ContractQuery> {
     // TODO: implement initState
     super.initState();
     _dataList.clear();
+
+    print(this.widget.arguments.toString());
+
     bDate = this.widget.arguments != null
         ? this.widget.arguments["vBegDate"]
         : DateTime.now()
@@ -46,13 +44,9 @@ class _ContractQueryState extends State<ContractQuery> {
         this.widget.arguments != null ? this.widget.arguments["customer"] : "";
     status =
         this.widget.arguments != null ? this.widget.arguments["status"] : "";
-    qydw = this.widget.arguments != null ? this.widget.arguments["qydw"] : "";
+    // qydw = this.widget.arguments != null ? this.widget.arguments["qydw"] : "";
     _getContractList();
 
-    // _dataList = [
-    //   new Contract4OA(true, "", "approveStatus", "jsfs", "customerTitle",
-    //       "sqrq", "qdzl", "ysfs", "approver", "qydw", lt),
-    // ];
   }
 
   List<Widget> getData(List arg) {
@@ -71,7 +65,7 @@ class _ContractQueryState extends State<ContractQuery> {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(3.0),
-          color: Colors.grey.withOpacity(0.1),
+          color: Colors.red.withOpacity(0.2),
           border: Border.all(color: Colors.white70, width: .5),
         ),
       ));
@@ -85,7 +79,7 @@ class _ContractQueryState extends State<ContractQuery> {
         .then((contract4OA) {
       setState(() {
         _dataList = contract4OA.contract4OAList;
-        _isSucess = _dataList[0].isSucess;
+        _isSucess = _dataList.length > 0 ?_dataList[0].isSucess:_isSucess;
         _loading = false;
       });
     });
@@ -139,22 +133,23 @@ class _ContractQueryState extends State<ContractQuery> {
                     return Container(
                       child: ExpansionTile(
                         title: Text(
-                          "客户名称:" +
+                          "客户:" +
                               _dataList[index].customerTitle +
-                              ", 合同日期:" +
-                              _dataList[index].sqrq +
-                              ", 状态:" +
-                              _dataList[index].approveStatus +
-                              ", 签约单位:" +
+                              ",  签约:" +
                               _dataList[index].qydw +
-                              ", 结算方式:" +
-                              _dataList[index].jsfs +
-                              ", 运输方式:" +
-                              _dataList[index].ysfs +
-                              ", 合同总量:" +
+                              ",  日期:" +
+                              _dataList[index].sqrq +
+                              ",  总量:" +
                               _dataList[index].qdzl +
-                              "吨, 当前审批人:" +
-                              _dataList[index].approver,
+                              "吨,  结算方式:" +
+                              _dataList[index].jsfs +
+                              ",  运输方式:" +
+                              _dataList[index].ysfs +
+                              "  状态:" +
+                              _dataList[index].approveStatus +
+                              ( _dataList[index].approveStatus == "签批通过"?" ":
+                              (",  当前审批人:" +
+                              _dataList[index].approver)),
                           style: _dataList[index].approveStatus == "签批通过"
                               ? TextStyle(color: Colors.black)
                               : TextStyle(color: Colors.red),

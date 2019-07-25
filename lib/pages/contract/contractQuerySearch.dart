@@ -26,27 +26,26 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
         lastDate: DateTime(2099),
         locale: myLocale);
     setState(() {
+      if (picker == null) return;
       if (flag == "B") {
         _bDate = picker.toString().substring(0, 10);
-        bDateController.text = _bDate;
+        // bDateController.text = _bDate;
       } else if (flag == "E") {
         _eDate = picker.toString().substring(0, 10);
-        eDateController.text = _eDate;
+        // eDateController.text = _eDate;
       }
     });
   }
 
-    _goSearch() {
+  _goSearch() {
     var cusName = customerController.text;
     customerController.clear();
-
     Navigator.popAndPushNamed(context, '/contractQuery', arguments: {
-      "vBegDate": _bDate, 
+      "vBegDate": _bDate,
       "vEendDate": _eDate,
-      "customer": cusName,
-      "status": _selectValue
+      "customer": cusName == null ? "" : cusName,
+      "status": _selectValue == null ? "" : _selectValue
     });
-
   }
 
   List<DropdownMenuItem> getListData() {
@@ -96,22 +95,40 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
                   ),
                   Expanded(
                     flex: 2,
-                    child: TextField(
-                      keyboardType: TextInputType.datetime,
-                      maxLines: 1,
-                      controller: bDateController,
-                      decoration: InputDecoration(
-                        suffixIcon: new IconButton(
+                    child: 
+                    ListTile(
+                        title: Text(
+                          _bDate,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        trailing: new IconButton(
                           icon: Icon(
-                            Icons.watch_later,
-                            size: 35,
+                            Icons.today,
+                            size: 26,
+                            color: Colors.red,
                           ),
                           onPressed: () {
                             _showDataPicker("B");
                           },
+                          tooltip: "选择开始日期",
                         ),
-                      ),
-                    ),
+                      )
+                    // TextField(
+                    //   keyboardType: TextInputType.datetime,
+                    //   maxLines: 1,
+                    //   controller: bDateController,
+                    //   decoration: InputDecoration(
+                    //     suffixIcon: new IconButton(
+                    //       icon: Icon(
+                    //         Icons.watch_later,
+                    //         size: 35,
+                    //       ),
+                    //       onPressed: () {
+                    //         _showDataPicker("B");
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
                   ),
                 ],
               ),
@@ -135,22 +152,40 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
                   ),
                   Expanded(
                     flex: 2,
-                    child: TextField(
-                      maxLines: 1,
-                      keyboardType: TextInputType.datetime,
-                      controller: eDateController,
-                      decoration: InputDecoration(
-                        suffixIcon: new IconButton(
+                    child: ListTile(
+                        title: Text(
+                          _eDate,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        trailing: new IconButton(
                           icon: Icon(
-                            Icons.watch_later,
-                            size: 35,
+                            Icons.today,
+                            size: 26,
+                            color: Colors.red,
                           ),
                           onPressed: () {
                             _showDataPicker("E");
                           },
+                          tooltip: "选择结束日期",
                         ),
-                      ),
-                    ),
+                      )
+
+                    // TextField(
+                    //   maxLines: 1,
+                    //   keyboardType: TextInputType.datetime,
+                    //   controller: eDateController,
+                    //   decoration: InputDecoration(
+                    //     suffixIcon: new IconButton(
+                    //       icon: Icon(
+                    //         Icons.watch_later,
+                    //         size: 35,
+                    //       ),
+                    //       onPressed: () {
+                    //         _showDataPicker("E");
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
                   ),
                 ],
               ),
@@ -225,11 +260,15 @@ class _ContractQuerySearchState extends State<ContractQuerySearch> {
                           ),
                           Expanded(
                             flex: 1,
-                            child: Align(alignment: FractionalOffset.centerRight,child:  Icon(Icons.arrow_drop_down,),),
+                            child: Align(
+                              alignment: FractionalOffset.centerRight,
+                              child: Icon(
+                                Icons.arrow_drop_down,
+                              ),
+                            ),
                           ),
                         ],
-                      )
-                      ),
+                      )),
                 ],
               ),
             ),
