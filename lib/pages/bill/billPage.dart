@@ -19,13 +19,13 @@ var zvkgrp; //销售组
 var zkunnr; //客户编号
 var zbstkd; //客户采购订单编号
 
-class BillPageNew extends StatefulWidget {
+class BillPage extends StatefulWidget {
   final arguments;
-  BillPageNew({this.arguments});
-  _BillPageNewState createState() => _BillPageNewState();
+  BillPage({this.arguments});
+  _BillPageState createState() => _BillPageState();
 }
 
-class _BillPageNewState extends State<BillPageNew> {
+class _BillPageState extends State<BillPage> {
   @override
   void initState() {
     // TODO: implement initState

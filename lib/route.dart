@@ -9,7 +9,6 @@ import 'pages/customer/CustomerPage.dart';
 import 'pages/404.dart';
 import 'pages/contract/ContractAddPage.1.dart';
 import 'pages/contract/ContractDetailAddPage.dart';
-import 'pages/bill/goodsCodePage.dart';
 import 'pages/bill/goodsCodePage-1.dart';
 import 'pages/contract/contractQuery.dart';
 import 'pages/contract/contractQuerySearch.dart';
@@ -17,8 +16,6 @@ import 'pages/customer/CustomerDetail.dart';
 import 'pages/my/password.dart';
 import 'pages/my/myPage.dart';
 import 'upgrade.dart';
-
-// import 'pages/bill/billPageNew.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
@@ -33,13 +30,12 @@ final routes = {
   '/': (content) => LoginPage(),
   '/tabs': (content) => Tabs(),
   '/billSearch': (content) => BillSearch(),
-  '/bill': (content, {arguments}) => BillPageNew(arguments: arguments),
+  '/bill': (content, {arguments}) => BillPage(arguments: arguments),
   '/customer': (content) => CustomerPage(),
   '/404': (content) => WidgetNotFound(),
   '/contractQuery': (content,{arguments}) => ContractQuery(arguments: arguments),
   '/conDetailAdd': (content) => ContractDetailAddPage(),
   '/cDA': (content) => ContractDetailAddPage(),
-  '/goods': (content) => GoodsCodePage(),
   '/goods1': (content) => GoodsCodePage1(),
   '/contract/contract': (content) => ContractAddPage1(),
   '/contractQuerySearch': (content) => ContractQuerySearch(),
