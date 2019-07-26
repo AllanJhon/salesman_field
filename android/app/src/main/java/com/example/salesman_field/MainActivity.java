@@ -11,8 +11,7 @@ import android.net.Uri;
 import java.io.File;
 import android.content.Intent; 
 import android.app.Activity;
-import android.support.v4.content.FileProvider;
-import android.content.ContentProvider;
+import androidx.core.content.FileProvider;
 
 public class MainActivity extends FlutterActivity {
   private static final String CHANNEL = "com.example.salesman_field";
@@ -41,32 +40,26 @@ public class MainActivity extends FlutterActivity {
                 });
   }
 
-  //高于android 8.0以上的，还没测试通过
+
   private int install(String path){
     Uri uri;
     Intent intent = new Intent(Intent.ACTION_VIEW);
     File apkFile = new File(path);
     String type = "application/vnd.android.package-archive";
     uri = Uri.fromFile(apkFile);
-    // Context context;
-    // context = getContext();
 
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    // System.out.println(GlobalContext.getInstance().context);
 
     if (android.os.Build.VERSION.SDK_INT >= 24) {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         // Uri uri7 = android.support.v4.content.FileProvider.getUriForFile(GlobalContext.getInstance().context, GlobalContext.getInstance().context.getPackageName() + ".android7.fileprovider", apkFile);  
-	       Uri uri7 = android.support.v4.content.FileProvider.getUriForFile(this,"com.example.salesman_field.android7.fileprovider", apkFile);  
-        // intent.setDataAndType(uri7, type);
-        // FileProvider8.setIntentDataAndType(this,
-        //   intent, "application/vnd.android.package-archive", file, true);
+	       Uri uri7 = androidx.core.content.FileProvider.getUriForFile(this,"com.example.salesman_field.android7.fileprovider", apkFile);  
+        intent.setDataAndType(uri7, type);
     } else{
         intent.setDataAndType(uri, type);
     }
     
     startActivityForResult(intent, 10);
-    System.out.println("....................install");
     return 1;
   }
 }

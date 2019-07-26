@@ -11,6 +11,7 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
+import 'untils/ProgressDialog.dart';
 
 var downLoadUrl = "http://10.0.65.48:8287";
 var msg = "无信息";
@@ -18,6 +19,7 @@ PackageInfo packageInfo;
 var _localVersion = "0.0";
 var _lastVersion = "0.1";
 bool ifUpdate = false;
+bool _loading = false;
 
 class Upgrade extends StatefulWidget {
   _UpgradeState createState() => _UpgradeState();
@@ -30,6 +32,7 @@ class _UpgradeState extends State<Upgrade> {
     super.initState();
     _localVersion = "";
     _lastVersion = "";
+    _loading = true;
     checkNewVersion();
   }
 
@@ -61,6 +64,7 @@ class _UpgradeState extends State<Upgrade> {
           ? "更新版本：$_localVersion-->$_lastVersion"
           : "当前已是最新版本:V$_localVersion";
     });
+    _loading = false;
     return (_localVersion.compareTo(_lastVersion) == 1);
   }
 
@@ -95,7 +99,6 @@ class _UpgradeState extends State<Upgrade> {
       // 调用app地址
       await platform
           .invokeMethod('install', {'path': path + '/app-release.apk'});
-      print(platform.toString());
     } on PlatformException catch (_) {}
   }
 
@@ -109,42 +112,49 @@ class _UpgradeState extends State<Upgrade> {
         ),
       ),
       body: new Center(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 100,
-            ),
-            new Container(
-              child: Text(
-                msg,
-                style: TextStyle(fontSize: 18,color: Colors.red),
+        child: _loading
+            ? ProgressDialog(
+                loading: _loading,
+                msg: '正在加载...',
+                child: Center(),
+              )
+            : Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 100,
+                  ),
+                  new Container(
+                    child: Text(
+                      msg,
+                      style: TextStyle(fontSize: 18, color: Colors.red),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 100,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 40,
+                    child: new Container(
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: new RaisedButton(
+                            // color: Colors.green,
+                            color: Colors.red[700],
+                            disabledColor: Colors.grey,
+                            splashColor: Colors.black,
+                            highlightColor: Colors.lightBlue[900],
+                            child: Text(
+                              "升级新版本",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            textColor: Colors.white,
+                            onPressed:
+                                ifUpdate ? () => executeDownload() : null,
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)))),
+                  ),
+                ],
               ),
-            ),
-            SizedBox(
-              height: 100,
-            ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: 40,
-              child: new Container(
-                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                  child: new RaisedButton(
-                      // color: Colors.green,
-                      color: Colors.red[700],
-                      disabledColor: Colors.grey,
-                      splashColor: Colors.black,
-                      highlightColor: Colors.lightBlue[900],
-                      child: Text(
-                        "升级新版本",
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      textColor: Colors.white,
-                      onPressed: ifUpdate ? () => _installApk() : null,
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)))),
-            ),
-          ],
-        ),
       ),
     );
   }

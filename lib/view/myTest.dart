@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import "dart:math";
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
 
 double percentRage = 41;
 bool isContract = true;
@@ -9,6 +13,7 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
+  String barcode = "";
   _queryContract() {
     // String a = "abc";
 
@@ -24,11 +29,34 @@ class _TestState extends State<Test> {
     });
   }
 
+  Future scan() async {
+    try {
+      String barcode = await BarcodeScanner.scan();
+      setState(() {
+        return this.barcode = barcode;
+      });
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.CameraAccessDenied) {
+        setState(() {
+          return this.barcode = 'The user did not grant the camera permission!';
+        });
+      } else {
+        setState(() {
+          return this.barcode = 'Unknown error: $e';
+        });
+      }
+    } on FormatException{
+      setState(() => this.barcode = 'null (User returned using the "back"-button before scanning anything. Result)');
+    } catch (e) {
+      setState(() => this.barcode = 'Unknown error: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
-          title: Text("图表"),
+          title: Text("$barcode"),
           centerTitle: true,
         ),
         body: Container(
@@ -44,9 +72,16 @@ class _TestState extends State<Test> {
                     child: new CustomPaint(
                       foregroundPainter: new MoneyCanvas(
                           Colors.grey[300], Colors.red[400], 83, 40.0),
-                      child: new Center(
+                      child: 
+                      new Center(
                         // padding: const EdgeInsets.all(8.0),
-                        child: Text("83%"),
+                        child: new IconButton(
+                          icon: Icon(Icons.location_on, color: Colors.white),
+                        onPressed: () {
+                          // Navigator.pushNamed(context, "/test");
+                            scan();
+                        }
+                        ),
                       ),
                     ),
                   ),
@@ -68,32 +103,19 @@ class _TestState extends State<Test> {
                 ),
                 Expanded(
                   flex: 1,
-                  child: 
-                    new CustomPaint(
-                      foregroundPainter: new MoneyCanvas(Colors.grey[300],
-                          Colors.green[300], percentRage, 40.0),
-                      child: new Center(
-                        // padding: const EdgeInsets.all(8.0),
-                        child: Text("$percentRage%"),
-                      ),
+                  child: new CustomPaint(
+                    foregroundPainter: new MoneyCanvas(
+                        Colors.grey[300], Colors.green[300], percentRage, 40.0),
+                    child: new Center(
+                      // padding: const EdgeInsets.all(8.0),
+                      child: Text("$percentRage%"),
                     ),
-                    // new ArcClipper(),
+                  ),
+                  // new ArcClipper(),
                 ),
               ],
             ),
           ),
-          // new Container(
-          //   width: 120,
-          //   height: 120,
-          //   child: new CustomPaint(
-          //     foregroundPainter: new MoneyCanvas(
-          //         Colors.grey[300], Colors.orange[300], percentRage, 40.0),
-          //     child: new Center(
-          //       // padding: const EdgeInsets.all(8.0),
-          //       child: Text("$percentRage%"),
-          //     ),
-          //   ),
-          // ),
           Divider(
             height: 20.0,
             indent: 0.0,
@@ -160,7 +182,13 @@ class _TestState extends State<Test> {
             height: 20,
           ),
           new Container(
-            child: Text(isContract ? "执行合同查询" : "执行订单查询"),
+            child: QrImage(
+              data: isContract ? "执行合同查询" : "执行订单查询",
+              size: 300.0,
+              onError: (ex) {
+                print("[QR] ERROR - $ex");
+              },
+            ),
           )
         ])));
   }
@@ -232,5 +260,4 @@ class ArcClipper extends CustomClipper<Path> {
 
   @override
   bool shouldReclip(CustomClipper oldClipper) => false;
-
 }
