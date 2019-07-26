@@ -230,10 +230,10 @@ class _LoginPageState extends State<LoginPage> {
                                 fontWeight: FontWeight.w600),
                             textAlign: TextAlign.center,
                           ),
-                          contentPadding: const EdgeInsets.all(10.0),
+                          contentPadding: const EdgeInsets.all(8.0),
                           children: <Widget>[
                             Divider(
-                              height: 10.0,
+                              height: 8.0,
                               indent: 0.0,
                               color: Colors.grey,
                             ),

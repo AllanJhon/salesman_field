@@ -46,26 +46,38 @@ class _ContractQueryState extends State<ContractQuery> {
         this.widget.arguments != null ? this.widget.arguments["status"] : "";
     // qydw = this.widget.arguments != null ? this.widget.arguments["qydw"] : "";
     _getContractList();
-
   }
 
   List<Widget> getData(List arg) {
     List<Widget> list = new List();
+    var pz;
+    var dj;
+    var cj;
+    var yf;
+
     for (var i = 0; i < arg.length; i++) {
+      pz = arg[i].pz;
+      dj = arg[i].hkdj;
+      cj = arg[i].fhcj;
+      yf = arg[i].yfj;
+
       list.add(Container(
         child: ListTile(
-          title: Text("品种:" +
-              arg[i].pz +
-              ", 货款单价:" +
-              arg[i].hkdj +
-              ", 发货厂家:" +
-              arg[i].fhcj +
-              ", 运费单价:" +
-              arg[i].yfj),
+          title: Text('''品种: $pz,  货款单价: $dj
+发货厂家: $cj
+运费单价: $yf''', style: TextStyle(fontSize: 16)),
+          // Text("品种:" +
+          //     arg[i].pz +
+          //     ", 货款单价:" +
+          //     arg[i].hkdj +
+          //     ", 发货厂家:" +
+          //     arg[i].fhcj +
+          //     ", 运费单价:" +
+          //     arg[i].yfj,style: TextStyle(fontSize: 16),),
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(3.0),
-          color: Colors.red.withOpacity(0.2),
+          color: Colors.red[100],
           border: Border.all(color: Colors.white70, width: .5),
         ),
       ));
@@ -74,12 +86,13 @@ class _ContractQueryState extends State<ContractQuery> {
   }
 
   Future _getContractList() async {
+    _loading = true;
     Contract4OAAPI.getContractList(sales, bDate, eDate,
             customer: customer, contractStatus: status, qydw: qydw)
         .then((contract4OA) {
       setState(() {
         _dataList = contract4OA.contract4OAList;
-        _isSucess = _dataList.length > 0 ?_dataList[0].isSucess:_isSucess;
+        _isSucess = _dataList.length > 0 ? _dataList[0].isSucess : _isSucess;
         _loading = false;
       });
     });
@@ -147,9 +160,9 @@ class _ContractQueryState extends State<ContractQuery> {
                               _dataList[index].ysfs +
                               "  状态:" +
                               _dataList[index].approveStatus +
-                              ( _dataList[index].approveStatus == "签批通过"?" ":
-                              (",  当前审批人:" +
-                              _dataList[index].approver)),
+                              (_dataList[index].approveStatus == "签批通过"
+                                  ? " "
+                                  : (",  当前审批人:" + _dataList[index].approver)),
                           style: _dataList[index].approveStatus == "签批通过"
                               ? TextStyle(color: Colors.black)
                               : TextStyle(color: Colors.red),

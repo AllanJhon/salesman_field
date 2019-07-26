@@ -17,7 +17,7 @@ var msg = "无信息";
 PackageInfo packageInfo;
 var _localVersion = "0.0";
 var _lastVersion = "0.1";
-bool ifUpdate;
+bool ifUpdate = false;
 
 class Upgrade extends StatefulWidget {
   _UpgradeState createState() => _UpgradeState();
@@ -31,17 +31,6 @@ class _UpgradeState extends State<Upgrade> {
     _localVersion = "";
     _lastVersion = "";
     checkNewVersion();
-  }
-
-  run() async {
-    // bool ifUpdate = await checkNewVersion();
-    setState(() {
-      msg = ifUpdate ? "更新版本：$_localVersion-->$_lastVersion" : "当前已是最新版本";
-      if (ifUpdate) {
-        print("要更新版本了");
-        // executeDownload();
-      }
-    });
   }
 
   getLastVersion() async {
@@ -68,7 +57,9 @@ class _UpgradeState extends State<Upgrade> {
     _localVersion = await getLoacalVersion();
     ifUpdate = (_lastVersion.compareTo(_localVersion) == 1);
     setState(() {
-      msg = ifUpdate ? "更新版本：$_localVersion-->$_lastVersion" : "当前已是最新版本";
+      msg = ifUpdate
+          ? "更新版本：$_localVersion-->$_lastVersion"
+          : "当前已是最新版本:V$_localVersion";
     });
     return (_localVersion.compareTo(_lastVersion) == 1);
   }
@@ -126,7 +117,7 @@ class _UpgradeState extends State<Upgrade> {
             new Container(
               child: Text(
                 msg,
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18,color: Colors.red),
               ),
             ),
             SizedBox(
@@ -139,7 +130,8 @@ class _UpgradeState extends State<Upgrade> {
                   padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: new RaisedButton(
                       // color: Colors.green,
-                      color: Colors.greenAccent[700],
+                      color: Colors.red[700],
+                      disabledColor: Colors.grey,
                       splashColor: Colors.black,
                       highlightColor: Colors.lightBlue[900],
                       child: Text(
@@ -147,9 +139,7 @@ class _UpgradeState extends State<Upgrade> {
                         style: TextStyle(fontSize: 18),
                       ),
                       textColor: Colors.white,
-                      onPressed: () {
-                        ifUpdate?executeDownload():Null;
-                      },
+                      onPressed: ifUpdate ? () => _installApk() : null,
                       shape: new RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)))),
             ),

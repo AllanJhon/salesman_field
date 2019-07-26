@@ -10,8 +10,9 @@ import android.util.Log;
 import android.net.Uri;
 import java.io.File;
 import android.content.Intent; 
-import android.content.ContentProvider;
 import android.app.Activity;
+import android.support.v4.content.FileProvider;
+import android.content.ContentProvider;
 
 public class MainActivity extends FlutterActivity {
   private static final String CHANNEL = "com.example.salesman_field";
@@ -31,9 +32,9 @@ public class MainActivity extends FlutterActivity {
                           String path = call.argument("path").toString();
                           System.out.println(android.os.Build.VERSION.SDK_INT);
 
-                        int batteryLevel = install(path);
-                        if (batteryLevel != -1) {
-                            result.success(batteryLevel);
+                        int resultInstall = install(path);
+                        if (resultInstall != -1) {
+                            result.success(resultInstall);
                         } 
                         } 
                     }
@@ -44,21 +45,27 @@ public class MainActivity extends FlutterActivity {
   private int install(String path){
     Uri uri;
     Intent intent = new Intent(Intent.ACTION_VIEW);
-    File file = new File(path);
-    // if (android.os.Build.VERSION.SDK_INT >=24) {//android 7.0以上
-    //    uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID.concat(".provider"), file);
-    // } else{
-    //    uri = Uri.fromFile(file);
-    // }
-    uri = Uri.fromFile(file);
+    File apkFile = new File(path);
     String type = "application/vnd.android.package-archive";
-    intent.setDataAndType(uri, type);
+    uri = Uri.fromFile(apkFile);
+    // Context context;
+    // context = getContext();
+
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    // System.out.println(GlobalContext.getInstance().context);
+
     if (android.os.Build.VERSION.SDK_INT >= 24) {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        // Uri uri7 = android.support.v4.content.FileProvider.getUriForFile(GlobalContext.getInstance().context, GlobalContext.getInstance().context.getPackageName() + ".android7.fileprovider", apkFile);  
+	       Uri uri7 = android.support.v4.content.FileProvider.getUriForFile(this,"com.example.salesman_field.android7.fileprovider", apkFile);  
+        // intent.setDataAndType(uri7, type);
+        // FileProvider8.setIntentDataAndType(this,
+        //   intent, "application/vnd.android.package-archive", file, true);
+    } else{
+        intent.setDataAndType(uri, type);
     }
+    
     startActivityForResult(intent, 10);
-
     System.out.println("....................install");
     return 1;
   }
