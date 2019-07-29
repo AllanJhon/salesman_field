@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
-import "dart:math";
+import '../../service/CustomerMoneyAPI.dart';
+import '../../untils/ProgressDialog.dart';
+import '../../models/loginUser.dart';
+import '../../models/customerMoney.dart';
 
-double percentRage = 41;
-bool isContract = true;
+List _dataList = new List();
+
+bool _isSucess = true;
+bool _loading = false;
+var customerName;
+var customerCode;
+var saleCode = currentUser.salesCode;
+var saleOfficeCode = currentUser.salesOffice;
 
 class CustomerDetail extends StatefulWidget {
   final arguments;
@@ -11,202 +20,119 @@ class CustomerDetail extends StatefulWidget {
 }
 
 class _CustomerDetailState extends State<CustomerDetail> {
-  _queryContract() {
-    setState(() {
-      isContract = true;
-    });
+  int _sortColumnIndex = 1;
+  bool _sortAscending = true;
+
+  @override
+  void initState() {
+    super.initState();
+    customerName =
+        this.widget.arguments != null ? this.widget.arguments["name"] : "";
+    customerCode =
+        this.widget.arguments != null ? this.widget.arguments["code"] : "";
+
+    _dataList.clear();
+    // _getCustomerMoney();
+
+    CustomerMoney customerMoney0 =
+        new CustomerMoney(true, "", "陕西可达设备安装有限公司", "2315852.3");
+    CustomerMoney customerMoney1 =
+        new CustomerMoney(true, "", "陕西迅通电梯有限公司", "809124.8");
+    CustomerMoney customerMoney2 =
+        new CustomerMoney(true, "", "唐山市特种水泥有限公司", "324");
+    _dataList.add(customerMoney0);
+    _dataList.add(customerMoney1);
+    _dataList.add(customerMoney2);
   }
 
-  _queryBill() {
-    setState(() {
-      isContract = false;
+  Future _getCustomerMoney() async {
+    _loading = true;
+    CustomerMoneyAPI.xml2List(customerName, saleCode, saleOfficeCode)
+        .then((customerMoney) {
+      setState(() {
+        _dataList = customerMoney.customerMoneyList;
+        _isSucess = _dataList.length > 0 ? _dataList[0].isSucess : _isSucess;
+        _loading = false;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: AppBar(
-          title: Text(widget.arguments.toString(),style:TextStyle(fontSize: 16)),
-          centerTitle: true,
-        ),
-        body: Container(
-            child: Column(children: <Widget>[
-          new Container(
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: new Container(
-                    width: 120,
-                    height: 120,
-                    child: new CustomPaint(
-                      foregroundPainter: new MoneyCanvas(
-                          Colors.grey[300], Colors.red[400], 83, 40.0),
-                      child: new Center(
-                        // padding: const EdgeInsets.all(8.0),
-                        child: Text("83%"),
+      appBar: AppBar(
+        title: Text("$customerName"),
+        centerTitle: true,
+      ),
+      body: _loading
+          ? new Center(
+              child: ProgressDialog(
+              loading: _loading,
+              msg: '正在加载...',
+              child: Center(),
+            ))
+          : !_isSucess
+              ? new Center(
+                  child: Text(
+                    _dataList[0].message,
+                    style: TextStyle(fontSize: 24, color: Colors.red[400]),
+                  ),
+                )
+              : Container(
+                  padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+                  child: ListView(
+                    children: <Widget>[
+                      DataTable(
+                        sortColumnIndex: _sortColumnIndex,
+                        sortAscending: _sortAscending,
+                        columns: [
+                          DataColumn(
+                            label: Text(
+                              "签约单位",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              '余额(元)',
+                              style: TextStyle(fontSize: 18),
+                            ),
+                            onSort: (int index, bool ascending) {
+                              setState(() {
+                                _sortColumnIndex = index;
+                                _sortAscending = ascending;
+                                _dataList.sort((a, b) {
+                                  if (!ascending) {
+                                    final c = a;
+                                    a = b;
+                                    b = c;
+                                  }
+                                  // 按照标题内容的长度排序
+                                  return double.parse(a.money)
+                                      .compareTo(double.parse(b.money));
+                                });
+                              });
+                            },
+                          ),
+                        ],
+                        rows: _dataList.map((customerMoney) {
+                          return DataRow(
+                            cells: [
+                              DataCell(Text(
+                                customerMoney.qydw,
+                                style: TextStyle(fontSize: 16),
+                              )),
+                              DataCell(Text(
+                                customerMoney.money,
+                                style: TextStyle(fontSize: 16),
+                              )),
+                            ],
+                          );
+                        }).toList(),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: new Container(
-                    width: 120,
-                    height: 120,
-                    child: new CustomPaint(
-                      foregroundPainter: new MoneyCanvas(
-                          Colors.grey[300], Colors.orange[300], 55, 40.0),
-                      child: new Center(
-                        // padding: const EdgeInsets.all(8.0),
-                        child: Text("55%"),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: new Container(
-                    width: 120,
-                    height: 120,
-                    child: new CustomPaint(
-                      foregroundPainter: new MoneyCanvas(Colors.grey[300],
-                          Colors.green[300], percentRage, 40.0),
-                      child: new Center(
-                        // padding: const EdgeInsets.all(8.0),
-                        child: Text("$percentRage%"),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // new Container(
-          //   width: 120,
-          //   height: 120,
-          //   child: new CustomPaint(
-          //     foregroundPainter: new MoneyCanvas(
-          //         Colors.grey[300], Colors.orange[300], percentRage, 40.0),
-          //     child: new Center(
-          //       // padding: const EdgeInsets.all(8.0),
-          //       child: Text("$percentRage%"),
-          //     ),
-          //   ),
-          // ),
-          Divider(
-            height: 20.0,
-            indent: 0.0,
-            color: Colors.grey,
-          ),
-          new Container(
-            padding: EdgeInsets.fromLTRB(5.0, 0.0, 5.0, 0.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: new Container(
-                    padding: EdgeInsets.fromLTRB(15.0, 0.0, 0.0, 0.0),
-                    child: new FlatButton(
-                      onPressed: () {
-                        _queryContract();
-                      },
-                      color: isContract ? Colors.grey[350] : Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.horizontal(
-                            left: Radius.elliptical(15, 15)),
-                        side: BorderSide(
-                          color: Colors.grey[350],
-                          width: 1,
-                        ),
-                      ),
-                      child: new Text(
-                        "合同执行情况",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: new Container(
-                    padding: EdgeInsets.fromLTRB(0, 0.0, 15.0, 0.0),
-                    child: new FlatButton(
-                      onPressed: () {
-                        _queryBill();
-                      },
-                      color: !isContract ? Colors.grey[350] : Colors.white,
-                      child: new Text(
-                        "订单执行情况",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.horizontal(
-                            right: Radius.elliptical(15, 15)),
-                        side: BorderSide(
-                          color: Colors.grey[350],
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                  ),
-                  // ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          new Container(
-            child: Text(isContract ? "执行合同查询" : "执行订单查询"),
-          )
-        ])));
+    );
   }
-}
-
-//画圆及画弧，显示客户金额消耗情况
-class MoneyCanvas extends CustomPainter {
-  Color lineColor;
-  Color completeColor;
-  double completePercent;
-  double argRadius;
-
-  MoneyCanvas(
-      this.lineColor, this.completeColor, this.completePercent, this.argRadius);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Offset center = Offset(size.width / 2, size.height / 2);
-
-    //定义画外圆的画布
-    Paint _paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = lineColor
-      ..strokeWidth = 5;
-    //画圆
-    canvas.drawCircle(center, argRadius, _paint);
-
-    double arcAngle = 2 * pi * (completePercent / 100);
-
-    // 定义画内弧的画布
-    Paint _money = Paint()
-      ..color = completeColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 5
-      ..strokeCap = StrokeCap.round;
-      
-    // //画弧
-    canvas.drawArc(
-        Rect.fromCircle(center: center, radius: argRadius - 8),
-        -pi / 2, //  从正上方开始
-        arcAngle,
-        false,
-        _money);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

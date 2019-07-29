@@ -6,6 +6,7 @@ import '../models/loginUser.dart';
 import '../data/SAPCONST.dart';
 
 class LoginAPI {
+  List loginUserList = new List();
   static Future<LoginUser> login(String user, String pwd) async {
     var date = new DateTime.now();
     String timestamp =
@@ -31,18 +32,25 @@ class LoginAPI {
         </soap:Body>
         </soap:Envelope>''';
 
-    var response = await http.post(
-        Uri.parse(getSelfURL()+"userApiServiceV1?wsdl"),
-        // headers: getSAPHeader("Zif_WQ_IN_WS"),
-        body: utf8.encode(soap),
-        encoding: Encoding.getByName("UTF-8"));
+    try {
+      var response =
+          await http.post(Uri.parse(getSelfURL() + "userApiServiceV1?wsdl"),
+              // headers: getSAPHeader("Zif_WQ_IN_WS"),
+              body: utf8.encode(soap),
+              encoding: Encoding.getByName("UTF-8"));
 
-    if (response.statusCode != 200) {
-      print("Server Error !!!" + response.statusCode.toString());
+      if (response.statusCode != 200) {
+        print("Server Error !!!" + response.statusCode.toString());
+        // return new LoginUser("","","","","","",false,"网络异常:"+response.statusCode.toString());
+        return null;
+      }
+      var document = xml.parse(response.body);
+      var outputxmlstr = document.findAllElements('ns:return').single.text;
+      return LoginUser.xml2List(outputxmlstr);
+    } catch (exception) {
+      print(exception);
+      print("网络异常");
       return null;
     }
-    var document = xml.parse(response.body);
-    var outputxmlstr = document.findAllElements('ns:return').single.text;
-    return LoginUser.xml2List(outputxmlstr);
   }
 }

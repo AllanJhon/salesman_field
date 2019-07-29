@@ -12,7 +12,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'data/SYSTEMCONST.dart';
 import 'service/loginAPI.dart';
 import 'untils/shared_preferences.dart';
-// import 'models/loginUser.dart';
 
 TextEditingController _userController = TextEditingController();
 TextEditingController _pwdController = TextEditingController();
@@ -86,6 +85,10 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     LoginAPI.login(_user, _pwd).then((loginUser) {
+      if (loginUser == null) {
+        _showToast("网络异常");
+        return;
+      }
       if (this.mounted){
         setState(() {
           if (!loginUser.loginUserList[0].isSucess) {
@@ -128,14 +131,14 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          // new Center(
-          //   child: Text(
-          //     "金隅冀东移动外勤",
-          //     style: TextStyle(
-          //         color: Colors.indigo[800], fontSize: 32, fontWeight: FontWeight.w600),
-          //     textAlign: TextAlign.center,
-          //   ),
-          // ),
+          new Center(
+            child: Text(
+              "金隅冀东移动外勤",
+              style: TextStyle(
+                  color: Colors.lightBlue[900], fontSize: 32, fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            ),
+          ),
           new Center(
               child: new Image.asset(
             'assets/images/normal_user_icon.png',

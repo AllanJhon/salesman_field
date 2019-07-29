@@ -7,7 +7,9 @@ import '../../untils/shared_preferences.dart';
 import '../../resources/shared_preferences_keys.dart';
 import 'package:flutter/services.dart';
 
-double percentRage = 41;
+var userName = currentUser.userName ;
+var salesCode = currentUser.salesCode;
+var salesOffice = currentUser.salesOffice;
 
 class MyPage extends StatefulWidget {
   MyPage({Key key}) : super(key: key);
@@ -58,12 +60,16 @@ class _MyPageState extends State<MyPage> {
                             currentUser.displayName,
                             style: TextStyle(fontSize: 22),
                           ),
-                          subtitle: Text("用户名:" +
-                              currentUser.userName +
-                              ", 销售员编码:" +
-                              currentUser.salesCode +
-                              ", 销售办公室编码:" +
-                              currentUser.salesOffice),
+                          subtitle: 
+                          Text('''用户名:$userName
+销售员编码:$salesCode
+销售办公室编码:$salesOffice'''),
+                          // Text("用户名:" +
+                          //     currentUser.userName +
+                          //     ", 销售员编码:" +
+                          //     currentUser.salesCode +
+                          //     ", 销售办公室编码:" +
+                          //     currentUser.salesOffice),
                         ),
                       ),
                     ),
@@ -100,6 +106,7 @@ class _MyPageState extends State<MyPage> {
               color: Colors.white,
               child: ListTile(
                 title: Text("设置"),
+                enabled: false,
                 leading: new Icon(
                   Icons.settings,
                   color: Colors.orange[300],

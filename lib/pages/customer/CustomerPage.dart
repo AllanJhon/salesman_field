@@ -111,7 +111,7 @@ class _CustomerPage extends State<CustomerPage> {
           ),
           onTap: () {
             Navigator.pushNamed(context, '/customerDetail',
-                arguments: list[index].name);
+                arguments: {"name":list[index].name,"code":list[index].code});
           },
         ),
         decoration: BoxDecoration(

@@ -26,9 +26,7 @@ class _ContractQueryState extends State<ContractQuery> {
     // TODO: implement initState
     super.initState();
     _dataList.clear();
-
-    print(this.widget.arguments.toString());
-
+    
     bDate = this.widget.arguments != null
         ? this.widget.arguments["vBegDate"]
         : DateTime.now()
