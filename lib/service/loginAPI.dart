@@ -6,7 +6,6 @@ import '../models/loginUser.dart';
 import '../data/SAPCONST.dart';
 
 class LoginAPI {
-  List loginUserList = new List();
   static Future<LoginUser> login(String user, String pwd) async {
     var date = new DateTime.now();
     String timestamp =
@@ -34,15 +33,16 @@ class LoginAPI {
 
     try {
       var response =
-          await http.post(Uri.parse(getSelfURL() + "userApiServiceV1?wsdl"),
+          await http.post(Uri.parse(getSelfURL() + "/services/userApiServiceV1?wsdl"),
               // headers: getSAPHeader("Zif_WQ_IN_WS"),
               body: utf8.encode(soap),
               encoding: Encoding.getByName("UTF-8"));
 
       if (response.statusCode != 200) {
-        print("Server Error !!!" + response.statusCode.toString());
-        // return new LoginUser("","","","","","",false,"网络异常:"+response.statusCode.toString());
-        return null;
+        // print("Server Error !!!" + response.statusCode.toString());
+        LoginUser loginUser =  new LoginUser("","","","","","",false,"网络异常:"+response.statusCode.toString());
+        loginUser.loginUserList.add(loginUser);
+        return loginUser;
       }
       var document = xml.parse(response.body);
       var outputxmlstr = document.findAllElements('ns:return').single.text;

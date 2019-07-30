@@ -75,11 +75,11 @@ class _CustomerDetailState extends State<CustomerDetail> {
               ? new Center(
                   child: Text(
                     _dataList[0].message,
-                    style: TextStyle(fontSize: 24, color: Colors.red[400]),
+                    style: TextStyle(fontSize: 22, color: Colors.red[400]),
                   ),
                 )
               : Container(
-                  padding: EdgeInsets.fromLTRB(3, 0, 3, 0),
+                  padding: EdgeInsets.fromLTRB(1, 0, 1, 0),
                   child: ListView(
                     children: <Widget>[
                       DataTable(
@@ -89,13 +89,13 @@ class _CustomerDetailState extends State<CustomerDetail> {
                           DataColumn(
                             label: Text(
                               "签约单位",
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 16),
                             ),
                           ),
                           DataColumn(
                             label: Text(
                               '余额(元)',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(fontSize: 16),
                             ),
                             onSort: (int index, bool ascending) {
                               setState(() {
@@ -120,11 +120,11 @@ class _CustomerDetailState extends State<CustomerDetail> {
                             cells: [
                               DataCell(Text(
                                 customerMoney.qydw,
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(fontSize: 14),
                               )),
                               DataCell(Text(
                                 customerMoney.money,
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(fontSize: 14),
                               )),
                             ],
                           );

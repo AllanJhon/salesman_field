@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           )),
-      new Column(
+      Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -135,14 +135,14 @@ class _LoginPageState extends State<LoginPage> {
             child: Text(
               "金隅冀东移动外勤",
               style: TextStyle(
-                  color: Colors.lightBlue[900], fontSize: 32, fontWeight: FontWeight.w600),
+                  color: Colors.lightBlue[900], fontSize: 28, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
           ),
           new Center(
               child: new Image.asset(
             'assets/images/normal_user_icon.png',
-            width: MediaQuery.of(context).size.width * 0.3,
+            width: MediaQuery.of(context).size.width * 0.25,
           )),
           new Container(
               width: MediaQuery.of(context).size.width * 0.9,
@@ -158,12 +158,9 @@ class _LoginPageState extends State<LoginPage> {
                           hintText: '请输入用户名',
                           icon: new Icon(
                             Icons.person,
-                            size: 32,
+                            size: 30,
                           ),
                         ),
-                        onSubmitted: (value) {
-                          // _checkInput();
-                        },
                       ),
                     ),
                     SizedBox(

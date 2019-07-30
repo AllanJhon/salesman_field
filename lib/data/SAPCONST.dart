@@ -23,7 +23,7 @@ getSAPHeader(String funcName){
 }
 
 getSelfURL(){
-  return "http://10.0.65.48:8287/services/";
+  return "http://60.2.191.108:8287";
 }
 
 getOAURL(){
