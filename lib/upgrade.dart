@@ -12,12 +12,12 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'dart:async';
 import 'untils/ProgressDialog.dart';
+import 'data/SAPCONST.dart';
 
-var downLoadUrl = "http://10.0.65.48:8287";
 var msg = "无信息";
 PackageInfo packageInfo;
-var _localVersion = "0.0";
-var _lastVersion = "0.1";
+var _localVersion = "1.0";
+var _lastVersion = "1.0";
 bool ifUpdate = false;
 bool _loading = false;
 
@@ -38,7 +38,7 @@ class _UpgradeState extends State<Upgrade> {
 
   getLastVersion() async {
     try {
-      final res = await http.get(downLoadUrl + '/version.json');
+      final res = await http.get(getSelfURL() + '/upgrade/version.json');
       if (res.statusCode == 200) {
         final Map<String, dynamic> body = json.decode(res.body);
         return body['android'];
@@ -48,9 +48,11 @@ class _UpgradeState extends State<Upgrade> {
     }
   }
 
+  //此处用的是versionName比较，
   getLoacalVersion() async {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      packageInfo = await PackageInfo.fromPlatform();
+      packageInfo = await PackageInfo.fromPlatform();    
+      print("......................"+ packageInfo.buildNumber); 
       return packageInfo.version;
     }
   }
@@ -79,7 +81,7 @@ class _UpgradeState extends State<Upgrade> {
     final path = await _apkLocalPath;
     //下载
     final taskId = await FlutterDownloader.enqueue(
-        url: downLoadUrl + '/app-release.apk',
+        url: getSelfURL() + '/upgrade/app-release.apk',
         savedDir: path,
         showNotification: true,
         openFileFromNotification: true);
