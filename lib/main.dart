@@ -6,8 +6,11 @@ import 'routers/routers.dart';
 import 'untils/provider.dart';
 import 'untils/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+// import 'theme.dart';
 
 const int ThemeColor = 0xFFC91B3A;
+// int ThemeColor;
+
 SpUtil sp;
 var db;
 
@@ -15,12 +18,12 @@ void main() async{
   final provider = new Provider();
   await provider.init(true);
   sp = await SpUtil.getInstance();
-  // new SearchHistoryList(sp);
   db = Provider.db;
   runApp(new MyApp());
 }
 
 class MyApp extends StatelessWidget {
+
   MyApp()  {
     final router = new Router();
     Routes.configureRoutes(router);

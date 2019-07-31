@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import '../../service/CustomerMoneyAPI.dart';
 import '../../untils/ProgressDialog.dart';
 import '../../models/loginUser.dart';
-import '../../models/customerMoney.dart';
 
 List _dataList = new List();
-
 bool _isSucess = true;
 bool _loading = false;
 var customerName;
@@ -32,22 +30,22 @@ class _CustomerDetailState extends State<CustomerDetail> {
         this.widget.arguments != null ? this.widget.arguments["code"] : "";
 
     _dataList.clear();
-    // _getCustomerMoney();
+    _getCustomerMoney();
 
-    CustomerMoney customerMoney0 =
-        new CustomerMoney(true, "", "陕西可达设备安装有限公司", "2315852.3");
-    CustomerMoney customerMoney1 =
-        new CustomerMoney(true, "", "陕西迅通电梯有限公司", "809124.8");
-    CustomerMoney customerMoney2 =
-        new CustomerMoney(true, "", "唐山市特种水泥有限公司", "324");
-    _dataList.add(customerMoney0);
-    _dataList.add(customerMoney1);
-    _dataList.add(customerMoney2);
+    // CustomerMoney customerMoney0 =
+    //     new CustomerMoney(true, "", "陕西可达设备安装有限公司", "2315852.3");
+    // CustomerMoney customerMoney1 =
+    //     new CustomerMoney(true, "", "陕西迅通电梯有限公司", "809124.8");
+    // CustomerMoney customerMoney2 =
+    //     new CustomerMoney(true, "", "唐山市特种水泥有限公司", "324");
+    // _dataList.add(customerMoney0);
+    // _dataList.add(customerMoney1);
+    // _dataList.add(customerMoney2);
   }
 
   Future _getCustomerMoney() async {
     _loading = true;
-    CustomerMoneyAPI.xml2List(customerName, saleCode, saleOfficeCode)
+    CustomerMoneyAPI.xml2List(customerCode, saleCode, saleOfficeCode)
         .then((customerMoney) {
       setState(() {
         _dataList = customerMoney.customerMoneyList;
@@ -79,7 +77,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
                   ),
                 )
               : Container(
-                  padding: EdgeInsets.fromLTRB(1, 0, 1, 0),
+                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: ListView(
                     children: <Widget>[
                       DataTable(
@@ -88,7 +86,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
                         columns: [
                           DataColumn(
                             label: Text(
-                              "签约单位",
+                              "公司描述",
                               style: TextStyle(fontSize: 16),
                             ),
                           ),
@@ -120,11 +118,12 @@ class _CustomerDetailState extends State<CustomerDetail> {
                             cells: [
                               DataCell(Text(
                                 customerMoney.qydw,
-                                style: TextStyle(fontSize: 14),
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 15),
                               )),
                               DataCell(Text(
                                 customerMoney.money,
-                                style: TextStyle(fontSize: 14),
+                                style: TextStyle(fontSize: 15),
                               )),
                             ],
                           );

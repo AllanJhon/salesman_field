@@ -57,6 +57,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           parentId: 0,
           path: '/contractQuery');
       categories.add(cat2);
+/*      
       Cat cat = new Cat(
           catIcon: Icon(Icons.library_add),
           id: 1,
@@ -75,6 +76,7 @@ class HomePageWidgetState extends State<HomePageWidget> {
           parentId: 0,
           path: '/contractQuery');
       categories.add(cat1);
+*/
     });
   }
 

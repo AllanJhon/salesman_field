@@ -47,7 +47,7 @@ class CustomerAPI {
         </soap:Envelope>''';
 
     var response = await http.post(
-        Uri.parse(getSelfURL()+"customerApiServiceV1?wsdl"),
+        Uri.parse(getSelfURL()+"/services/customerApiServiceV1?wsdl"),
         // Uri.parse("http://192.168.0.106/sales/services/customerApiServiceV1?wsdl"),
         body: utf8.encode(soap),
         encoding: Encoding.getByName("UTF-8"));

@@ -39,7 +39,6 @@ class LoginAPI {
               encoding: Encoding.getByName("UTF-8"));
 
       if (response.statusCode != 200) {
-        // print("Server Error !!!" + response.statusCode.toString());
         LoginUser loginUser =  new LoginUser("","","","","","",false,"网络异常:"+response.statusCode.toString());
         loginUser.loginUserList.add(loginUser);
         return loginUser;

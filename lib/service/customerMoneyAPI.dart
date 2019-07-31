@@ -6,7 +6,7 @@ import '../data/SAPCONST.dart';
 import '../models/CustomerMoney.dart';
 
 class CustomerMoneyAPI {
-  static Future<CustomerMoney> xml2List(String customerName, String saleCode, String saleOfficeCode) async {
+  static Future<CustomerMoney> xml2List(String customerCode, String saleCode, String saleOfficeCode) async {
     var date = new DateTime.now();
     String timestamp =
         "${date.year.toString()}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}${date.hour.toString().padLeft(2, '0')}${date.minute.toString().padLeft(2, '0')}${date.second.toString().padLeft(2, '0')}";
@@ -15,16 +15,15 @@ class CustomerMoneyAPI {
     String inputxmlstr;
     inputxmlstr =
         '''<![CDATA[<?xml version="1.0" encoding="UTF-8"?> <ZIF_SALES_OUT_ORDER>
-        <ZKSRQ>$customerName</ZKSRQ>
-        <ZJSRQ>$saleCode</ZJSRQ>
-        <ZVKBUR>$saleOfficeCode</ZVKBUR>
+        <KUNNR>$customerCode</KUNNR>
+        <SALES>$saleCode</SALES>
        </ZIF_SALES_OUT_ORDER>]]>''';
 
     String soap = '''
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
         <soapenv:Body>
             <urn:ZIF_WQ_IN_WS>
-              <FLAG>DDCX</FLAG>
+              <FLAG>YECX</FLAG>
              <INPUTXMLSTR>$inputxmlstr</INPUTXMLSTR>
               <SIGN>$md5Sign</SIGN>
               <TS>$timestamp</TS>
@@ -40,8 +39,10 @@ class CustomerMoneyAPI {
       print("Server Error !!!" + response.statusCode.toString());
       return null;
     }
+
     var document = xml.parse(response.body);
     var outputxmlstr = document.findAllElements('OUTPUTXMLSTR').single.text;
+    // print("..................................$outputxmlstr");
     return CustomerMoney.xml2List(outputxmlstr);
   }
 }

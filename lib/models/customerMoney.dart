@@ -14,30 +14,30 @@ class CustomerMoney {
     this.money,
   );
 
+//butxt 公司描述，dmbtr4 应收账款期末余额，ddwqje 订单未清到位价金额，jhwqje 交货到位价未清金额，fpwqje 发票到位价未清金额
   CustomerMoney.xml2List(outputxmlstr) {
-    // print(xml.parse(outputxmlstr).findAllElements('details'));
     List list = xml
         .parse(outputxmlstr)
         .findAllElements('RESULT')
-        .map((node) => node.findElements('STATUS').single.text)
+        .map((node) => node.findElements('Status').single.text)
         .toList();
     if (list.length > 0) {
       if (list[0] == "S") {
         customerMoneyList = xml
             .parse(outputxmlstr)
-            .findAllElements('contract')
+            .findAllElements('DATA')
             .map((node) => new CustomerMoney(
                 true,
                 "",
-                node.findElements('approveStatus').single.text,
-                node.findElements('jsfs').single.text)).toList();
+                node.findElements('butxt').single.text,
+                node.findElements('dmbtr4').single.text)).toList();
       } else {
         customerMoneyList = xml
             .parse(outputxmlstr)
-            .findAllElements('DATA')
+            .findAllElements('RESULT')
             .map((node) => new CustomerMoney(
                 false,
-                node.findElements('MESSAGE').single.text,
+                node.findElements('Message').single.text,
                 "error",
                 "error"))
             .toList();
