@@ -7,6 +7,8 @@ import 'untils/provider.dart';
 import 'untils/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 // import 'theme.dart';
+// import 'package:event_bus/event_bus.dart';
+
 
 const int ThemeColor = 0xFFC91B3A;
 // int ThemeColor;

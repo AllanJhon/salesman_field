@@ -12,7 +12,7 @@ import 'pages/contract/ContractDetailAddPage.dart';
 import 'pages/bill/goodsCodePage-1.dart';
 import 'pages/contract/contractQuery.dart';
 import 'pages/contract/contractQuerySearch.dart';
-import 'pages/customer/CustomerDetail.dart';
+import 'pages/customer/CustomerMoneyPage.dart';
 import 'pages/my/password.dart';
 import 'pages/my/myPage.dart';
 import 'upgrade.dart';
