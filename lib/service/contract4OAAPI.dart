@@ -1,7 +1,6 @@
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import '../models/contract4OA.dart';
-import '../models/loginUser.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
 import '../data/SAPCONST.dart';

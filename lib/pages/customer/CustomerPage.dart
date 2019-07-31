@@ -1,6 +1,5 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
-import '../../env.dart';
 import '../../models/customer.dart';
 import '../../service/customer_api.dart';
 
@@ -95,8 +94,8 @@ class _CustomerPage extends State<CustomerPage> {
 
   Widget _renderRow(BuildContext context, int index) {
     //设置字体样式
-    TextStyle textStyle =
-        new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
+    // TextStyle textStyle =
+    //     new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0);
     if (index < list.length) {
       //设置Padding
       return Container(

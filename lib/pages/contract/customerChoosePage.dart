@@ -1,7 +1,6 @@
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter/material.dart';
 import '../../components/contract_edit_container.dart';
-import '../../env.dart';
 import '../../models/customer.dart';
 import '../../service/customer_api.dart';
 

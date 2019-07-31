@@ -1,12 +1,9 @@
-import 'dart:async' as prefix0;
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info/package_info.dart';
 // import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
@@ -52,7 +49,6 @@ class _UpgradeState extends State<Upgrade> {
   getLoacalVersion() async {
     if (defaultTargetPlatform == TargetPlatform.android) {
       packageInfo = await PackageInfo.fromPlatform();    
-      print("......................"+ packageInfo.buildNumber); 
       return packageInfo.version;
     }
   }
