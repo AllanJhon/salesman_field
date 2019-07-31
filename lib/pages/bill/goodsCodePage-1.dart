@@ -60,6 +60,7 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
 
     GoodsCodeAPI.getGoodsCodeList(_search).then((goodsCode) {
       setState(() {
+        goodsCode.goodsCodesList.sort((left,right)=>left.zflag.compareTo(right.zflag));
         _dataList = goodsCode.goodsCodesList;
         _loading = false;
       });
@@ -99,6 +100,7 @@ class _GoodsCodePageState1 extends State<GoodsCodePage1> {
               child: Center(),
             ))
           : ListView.builder(
+              // itemExtent: 60,
               itemCount: _dataList.length,
               itemBuilder: (context, index) {
                 return Container(

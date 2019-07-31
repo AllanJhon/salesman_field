@@ -89,12 +89,11 @@ class _ContractQueryState extends State<ContractQuery> {
             customer: customer, contractStatus: status, qydw: qydw)
         .then((contract4OA) {
       setState(() {
-        print(contract4OA);
-        if (contract4OA == null) {
-          _loading = false;
-          // _showToast("网络异常");
-          return;
-        }
+        // if (contract4OA == null) {
+        //   _loading = false;
+        //   // _showToast("网络异常");
+        //   return;
+        // }
         _dataList = contract4OA.contract4OAList;
         _isSucess = _dataList.length > 0 ? _dataList[0].isSucess : _isSucess;
         _loading = false;
