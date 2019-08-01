@@ -16,6 +16,7 @@ import 'pages/customer/CustomerMoneyPage.dart';
 import 'pages/my/password.dart';
 import 'pages/my/myPage.dart';
 import 'upgrade.dart';
+import 'pages/my/myConfigPage.dart';
 
 //以下为测试页面
 import 'view/businessPage.dart';
@@ -43,6 +44,7 @@ final routes = {
   '/password': (content) => Password(),
   '/my': (content) => MyPage(),
   '/upgrade': (content) => Upgrade(),
+  '/myConfig': (content) => MyConfigPage(),
  
   //以下为测试用页面
 

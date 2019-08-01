@@ -11,7 +11,8 @@ import 'resources/shared_preferences_keys.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'data/SYSTEMCONST.dart';
 import 'service/loginAPI.dart';
-import 'untils/shared_preferences.dart';
+import 'untils/shared_preferences.dart' show SpUtil;
+import 'data/SAPCONST.dart';
 
 TextEditingController _userController = TextEditingController();
 TextEditingController _pwdController = TextEditingController();
@@ -19,6 +20,7 @@ String _user;
 String _pwd;
 String _md5PWD;
 bool isObscure = true;
+bool isQ = true;
 
 class LoginPage extends StatefulWidget {
   @override
@@ -31,8 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     //读取本地存储的用户名、密码
     _readLoginData().then((Map onValue) {
-      
-      if (this.mounted){
+      if (this.mounted) {
         setState(() {
           _user = onValue["user"];
           _pwd = onValue["pwd"];
@@ -44,20 +45,21 @@ class _LoginPageState extends State<LoginPage> {
     });
     //判断是否登录
     checkLgin();
-    
   }
+
   Future checkLgin() async {
-    SpUtil sharePeferences =   await SpUtil.getInstance();
-    if(sharePeferences.hasKey(sharePeferences.get(SharedPreferencesKeys.userInfo))){
-      currentUser=LoginUser.get(json.decode(sharePeferences.get(SharedPreferencesKeys.userInfo)));
-    }else{
-      sharePeferences.putBool(SharedPreferencesKeys.isLogin,false);
+    if (SpUtil.hasKey(SpUtil.get(SharedPreferencesKeys.userInfo))) {
+      currentUser = LoginUser.get(
+          json.decode(SpUtil.get(SharedPreferencesKeys.userInfo)));
+    } else {
+      SpUtil.putBool(SharedPreferencesKeys.isLogin, false);
     }
 
-    if(sharePeferences.hasKey(SharedPreferencesKeys.isLogin)&&sharePeferences.getBool(SharedPreferencesKeys.isLogin)){
+    if (SpUtil.hasKey(SharedPreferencesKeys.isLogin) &&
+        SpUtil.getBool(SharedPreferencesKeys.isLogin)) {
       Navigator.of(context).pushAndRemoveUntil(
-              new MaterialPageRoute(builder: (context) => Tabs()),
-              (route) => route == null);
+          new MaterialPageRoute(builder: (context) => Tabs()),
+          (route) => route == null);
     }
   }
 
@@ -79,9 +81,8 @@ class _LoginPageState extends State<LoginPage> {
       await (await _getLocalFile())
           .writeAsString('{"user":"$_user","pwd":"$_pwd","md5PWD":"$_md5PWD"}');
 
-      SpUtil sp= await SpUtil.getInstance();
-      sp.putString(SharedPreferencesKeys.userInfo, currentUser.toString());
-      sp.putBool(SharedPreferencesKeys.isLogin,true);
+      SpUtil.putString(SharedPreferencesKeys.userInfo, currentUser.toString());
+      SpUtil.putBool(SharedPreferencesKeys.isLogin, true);
     }
 
     LoginAPI.login(_user, _pwd).then((loginUser) {
@@ -89,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
         _showToast("网络异常");
         return;
       }
-      if (this.mounted){
+      if (this.mounted) {
         setState(() {
           if (!loginUser.loginUserList[0].isSucess) {
             _showToast(loginUser.loginUserList[0].error);
@@ -135,15 +136,35 @@ class _LoginPageState extends State<LoginPage> {
             child: Text(
               "金隅冀东移动外勤",
               style: TextStyle(
-                  color: Colors.lightBlue[900], fontSize: 28, fontWeight: FontWeight.w600),
+                  color: Colors.lightBlue[900],
+                  fontSize: 28,
+                  fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
           ),
           new Center(
+            child: GestureDetector(
+              onDoubleTap: () {
+                setState(() {
+                  isQ = !isQ;
+                });
+                flag = isQ ? "Q" : "P";
+              },
               child: new Image.asset(
-            'assets/images/normal_user_icon.png',
-            width: MediaQuery.of(context).size.width * 0.25,
-          )),
+                'assets/images/normal_user_icon.png',
+                width: MediaQuery.of(context).size.width * 0.25,
+                color: isQ ? Colors.lightBlue[900] : Colors.red,
+              ),
+            ),
+          ),
+          // 双击切换环境用，生产环境可替换上面的代码
+          // new Center(
+          //    child: new Image.asset(
+          //       'assets/images/normal_user_icon.png',
+          //       width: MediaQuery.of(context).size.width * 0.25,
+          //     ),
+          //   ),
+
           new Container(
               width: MediaQuery.of(context).size.width * 0.9,
               child: new Column(
@@ -183,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                                 : Icons.visibility),
                             iconSize: 28,
                             onPressed: () async {
-                              if (this.mounted){
+                              if (this.mounted) {
                                 setState(() {
                                   isObscure = !isObscure;
                                 });
@@ -201,8 +222,8 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: new RaisedButton(
                     // color: Colors.green,
-                    color: Colors.lightBlue[700],
-                    splashColor:Colors.black,
+                    color: Colors.blue[700],
+                    splashColor: Colors.black,
                     highlightColor: Colors.lightBlue[900],
                     child: Text(
                       "登录",
@@ -260,6 +281,7 @@ class _LoginPageState extends State<LoginPage> {
       )
     ])));
   }
+
   @override
   void dispose() {
     super.dispose();

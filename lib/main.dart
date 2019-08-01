@@ -6,9 +6,9 @@ import 'routers/routers.dart';
 import 'untils/provider.dart';
 import 'untils/shared_preferences.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-// import 'theme.dart';
-// import 'package:event_bus/event_bus.dart';
-
+import 'theme/provideStore.dart' show Store;
+import 'theme/configModel.dart' show ConfigModel;
+import 'theme/color.dart';
 
 const int ThemeColor = 0xFFC91B3A;
 // int ThemeColor;
@@ -16,50 +16,54 @@ const int ThemeColor = 0xFFC91B3A;
 SpUtil sp;
 var db;
 
-void main() async{
+void main() async {
   final provider = new Provider();
   await provider.init(true);
   sp = await SpUtil.getInstance();
   db = Provider.db;
-  runApp(new MyApp());
+  // runApp(new MyApp());
+  runApp(Store.init(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-
-  MyApp()  {
+  MyApp() {
     final router = new Router();
     Routes.configureRoutes(router);
     Application.router = router;
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: new ThemeData(
-        primaryColor: Color(ThemeColor),
-        backgroundColor: Color(0xFFEFEFEF),
-        accentColor: Color(0xFF888888),
-        textTheme: TextTheme(
-          //设置Material的默认字体样式
-          body1: TextStyle(color: Color(0xFF888888), fontSize: 16.0),
+    Store.value<ConfigModel>(context).$getTheme();
+    return Store.connect<ConfigModel>(builder: (context, child, model) {
+      return MaterialApp(
+        theme: new ThemeData(
+          // primaryColor: Color(ThemeColor),
+            primaryColor: Color(materialColor[model.theme]),
+          backgroundColor: Color(0xFFEFEFEF),
+          accentColor: Color(0xFF888888),
+          textTheme: TextTheme(
+            //设置Material的默认字体样式
+            body1: TextStyle(color: Color(0xFF888888), fontSize: 16.0),
+          ),
+          iconTheme: IconThemeData(
+            color: Color(materialColor[model.theme]),
+            size: 35.0,
+          ),
         ),
-        iconTheme: IconThemeData(
-          color: Color(ThemeColor),
-          size: 35.0,
-        ),
-      ),
-      debugShowCheckedModeBanner: false,
-      initialRoute: "/",
-      onGenerateRoute: onGenerateRoute,
-      // 2019-06-14增加本地化设置
-      localizationsDelegates: [                             
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: [                                   
-        const Locale('zh','CH'),
-        const Locale('en','US'),
-      ],
-    );
+        debugShowCheckedModeBanner: false,
+        initialRoute: "/",
+        onGenerateRoute: onGenerateRoute,
+        // 2019-06-14增加本地化设置
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('zh', 'CH'),
+          const Locale('en', 'US'),
+        ],
+      );
+    });
   }
 }

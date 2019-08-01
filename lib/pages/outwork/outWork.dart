@@ -46,8 +46,8 @@ class _OutWorkState extends State<OutWork> {
                     child: new IconButton(
                       icon: Icon(Icons.gesture),
                       onPressed: () {
-                        // Navigator.popAndPushNamed(context, "/billN");
-                        _showToast("版本努力升级中。");
+                        Navigator.pushNamed(context, "/busi");
+                        // _showToast("版本努力升级中。");
                       },
                     ),
                   ),

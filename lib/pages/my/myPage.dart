@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import "dart:math";
 import "../../models/loginUser.dart";
-import '../../untils/shared_preferences.dart';
+import '../../untils/shared_preferences.dart' show SpUtil;
 import '../../resources/shared_preferences_keys.dart';
 import 'package:flutter/services.dart';
 
-var userName = currentUser.userName ;
-var salesCode = currentUser.salesCode;
-var salesOffice = currentUser.salesOffice;
+var userName;
+var salesCode;
+var salesOffice;
 
 class MyPage extends StatefulWidget {
   MyPage({Key key}) : super(key: key);
@@ -18,6 +17,14 @@ class MyPage extends StatefulWidget {
 }
 
 class _MyPageState extends State<MyPage> {
+  @override
+  void initState() {
+    super.initState();
+    userName = currentUser.userName;
+    salesCode = currentUser.salesCode;
+    salesOffice = currentUser.salesOffice;
+  }
+
   static Future<void> pop() async {
     await SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
@@ -60,8 +67,7 @@ class _MyPageState extends State<MyPage> {
                             currentUser.displayName,
                             style: TextStyle(fontSize: 22),
                           ),
-                          subtitle: 
-                          Text('''用户名:$userName
+                          subtitle: Text('''用户名:$userName
 销售员编码:$salesCode
 销售办公室编码:$salesOffice'''),
                           // Text("用户名:" +
@@ -106,7 +112,6 @@ class _MyPageState extends State<MyPage> {
               color: Colors.white,
               child: ListTile(
                 title: Text("设置"),
-                enabled: false,
                 leading: new Icon(
                   Icons.settings,
                   color: Colors.orange[300],
@@ -116,6 +121,9 @@ class _MyPageState extends State<MyPage> {
                   Icons.keyboard_arrow_right,
                   size: 26,
                 ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/myConfig");
+                },
               ),
             ),
             SizedBox(height: 3),
@@ -132,7 +140,7 @@ class _MyPageState extends State<MyPage> {
                   Icons.keyboard_arrow_right,
                   size: 26,
                 ),
-                onTap: (){
+                onTap: () {
                   Navigator.pushNamed(context, "/upgrade");
                 },
               ),
@@ -182,51 +190,7 @@ class _MyPageState extends State<MyPage> {
 }
 
 Future outLogin(BuildContext context) async {
-  SpUtil sharePeferences = await SpUtil.getInstance();
-  sharePeferences.remove(SharedPreferencesKeys.userInfo);
-  sharePeferences.putBool(SharedPreferencesKeys.isLogin, false);
+  SpUtil.remove(SharedPreferencesKeys.userInfo);
+  SpUtil.putBool(SharedPreferencesKeys.isLogin, false);
   Navigator.popAndPushNamed(context, "/");
-}
-
-//画圆及画弧，显示客户金额消耗情况
-class MoneyCanvas extends CustomPainter {
-  Color lineColor;
-  Color completeColor;
-  double completePercent;
-  double argRadius;
-
-  MoneyCanvas(
-      this.lineColor, this.completeColor, this.completePercent, this.argRadius);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Offset center = Offset(size.width / 2, size.height / 2);
-
-    //定义画外圆的画布
-    Paint _paint = Paint()
-      ..style = PaintingStyle.stroke
-      ..color = lineColor
-      ..strokeWidth = 5;
-    //画圆
-    canvas.drawCircle(center, argRadius, _paint);
-
-    double arcAngle = 2 * pi * (completePercent / 100);
-    // 定义画内弧的画布
-    Paint _money = Paint()
-      ..color = completeColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 5
-      ..strokeCap = StrokeCap.round;
-
-    // //画弧
-    canvas.drawArc(
-        Rect.fromCircle(center: center, radius: argRadius - 8),
-        -pi / 2, //  从正上方开始
-        arcAngle,
-        false,
-        _money);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

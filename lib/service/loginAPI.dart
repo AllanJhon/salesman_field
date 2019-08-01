@@ -47,8 +47,8 @@ class LoginAPI {
       var outputxmlstr = document.findAllElements('ns:return').single.text;
       return LoginUser.xml2List(outputxmlstr);
     } catch (exception) {
-      print(exception);
-      print("网络异常");
+      // print(exception);
+      // print("网络异常");
       return null;
     }
   }
