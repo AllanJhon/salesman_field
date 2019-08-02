@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 import 'dart:async';
-import 'dart:convert';
-import 'package:crypto/crypto.dart';
+import '../../untils/shared_preferences.dart' show SpUtil;
 
 var _oldPWDController = TextEditingController();
 var _newPWDController = TextEditingController();
@@ -12,9 +9,9 @@ var _confirmPWDController = TextEditingController();
 var _oldPWD;
 var _newPWD;
 var _confirmPWD;
-var _user;
 var _localPWD;
-var _md5PWD;
+bool oldObscure = true;
+bool pressDown = false;
 
 class Password extends StatefulWidget {
   @override
@@ -24,26 +21,7 @@ class Password extends StatefulWidget {
 class _PasswordState extends State<Password> {
   void initState() {
     super.initState();
-    _readLoginData().then((Map onValue) {
-      setState(() {
-        _user = onValue["user"];
-        _localPWD = onValue["pwd"];
-        // _md5PWD = onValue["md5PWD"];
-      });
-    });
-  }
-
-  Future<Map> _readLoginData() async {
-    try {
-      String dir = (await getApplicationDocumentsDirectory()).path;
-      File file = new File('$dir/login.txt');
-      String data = await file.readAsString();
-      Map json = new JsonDecoder().convert(data);
-      return json;
-    } on FileSystemException {
-      return new JsonDecoder()
-          .convert('{"user":"error","pwd":"error","md5PWD":"error"}');
-    }
+    _localPWD = SpUtil.get("pwd");
   }
 
   void _showToast(String toastMsg) {
@@ -56,19 +34,10 @@ class _PasswordState extends State<Password> {
         textColor: Colors.white,
         fontSize: 16.0);
   }
-
-  Future<File> _getLocalFile() async {
-    //获取应用程序的私有位置
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    return new File('$dir/login.txt');
-  }
-
   //写数据
   Future<Null> _writerDataToFile() async {
     var confirmPWD = _confirmPWDController.text;
-    confirmPWD = md5.convert(utf8.encode(confirmPWD)).toString();
-    await (await _getLocalFile()).writeAsString(
-        '{"user":"$_user","pwd":"$_newPWD","md5PWD":"$_md5PWD"}');
+    SpUtil.putString("pwd", confirmPWD);
   }
 
   bool _changePWD() {
@@ -80,9 +49,7 @@ class _PasswordState extends State<Password> {
       _showToast("原密码不能为空!");
       return false;
     }
-    //判断原密码和现在输入的是否一致，暂定在本机判断
-    _md5PWD = md5.convert(utf8.encode(_oldPWD)).toString();
-  
+
     if (_localPWD != _oldPWD) {
       _showToast("原密码不正确，请重新输入!");
       return false;
@@ -127,16 +94,28 @@ class _PasswordState extends State<Password> {
               Padding(
                   padding: EdgeInsets.fromLTRB(10, 25, 10, 10),
                   child: TextField(
-                    // keyboardType: TextInputType.number,
+                    obscureText: oldObscure,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(10.0),
                       icon: Icon(Icons.lock_open),
                       labelText: '原密码',
                       helperText: '请输入您的原密码',
+                      suffixIcon: new IconButton(
+                        icon: Icon(oldObscure
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                        iconSize: 28,
+                        onPressed: () async {
+                          if (this.mounted) {
+                            setState(() {
+                              oldObscure = !oldObscure;
+                            });
+                          }
+                        },
+                      ),
                     ),
                     controller: _oldPWDController,
                     autofocus: false,
-                    obscureText: true,
                   )),
               Padding(
                   padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
@@ -179,8 +158,7 @@ class _PasswordState extends State<Password> {
                                 width: 30,
                                 height: 40,
                                 child: new RaisedButton(
-                                    color: Colors.green,
-                                    highlightColor: Colors.green[900],
+                                    color: Theme.of(context).primaryColor,
                                     child: Text(
                                       "确定",
                                       style: TextStyle(fontSize: 18),
@@ -205,51 +183,33 @@ class _PasswordState extends State<Password> {
                                 width: 30,
                                 height: 40,
                                 child: new RaisedButton(
-                                    color: Colors.red[400],
-                                    highlightColor: Colors.red[900],
+                                    highlightColor:
+                                        Theme.of(context).primaryColor,
                                     child: Text(
                                       "取消",
-                                      style: TextStyle(fontSize: 18),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                      ),
                                     ),
-                                    textColor: Colors.white,
+                                    textColor: pressDown?Colors.white:Theme.of(context).primaryColor,
+                                    color:Colors.white,
                                     onPressed: () {
                                       Navigator.popAndPushNamed(context, "/my");
                                     },
+                                    onHighlightChanged: (state) {
+                                      setState(() {
+                                          pressDown = state;
+                                      });
+                                    },
                                     shape: new RoundedRectangleBorder(
+                                        side: new BorderSide(
+                                            color:
+                                                Theme.of(context).primaryColor),
                                         borderRadius:
                                             BorderRadius.circular(10.0)))),
                           )),
                     ],
                   )),
-              // SizedBox(height: 20),
-              // Padding(
-              //     padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-              //     child: Row(
-              //       children: <Widget>[
-              //         Expanded(
-              //           flex: 1,
-              //           child: Padding(
-              //             padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-              //             child: SizedBox(
-              //               width: 30,
-              //               height: 40,
-              //               child: getRaisedButtonIconOK(context, "_changePWD()"),
-              //             ),
-              //           ),
-              //         ),
-              //         Expanded(
-              //           flex: 1,
-              //           child: Padding(
-              //             padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-              //             child: SizedBox(
-              //               width: 30,
-              //               height: 40,
-              //               child: getRaisedButtonIcon(context),
-              //             ),
-              //           ),
-              //         ),
-              //       ],
-              //     )),
             ],
           ),
         )));

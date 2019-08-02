@@ -55,6 +55,7 @@ class _MyPageState extends State<MyPage> {
                       child: new Image.asset(
                         'assets/images/normal_user_icon.png',
                         width: MediaQuery.of(context).size.width * 0.3,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),

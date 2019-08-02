@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
+// import 'dart:io';
+// import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:convert';
-import 'package:crypto/crypto.dart';
+// import 'package:crypto/crypto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:salesman_field/models/loginUser.dart';
 import 'tabs.dart';
@@ -18,7 +18,6 @@ TextEditingController _userController = TextEditingController();
 TextEditingController _pwdController = TextEditingController();
 String _user;
 String _pwd;
-String _md5PWD;
 bool isObscure = true;
 bool isQ = true;
 
@@ -32,17 +31,20 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     //读取本地存储的用户名、密码
-    _readLoginData().then((Map onValue) {
-      if (this.mounted) {
-        setState(() {
-          _user = onValue["user"];
-          _pwd = onValue["pwd"];
-          _md5PWD = onValue["md5PWD"];
-          _userController.text = _user;
-          _pwdController.text = _pwd;
-        });
-      }
-    });
+    // _readLoginData().then((Map onValue) {
+    //   if (this.mounted) {
+    //     setState(() {
+    //       _user = onValue["user"];
+    //       _pwd = onValue["pwd"];
+    //       _md5PWD = onValue["md5PWD"];
+    //       _userController.text = _user;
+    //       _pwdController.text = _pwd;
+    //     });
+    //   }
+    // });
+    // print( SpUtil.get("userInfo"));
+    _userController.text = SpUtil.get("user");
+    _pwdController.text = SpUtil.get("pwd");
     //判断是否登录
     checkLgin();
   }
@@ -75,14 +77,15 @@ class _LoginPageState extends State<LoginPage> {
       _showToast("密码不能为空!");
       return;
     }
-    _md5PWD = md5.convert(utf8.encode(_pwd)).toString();
 
     Future<Null> _writerDataToFile() async {
-      await (await _getLocalFile())
-          .writeAsString('{"user":"$_user","pwd":"$_pwd","md5PWD":"$_md5PWD"}');
-
+      //后续删除, currentUser.toString() 写这个整串的意义是？
       SpUtil.putString(SharedPreferencesKeys.userInfo, currentUser.toString());
       SpUtil.putBool(SharedPreferencesKeys.isLogin, true);
+      //写
+      SpUtil.putString("user", _user);
+      SpUtil.putString("pwd", _pwd);
+      SpUtil.putBool("isLogin", true);
     }
 
     LoginAPI.login(_user, _pwd).then((loginUser) {
@@ -105,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+/*
   Future<Map> _readLoginData() async {
     String dir = (await getApplicationDocumentsDirectory()).path;
     File file = new File('$dir/login.txt');
@@ -112,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
     Map json = new JsonDecoder().convert(data);
     return json;
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -299,12 +303,13 @@ void _showToast(String toastMsg) {
       fontSize: 16.0);
 }
 
+/*
 Future<File> _getLocalFile() async {
   //获取应用程序的私有位置
   String dir = (await getApplicationDocumentsDirectory()).path;
   return new File('$dir/login.txt');
 }
-
+*/
 doCall(url) async {
   if (await canLaunch(url)) {
     await launch(url);

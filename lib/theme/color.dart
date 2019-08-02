@@ -1,5 +1,10 @@
 Map materialColor = {
   'red': 0xFFC91B3A,
+  'red50': 0xFFFFEBEE,
+  'red100': 0xFFFFCDD2,
+  'red200': 0xFFFF9A9A,
+  'red300': 0xFFFF7373,
+  'red400': 0xFFFF5350,
   'pink': 0xFFE91E63,
   'purple': 0xFF9C27B0,
   'deepPurple': 0xFF673AB7,

@@ -29,7 +29,7 @@ class _TabsState extends State<Tabs> {
             this._currentIndex = index;
           });
         },
-        fixedColor: Colors.red,
+        fixedColor: Theme.of(context).primaryColor,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("首页")),

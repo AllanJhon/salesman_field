@@ -124,7 +124,7 @@ class _UpgradeState extends State<Upgrade> {
                   new Container(
                     child: Text(
                       msg,
-                      style: TextStyle(fontSize: 18, color: Colors.red),
+                      style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
                     ),
                   ),
                   SizedBox(
@@ -137,10 +137,10 @@ class _UpgradeState extends State<Upgrade> {
                         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: new RaisedButton(
                             // color: Colors.green,
-                            color: Colors.red[700],
+                            color: Theme.of(context).primaryColor,
                             disabledColor: Colors.grey,
                             splashColor: Colors.black,
-                            highlightColor: Colors.lightBlue[900],
+                            // highlightColor: Colors.lightBlue[900],
                             child: Text(
                               "升级新版本",
                               style: TextStyle(fontSize: 18),
