@@ -5,10 +5,15 @@ import "../../models/loginUser.dart";
 import '../../untils/shared_preferences.dart' show SpUtil;
 import '../../resources/shared_preferences_keys.dart';
 import 'package:flutter/services.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
 
 var userName;
 var salesCode;
 var salesOffice;
+var imagePath;
+File _image;
 
 class MyPage extends StatefulWidget {
   MyPage({Key key}) : super(key: key);
@@ -23,6 +28,16 @@ class _MyPageState extends State<MyPage> {
     userName = currentUser.userName;
     salesCode = currentUser.salesCode;
     salesOffice = currentUser.salesOffice;
+    imagePath = SpUtil.get("imagePath");
+    _image = imagePath == null ? null : new File(imagePath);
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+      SpUtil.putString("imagePath", image==null?imagePath:image.path);
+    });
   }
 
   static Future<void> pop() async {
@@ -36,9 +51,6 @@ class _MyPageState extends State<MyPage> {
           centerTitle: true,
           title: new Text(
             '我的',
-            style: TextStyle(
-                // color: Colors.red,
-                ),
           ),
         ),
         body: Container(
@@ -49,13 +61,24 @@ class _MyPageState extends State<MyPage> {
                   Expanded(
                     flex: 1,
                     child: new Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      height: 120,
-                      width: 120,
-                      child: new Image.asset(
-                        'assets/images/normal_user_icon.png',
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        color: Theme.of(context).primaryColor,
+                      child: GestureDetector(
+                        onDoubleTap: getImage,
+                        child: new Container(
+                          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          height: 120,
+                          width: 120,
+                          child: _image == null
+                              ? new Image.asset(
+                                  'assets/images/normal_user_icon.png',
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  color: Theme.of(context).primaryColor,
+                                )
+                              : new ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: new Image.file(_image),
+                                ),
+                        ),
                       ),
                     ),
                   ),

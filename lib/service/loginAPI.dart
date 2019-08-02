@@ -6,7 +6,8 @@ import '../models/loginUser.dart';
 import '../data/SAPCONST.dart';
 
 class LoginAPI {
-  static Future<LoginUser> login(String user, String pwd) async {
+  static Future<LoginUser> login(String user, String pwd,
+      {String funcName = "userLogin", String newPwd = "123456"}) async {
     var date = new DateTime.now();
     String timestamp =
         "${date.year.toString()}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}${date.hour.toString().padLeft(2, '0')}${date.minute.toString().padLeft(2, '0')}${date.second.toString().padLeft(2, '0')}";
@@ -17,34 +18,37 @@ class LoginAPI {
             <data>
               <user_name>$user</user_name>
               <password>$pwd</password>
+              <new_password>$newPwd</new_password>
             </data>]]>''';
     String soap = '''
         <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:sal="http://sales.open.ttx.io/">
         <soap:Header/>
         <soap:Body>
-            <sal:userLogin>
+            <sal:$funcName>
               <sal:inputTimestamp>$timestamp</sal:inputTimestamp>
               <sal:inputSign>$md5Sign</sal:inputSign>
               <sal:inputSecrect>249VOELF82CD</sal:inputSecrect>
               <sal:inputXmlStr>$inputxmlstr</sal:inputXmlStr>
-            </sal:userLogin>
+            </sal:$funcName>
         </soap:Body>
         </soap:Envelope>''';
 
     try {
-      var response =
-          await http.post(Uri.parse(getSelfURL() + "/services/userApiServiceV1?wsdl"),
-              // headers: getSAPHeader("Zif_WQ_IN_WS"),
-              body: utf8.encode(soap),
-              encoding: Encoding.getByName("UTF-8"));
+      var response = await http.post(
+          Uri.parse(getSelfURL() + "/services/userApiServiceV1?wsdl"),
+          // headers: getSAPHeader("Zif_WQ_IN_WS"),
+          body: utf8.encode(soap),
+          encoding: Encoding.getByName("UTF-8"));
 
       if (response.statusCode != 200) {
-        LoginUser loginUser =  new LoginUser("","","","","","",false,"网络异常:"+response.statusCode.toString());
+        LoginUser loginUser = new LoginUser("", "", "", "", "", "", false,
+            "网络异常:" + response.statusCode.toString());
         loginUser.loginUserList.add(loginUser);
         return loginUser;
       }
       var document = xml.parse(response.body);
       var outputxmlstr = document.findAllElements('ns:return').single.text;
+
       return LoginUser.xml2List(outputxmlstr);
     } catch (exception) {
       // print(exception);

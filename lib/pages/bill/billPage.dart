@@ -78,9 +78,10 @@ class _BillPageState extends State<BillPage> {
             icon: Icon(Icons.arrow_back),
             tooltip: '后退',
             onPressed: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                new MaterialPageRoute(builder: (context) => Tabs()),
-                (route) => route == null);;
+              Navigator.of(context).pushAndRemoveUntil(
+                  new MaterialPageRoute(builder: (context) => Tabs()),
+                  (route) => route == null);
+              ;
             }),
         centerTitle: true,
         title: new Text(
@@ -105,7 +106,11 @@ class _BillPageState extends State<BillPage> {
             ))
           : !_isSucess
               ? new Center(
-                  child: Text(_dataList[0].message,style: TextStyle(fontSize: 24,color:Colors.red[400]),),
+                  child: Text(
+                    _dataList[0].message,
+                    style: TextStyle(
+                        fontSize: 24, color: Theme.of(context).primaryColor),
+                  ),
                 )
               : ListView.builder(
                   itemCount: _dataList.length,
@@ -117,7 +122,7 @@ class _BillPageState extends State<BillPage> {
                               _dataList[index].zname1 +
                               ", 余量：" +
                               _dataList[index].zskwmeng +
-                              "吨,  " ,
+                              "吨,  ",
                           style: double.parse(_dataList[index].zskwmeng) <
                                   warningNum
                               ? TextStyle(color: Colors.red)

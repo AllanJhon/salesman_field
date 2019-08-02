@@ -140,7 +140,8 @@ class _ContractQueryState extends State<ContractQuery> {
               ? new Center(
                   child: Text(
                     _dataList[0].message,
-                    style: TextStyle(fontSize: 24, color: Colors.red[400]),
+                    style: TextStyle(
+                        fontSize: 24, color: Theme.of(context).primaryColor),
                   ),
                 )
               : ListView.builder(

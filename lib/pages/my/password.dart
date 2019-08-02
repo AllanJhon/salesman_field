@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:salesman_field/models/loginUser.dart';
 import 'dart:async';
 import '../../untils/shared_preferences.dart' show SpUtil;
+import '../../service/loginAPI.dart';
 
 var _oldPWDController = TextEditingController();
 var _newPWDController = TextEditingController();
@@ -12,6 +14,7 @@ var _confirmPWD;
 var _localPWD;
 bool oldObscure = true;
 bool pressDown = false;
+var _user = currentUser.userName;
 
 class Password extends StatefulWidget {
   @override
@@ -34,6 +37,7 @@ class _PasswordState extends State<Password> {
         textColor: Colors.white,
         fontSize: 16.0);
   }
+
   //写数据
   Future<Null> _writerDataToFile() async {
     var confirmPWD = _confirmPWDController.text;
@@ -67,11 +71,23 @@ class _PasswordState extends State<Password> {
       return false;
     }
 
-    // 缺少一个提交服务端的过程
-
-    // 服务端提交成功后，写本地
-    _writerDataToFile();
-    _showToast("密码修改成功!");
+    LoginAPI.login(_user, _oldPWD, funcName: "resetPws", newPwd: _newPWD)
+        .then((loginUser) {
+      if (loginUser == null) {
+        _showToast("网络异常");
+        return;
+      }
+      if (this.mounted) {
+        setState(() {
+          if (!loginUser.loginUserList[0].isSucess) {
+            _showToast(loginUser.loginUserList[0].error);
+          } else {
+            _writerDataToFile();
+            _showToast("密码修改成功!");
+          }
+        });
+      }
+    });
     return true;
   }
 
@@ -191,14 +207,16 @@ class _PasswordState extends State<Password> {
                                         fontSize: 18,
                                       ),
                                     ),
-                                    textColor: pressDown?Colors.white:Theme.of(context).primaryColor,
-                                    color:Colors.white,
+                                    textColor: pressDown
+                                        ? Colors.white
+                                        : Theme.of(context).primaryColor,
+                                    color: Colors.white,
                                     onPressed: () {
                                       Navigator.popAndPushNamed(context, "/my");
                                     },
                                     onHighlightChanged: (state) {
                                       setState(() {
-                                          pressDown = state;
+                                        pressDown = state;
                                       });
                                     },
                                     shape: new RoundedRectangleBorder(

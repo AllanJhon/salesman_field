@@ -59,8 +59,11 @@ class _CustomerPage extends State<CustomerPage> {
     return new Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        title: Text('客户余额查询'),
+        /*
         title: TextFileWidget(),
-        actions: <Widget>[
+
+        actions: <Widget>[          
           IconButton(
               icon: Icon(Icons.search, size: 32),
               tooltip: '搜索客户名称',
@@ -80,15 +83,24 @@ class _CustomerPage extends State<CustomerPage> {
                 // _filterCustmer();
               })
         ],
+        */
       ),
-      body: RefreshIndicator(
-        onRefresh: _onRefresh,
-        child: ListView.builder(
-          itemBuilder: _renderRow,
-          itemCount: list.length + 1,
-          controller: _scrollController,
-        ),
-      ),
+      body: list.length <= 0
+          ? Center(
+              child: Text(
+                "未取到数据",
+                style: TextStyle(
+                    fontSize: 24, color: Theme.of(context).primaryColor),
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: _onRefresh,
+              child: ListView.builder(
+                itemBuilder: _renderRow,
+                itemCount: list.length + 1,
+                controller: _scrollController,
+              ),
+            ),
     );
   }
 
@@ -109,8 +121,10 @@ class _CustomerPage extends State<CustomerPage> {
             size: 24,
           ),
           onTap: () {
-            Navigator.pushNamed(context, '/customerDetail',
-                arguments: {"name":list[index].name,"code":list[index].code});
+            Navigator.pushNamed(context, '/customerDetail', arguments: {
+              "name": list[index].name,
+              "code": list[index].code
+            });
           },
         ),
         decoration: BoxDecoration(
