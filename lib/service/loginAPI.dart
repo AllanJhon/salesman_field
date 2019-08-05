@@ -35,15 +35,15 @@ class LoginAPI {
         </soap:Envelope>''';
 
     var connectivityResult = await (Connectivity().checkConnectivity());
-    if ((connectivityResult != ConnectivityResult.mobile) ||
+    print(connectivityResult);
+
+    if ((connectivityResult != ConnectivityResult.mobile) &&
         (connectivityResult != ConnectivityResult.wifi)) {
       LoginUser loginUser =
           new LoginUser("", "", "", "", "", "", false, "您需要连接网络才能使用系统。");
       loginUser.loginUserList = [loginUser];
       return loginUser;
     }
-
-
 
     try {
       var response = await http.post(
