@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'dart:io';
-// import 'package:path_provider/path_provider.dart';
 import 'dart:async';
 import 'dart:convert';
-// import 'package:crypto/crypto.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:salesman_field/models/loginUser.dart';
 import 'tabs.dart';
@@ -30,19 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    //读取本地存储的用户名、密码
-    // _readLoginData().then((Map onValue) {
-    //   if (this.mounted) {
-    //     setState(() {
-    //       _user = onValue["user"];
-    //       _pwd = onValue["pwd"];
-    //       _md5PWD = onValue["md5PWD"];
-    //       _userController.text = _user;
-    //       _pwdController.text = _pwd;
-    //     });
-    //   }
-    // });
-    // print( SpUtil.get("userInfo"));
     _userController.text = SpUtil.get("user");
     _pwdController.text = SpUtil.get("pwd");
     //判断是否登录
@@ -90,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
 
     LoginAPI.login(_user, _pwd).then((loginUser) {
       if (loginUser == null) {
-        _showToast("网络异常");
+        _showToast("网络异常。");
         return;
       }
       if (this.mounted) {
@@ -108,15 +92,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-/*
-  Future<Map> _readLoginData() async {
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File('$dir/login.txt');
-    String data = await file.readAsString();
-    Map json = new JsonDecoder().convert(data);
-    return json;
-  }
-*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
               child: new Image.asset(
                 'assets/images/normal_user_icon.png',
                 width: MediaQuery.of(context).size.width * 0.25,
-                color: isQ ? Colors.lightBlue[900] : Colors.red,
+                color: isQ ? Colors.lightBlue[900]:Theme.of(context).primaryColor,
               ),
             ),
           ),
@@ -225,7 +200,6 @@ class _LoginPageState extends State<LoginPage> {
             child: new Container(
                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                 child: new RaisedButton(
-                    // color: Colors.green,
                     color: Colors.blue[700],
                     splashColor: Colors.black,
                     highlightColor: Colors.lightBlue[900],
@@ -303,13 +277,6 @@ void _showToast(String toastMsg) {
       fontSize: 16.0);
 }
 
-/*
-Future<File> _getLocalFile() async {
-  //获取应用程序的私有位置
-  String dir = (await getApplicationDocumentsDirectory()).path;
-  return new File('$dir/login.txt');
-}
-*/
 doCall(url) async {
   if (await canLaunch(url)) {
     await launch(url);

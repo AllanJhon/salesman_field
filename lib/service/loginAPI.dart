@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
 import '../models/loginUser.dart';
 import '../data/SAPCONST.dart';
+import 'package:connectivity/connectivity.dart';
 
 class LoginAPI {
   static Future<LoginUser> login(String user, String pwd,
@@ -33,26 +34,35 @@ class LoginAPI {
         </soap:Body>
         </soap:Envelope>''';
 
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if ((connectivityResult != ConnectivityResult.mobile) ||
+        (connectivityResult != ConnectivityResult.wifi)) {
+      LoginUser loginUser =
+          new LoginUser("", "", "", "", "", "", false, "您需要连接网络才能使用系统。");
+      loginUser.loginUserList = [loginUser];
+      return loginUser;
+    }
+
+
+
     try {
       var response = await http.post(
           Uri.parse(getSelfURL() + "/services/userApiServiceV1?wsdl"),
-          // headers: getSAPHeader("Zif_WQ_IN_WS"),
           body: utf8.encode(soap),
           encoding: Encoding.getByName("UTF-8"));
 
       if (response.statusCode != 200) {
         LoginUser loginUser = new LoginUser("", "", "", "", "", "", false,
-            "网络异常:" + response.statusCode.toString());
-        loginUser.loginUserList.add(loginUser);
+            "网络异常: " + response.statusCode.toString());
+        loginUser.loginUserList = [loginUser];
         return loginUser;
       }
+
       var document = xml.parse(response.body);
       var outputxmlstr = document.findAllElements('ns:return').single.text;
 
       return LoginUser.xml2List(outputxmlstr);
     } catch (exception) {
-      // print(exception);
-      // print("网络异常");
       return null;
     }
   }

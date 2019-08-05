@@ -11,7 +11,9 @@ var sapHeader = {
 
 getSAPURL(String funcName) {
   funcName = funcName.toUpperCase();
-  return "http://dstbj.jdsn.com.cn:8081/sap/bc/srt/rfc/sap/$funcName/102/service/binding";
+  return flag == "Q"
+      ? "http://dstbj.jdsn.com.cn:8081/sap/bc/srt/rfc/sap/$funcName/102/service/binding"
+      : "http://dstbj.jdsn.com.cn:8081/sap/bc/srt/rfc/sap/$funcName/800/service/binding";
 }
 
 getSAPHeader(String funcName) {
@@ -25,16 +27,15 @@ getSAPHeader(String funcName) {
 }
 
 getSelfURL() {
-  // return "http://60.2.191.108:8287";
-     return flag == "Q"?"http://10.0.65.48:8287":"http://60.2.191.108:8287";
+  return flag == "Q" ? "http://10.0.65.48:8287" : "http://60.2.191.108:8287";
 }
 
 getOAURL() {
-  return "http://10.0.65.16/services/";
+  return flag == "Q"
+      ? "http://10.0.65.48:8287"
+      : "http://dstbj.jdsn.com.cn:8077/services/";
 }
 
-setSelfURL(String url, {int port}) {
-
-}
+setSelfURL(String url, {int port}) {}
 
 setSAPURL(String url, int port) {}

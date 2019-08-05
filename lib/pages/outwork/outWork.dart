@@ -74,7 +74,7 @@ class _OutWorkState extends State<OutWork> {
                           Navigator.pushNamed(context, "/test");
                         },
                       ),
-                      backgroundColor: Colors.orange,
+                      backgroundColor: Theme.of(context).primaryColor,
                     ),
                     SizedBox(height: 10),
                     Text("定位打卡"),

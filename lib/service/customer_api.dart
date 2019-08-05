@@ -7,18 +7,7 @@ import 'package:xml/xml.dart' as xml;
 import '../data/SAPCONST.dart';
 
 class CustomerAPI {
-
-  // Future<Customer> getCustomerList(int start) async {
-  //   var client = HttpClient();
-  //   var request = await client.getUrl(Uri.parse(
-  //       'http://10.0.65.171:8180/dataQuery/getCustomerListApi.do?title=%E5%86%80%E4%B8%9C&time=699&page=1&start=0&limit=20'));
-  //   var response = await request.close();
-  //   var responseBody = await response.transform(utf8.decoder).join();
-  //   Map<String,Object> data = json.decode(responseBody);
-  //   // print(data['rows']);
-  //   return Customer.fromJSON(data);
-  // }
-
+  
   // static Future<Customer> getCustomerList(String sales_code, String sales_office,String year) async {
     static Future<Customer> getCustomerList(int year) async {
     var date = new DateTime.now();
@@ -49,7 +38,6 @@ class CustomerAPI {
 
     var response = await http.post(
         Uri.parse(getSelfURL()+"/services/customerApiServiceV1?wsdl"),
-        // Uri.parse("http://192.168.0.106/sales/services/customerApiServiceV1?wsdl"),
         body: utf8.encode(soap),
         encoding: Encoding.getByName("UTF-8"));
 
