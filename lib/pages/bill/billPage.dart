@@ -8,8 +8,9 @@ TextEditingController goodsController = TextEditingController();
 List _dataList = new List();
 var date = new DateTime.now();
 bool _loading = false;
-bool _isSucess = true;
+bool _isSucess = false;
 var warningNum = 100;
+var msg;
 
 var zksrq; //开始时期
 var zjsrq; //结束日期
@@ -51,7 +52,6 @@ class _BillPageState extends State<BillPage> {
 
     zbstkd =
         this.widget.arguments != null ? this.widget.arguments["billNo"] : "";
-
     zkunnr =
         this.widget.arguments != null ? this.widget.arguments["cusName"] : "";
 
@@ -64,7 +64,8 @@ class _BillPageState extends State<BillPage> {
         .then((billModel) {
       setState(() {
         _dataList = billModel.billModelList;
-        _isSucess = _dataList[0].isSucess;
+        _isSucess = _dataList.length > 0 ? _dataList[0].isSucess : _isSucess;
+        msg = _dataList.length > 0 ? _dataList[0].message : "调用远端服务异常!";
         _loading = false;
       });
     });
@@ -107,7 +108,7 @@ class _BillPageState extends State<BillPage> {
           : !_isSucess
               ? new Center(
                   child: Text(
-                    _dataList[0].message,
+                    msg,
                     style: TextStyle(
                         fontSize: 24, color: Theme.of(context).primaryColor),
                   ),

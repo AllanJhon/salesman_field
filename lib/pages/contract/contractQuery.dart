@@ -11,8 +11,9 @@ var eDate;
 var customer;
 var status;
 var qydw;
-bool _isSucess = true;
+bool _isSucess = false;
 bool _loading = false;
+var msg;
 
 class ContractQuery extends StatefulWidget {
   final arguments;
@@ -89,13 +90,9 @@ class _ContractQueryState extends State<ContractQuery> {
             customer: customer, contractStatus: status, qydw: qydw)
         .then((contract4OA) {
       setState(() {
-        // if (contract4OA == null) {
-        //   _loading = false;
-        //   // _showToast("网络异常");
-        //   return;
-        // }
         _dataList = contract4OA.contract4OAList;
         _isSucess = _dataList.length > 0 ? _dataList[0].isSucess : _isSucess;
+        msg = _dataList.length > 0 ? _dataList[0].message : "调用远端服务异常!";
         _loading = false;
       });
     });
@@ -139,7 +136,7 @@ class _ContractQueryState extends State<ContractQuery> {
           : !_isSucess
               ? new Center(
                   child: Text(
-                    _dataList[0].message,
+                    msg,
                     style: TextStyle(
                         fontSize: 24, color: Theme.of(context).primaryColor),
                   ),

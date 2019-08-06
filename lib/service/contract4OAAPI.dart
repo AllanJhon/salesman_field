@@ -50,8 +50,6 @@ class Contract4OAAPI {
     }
     var document = xml.parse(response.body);
     var outputxmlstr = document.findAllElements('ns1:return').single.text;
-    print(".....................................................$outputxmlstr");
-
     return Contract4OA.xml2List(outputxmlstr);
   }
 }

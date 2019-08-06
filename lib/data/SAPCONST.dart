@@ -32,7 +32,7 @@ getSelfURL() {
 
 getOAURL() {
   return flag == "Q"
-      ? "http://10.0.65.48:8287"
+      ? "http://10.0.65.16/services"
       : "http://dstbj.jdsn.com.cn:8077/services";
 }
 
