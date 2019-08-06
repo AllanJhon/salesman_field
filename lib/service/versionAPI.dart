@@ -2,13 +2,11 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 import 'package:xml/xml.dart' as xml;
-import '../models/loginUser.dart';
 import '../data/SAPCONST.dart';
-import 'package:connectivity/connectivity.dart';
-import '../models/versionModel.dart' show Version;
+import '../models/versionModel.dart' ;
 
 class VersionAPI {
-  static Future<Map> getVersion({String platform="andriod"}) async {
+  static Future<Version> getVersion({String platform="andriod"}) async {
     var date = new DateTime.now();
     String timestamp =
         "${date.year.toString()}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}${date.hour.toString().padLeft(2, '0')}${date.minute.toString().padLeft(2, '0')}${date.second.toString().padLeft(2, '0')}";
@@ -32,17 +30,6 @@ class VersionAPI {
         </soap:Body>
         </soap:Envelope>''';
 
-    // var connectivityResult = await (Connectivity().checkConnectivity());
-    // print(connectivityResult);
-
-    // if ((connectivityResult != ConnectivityResult.mobile) &&
-    //     (connectivityResult != ConnectivityResult.wifi)) {
-    //   LoginUser loginUser =
-    //       new LoginUser("", "", "", "", "", "", false, "您需要连接网络才能使用系统。");
-    //   loginUser.loginUserList = [loginUser];
-    //   return loginUser;
-    // }
-
     try {
       var response = await http.post(
           Uri.parse(getSelfURL() + "/services/versionApiServiceV1?wsdl"),
@@ -54,7 +41,7 @@ class VersionAPI {
       }
       var document = xml.parse(response.body);
       var outputxmlstr = document.findAllElements('ns:return').single.text;
-      return  Version.xml2Map(outputxmlstr);
+      return  Version.xml2Model(outputxmlstr);
 
     } catch (exception) {
       return null;

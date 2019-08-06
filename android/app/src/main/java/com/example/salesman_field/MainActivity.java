@@ -29,8 +29,6 @@ public class MainActivity extends FlutterActivity {
                         // TODO
                         if (call.method.equals("install")) {
                           String path = call.argument("path").toString();
-                          System.out.println(android.os.Build.VERSION.SDK_INT);
-
                         int resultInstall = install(path);
                         if (resultInstall != -1) {
                             result.success(resultInstall);

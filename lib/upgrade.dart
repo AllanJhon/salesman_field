@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info/package_info.dart';
-// import 'package:json_annotation/json_annotation.dart';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
+import 'package:salesman_field/models/versionModel.dart';
 import 'dart:async';
-import 'untils/ProgressDialog.dart';
 import 'data/SAPCONST.dart';
 import 'service/versionAPI.dart';
+import 'package:progress_dialog/progress_dialog.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-var msg = "无信息";
+var msg = "未获取到新版本信息";
 PackageInfo packageInfo;
 var _localVersion = "1.0";
 var _lastVersion = "1.0";
 bool ifUpdate = false;
 bool _loading = false;
+Version _version;
+const APKNAME = 'jyjdsales.apk';
+ProgressDialog pr;
 
 class Upgrade extends StatefulWidget {
   _UpgradeState createState() => _UpgradeState();
@@ -28,12 +32,14 @@ class _UpgradeState extends State<Upgrade> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    pr = new ProgressDialog(context, ProgressDialogType.Download);
     _localVersion = "";
     _lastVersion = "";
     _loading = true;
-    checkNewVersion();
+    checkNewVersion1();
   }
 
+  //原读取版本信息接口
   getLastVersion() async {
     try {
       final res = await http.get(getSelfURL() + '/upgrade/version.json');
@@ -46,10 +52,18 @@ class _UpgradeState extends State<Upgrade> {
     }
   }
 
-  getLastVersion1() async {
-    VersionAPI.getVersion().then((map) {
+  //变更读取最新版本接口
+  checkNewVersion1() async {
+    _localVersion = await getLoacalVersion();
+    VersionAPI.getVersion().then((version) {
       setState(() {
-        print(map);
+        _version = version;
+        _lastVersion = version == null ? '0.0' : version.versionCode;
+        ifUpdate = (_lastVersion.compareTo(_localVersion) == 1);
+        var t = version.content;
+        msg = ifUpdate
+            ? '''更新版本：$_localVersion-->$_lastVersion '''
+            : "当前已是最新版本:V$_localVersion";
         _loading = false;
       });
     });
@@ -63,9 +77,9 @@ class _UpgradeState extends State<Upgrade> {
     }
   }
 
+  /* 
   checkNewVersion<bool>() async {
-    _loading = true;
-    _lastVersion = await getLastVersion1();
+    _lastVersion = getLastVersion();
     _localVersion = await getLoacalVersion();
     ifUpdate = (_lastVersion.compareTo(_localVersion) == 1);
     setState(() {
@@ -76,7 +90,7 @@ class _UpgradeState extends State<Upgrade> {
     _loading = false;
     return (_localVersion.compareTo(_lastVersion) == 1);
   }
-
+*/
   Future<String> get _apkLocalPath async {
     final directory = await getExternalStorageDirectory();
     return directory.path;
@@ -88,14 +102,31 @@ class _UpgradeState extends State<Upgrade> {
     final path = await _apkLocalPath;
     //下载
     final taskId = await FlutterDownloader.enqueue(
-        url: getSelfURL() + '/upgrade/app-release.apk',
+        url: getSelfURL() + _version.updateFile,
         savedDir: path,
+        fileName: APKNAME,
         showNotification: true,
         openFileFromNotification: true);
     FlutterDownloader.registerCallback((id, status, progress) {
-      // 当下载完成时，调用安装
+      if (!pr.isShowing()) {
+        pr.show();
+      }
+      if (status == DownloadTaskStatus.running) {
+        pr.update(progress: progress.toDouble(), message: "下载中，请稍后…");
+      }
+
+      if (status == DownloadTaskStatus.failed) {
+        _showToast("下载异常，请稍后重试");
+        if (pr.isShowing()) {
+          pr.hide();
+        }
+      }
       if (taskId == id && status == DownloadTaskStatus.complete) {
-        _installApk();
+        if (pr.isShowing()) {
+          pr.hide();
+        }
+        // _installApk();
+        FlutterDownloader.open(taskId: taskId);
       }
     });
   }
@@ -106,8 +137,7 @@ class _UpgradeState extends State<Upgrade> {
     try {
       final path = await _apkLocalPath;
       // 调用app地址
-      await platform
-          .invokeMethod('install', {'path': path + '/app-release.apk'});
+      await platform.invokeMethod('install', {'path': '$path/$APKNAME'});
     } on PlatformException catch (_) {}
   }
 
@@ -122,11 +152,14 @@ class _UpgradeState extends State<Upgrade> {
       ),
       body: new Center(
         child: _loading
-            ? ProgressDialog(
-                loading: _loading,
-                msg: '正在加载...',
-                child: Center(),
+            ? Center(
+                child: Text("正在加载..."),
               )
+            // ProgressDialog(
+            //     loading: _loading,
+            //     msg: '正在加载...',
+            //     child: Center(),
+            //   )
             : Column(
                 children: <Widget>[
                   SizedBox(
@@ -148,11 +181,9 @@ class _UpgradeState extends State<Upgrade> {
                     child: new Container(
                         padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: new RaisedButton(
-                            // color: Colors.green,
                             color: Theme.of(context).primaryColor,
                             disabledColor: Colors.grey,
                             splashColor: Colors.black,
-                            // highlightColor: Colors.lightBlue[900],
                             child: Text(
                               "升级新版本",
                               style: TextStyle(fontSize: 18),
@@ -168,4 +199,15 @@ class _UpgradeState extends State<Upgrade> {
       ),
     );
   }
+}
+
+void _showToast(String toastMsg) {
+  Fluttertoast.showToast(
+      msg: toastMsg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.red[400],
+      textColor: Colors.white,
+      fontSize: 16.0);
 }
