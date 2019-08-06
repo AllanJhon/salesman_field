@@ -37,7 +37,7 @@ class Contract4OAAPI {
     </soapenv:Envelope>
     ''';
     var response =
-        await http.post(Uri.parse(getOAURL() + "SalesAPPContractInfoService"),
+        await http.post(Uri.parse(getOAURL() + "/SalesAPPContractInfoService"),
             headers: {
               "Content-Type": "text/xml;charset=UTF-8",
             },
@@ -50,7 +50,7 @@ class Contract4OAAPI {
     }
     var document = xml.parse(response.body);
     var outputxmlstr = document.findAllElements('ns1:return').single.text;
-    // print(".....................................................$outputxmlstr");
+    print(".....................................................$outputxmlstr");
 
     return Contract4OA.xml2List(outputxmlstr);
   }

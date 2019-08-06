@@ -33,7 +33,7 @@ getSelfURL() {
 getOAURL() {
   return flag == "Q"
       ? "http://10.0.65.48:8287"
-      : "http://dstbj.jdsn.com.cn:8077/services/";
+      : "http://dstbj.jdsn.com.cn:8077/services";
 }
 
 setSelfURL(String url, {int port}) {}
