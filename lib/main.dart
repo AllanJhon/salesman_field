@@ -9,9 +9,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'theme/provideStore.dart' show Store;
 import 'theme/configModel.dart' show ConfigModel;
 import 'theme/color.dart';
+import 'package:amap_location/amap_location.dart';
 
 const int ThemeColor = 0xFFC91B3A;
-// int ThemeColor;
 
 SpUtil sp;
 var db;
@@ -21,7 +21,15 @@ void main() async {
   await provider.init(true);
   sp = await SpUtil.getInstance();
   db = Provider.db;
-  // runApp(new MyApp());
+  // AMapLocationClient.setApiKey("1906cd969d78e6123865076f98f99bc3");
+  // await AMapLocationClient.startup(new AMapLocationOption(
+  //     desiredAccuracy: CLLocationAccuracy.kCLLocationAccuracyHundredMeters));
+  
+  // AMapLocation location = await AMapLocationClient.getLocation(true);
+
+  // print(location.latitude);
+  // print(location.longitude);
+  
   runApp(Store.init(child: MyApp()));
 }
 
@@ -39,7 +47,7 @@ class MyApp extends StatelessWidget {
       return MaterialApp(
         theme: new ThemeData(
           // primaryColor: Color(ThemeColor),
-            primaryColor: Color(materialColor[model.theme]),
+          primaryColor: Color(materialColor[model.theme]),
           backgroundColor: Color(0xFFEFEFEF),
           accentColor: Color(0xFF888888),
           textTheme: TextTheme(
@@ -65,5 +73,12 @@ class MyApp extends StatelessWidget {
         ],
       );
     });
+  }
+
+  @override
+  void dispose() {
+    //注意这里关闭
+    AMapLocationClient.shutdown();
+    // super.dispose();
   }
 }

@@ -36,7 +36,7 @@ dependencies:
   # badge: ^0.0.3
   # 增加网络连通状态判定依赖包
   connectivity: ^0.4.3+2
-
+  provide: ^1.0.2 #数据管理层
   charts_flutter: ^0.6.0
   fluttertoast: ^3.1.0
   oktoast: ^2.0.0
@@ -53,11 +53,15 @@ dependencies:
   barcode_scan: ^1.0.0
 
   scoped_model: ^1.0.1
-  event_bus: ^1.1.0
+  #event_bus: ^1.1.0
 
   flutter_downloader: ^1.1.9  
   package_info: ^0.4.0+5
   json_serializable: ^3.0.0
+
+  image_picker: ^0.6.1
+  location: ^2.3.5
+  amap_location: ^0.2.0
   
 
 dev_dependencies:

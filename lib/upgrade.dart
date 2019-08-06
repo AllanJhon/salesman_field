@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'dart:async';
 import 'untils/ProgressDialog.dart';
 import 'data/SAPCONST.dart';
+import 'service/versionAPI.dart';
 
 var msg = "无信息";
 PackageInfo packageInfo;
@@ -45,16 +46,26 @@ class _UpgradeState extends State<Upgrade> {
     }
   }
 
+  getLastVersion1() async {
+    VersionAPI.getVersion().then((map) {
+      setState(() {
+        print(map);
+        _loading = false;
+      });
+    });
+  }
+
   //此处用的是versionName比较，
   getLoacalVersion() async {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      packageInfo = await PackageInfo.fromPlatform();    
+      packageInfo = await PackageInfo.fromPlatform();
       return packageInfo.version;
     }
   }
 
   checkNewVersion<bool>() async {
-    _lastVersion = await getLastVersion();
+    _loading = true;
+    _lastVersion = await getLastVersion1();
     _localVersion = await getLoacalVersion();
     ifUpdate = (_lastVersion.compareTo(_localVersion) == 1);
     setState(() {
@@ -124,7 +135,8 @@ class _UpgradeState extends State<Upgrade> {
                   new Container(
                     child: Text(
                       msg,
-                      style: TextStyle(fontSize: 18, color: Theme.of(context).primaryColor),
+                      style: TextStyle(
+                          fontSize: 18, color: Theme.of(context).primaryColor),
                     ),
                   ),
                   SizedBox(

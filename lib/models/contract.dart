@@ -14,7 +14,6 @@ class Contract {
       contracts.add(contract);
     });
     this.contracts = customers;
-    print(customers.length);
   }
 
   Contract.get(Map data){
