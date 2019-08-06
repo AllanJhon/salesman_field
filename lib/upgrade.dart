@@ -49,7 +49,7 @@ class _UpgradeState extends State<Upgrade> {
   getLastVersion1() async {
     VersionAPI.getVersion().then((map) {
       setState(() {
-        print(map);
+        print(map.content);
         _loading = false;
       });
     });
