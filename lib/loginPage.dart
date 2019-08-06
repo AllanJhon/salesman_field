@@ -74,20 +74,20 @@ class _LoginPageState extends State<LoginPage> {
 
     LoginAPI.login(_user, _pwd).then((loginUser) {
       if (loginUser == null) {
-        _showToast("网络异常。");
-        return;
-      }
-      if (this.mounted) {
-        setState(() {
-          if (!loginUser.loginUserList[0].isSucess) {
-            _showToast(loginUser.loginUserList[0].error);
-          } else {
-            _writerDataToFile();
-            Navigator.of(context).pushAndRemoveUntil(
-                new MaterialPageRoute(builder: (context) => Tabs()),
-                (route) => route == null);
-          }
-        });
+        _showToast("调用远端服务异常!");
+      } else {
+        if (this.mounted) {
+          setState(() {
+            if (!loginUser.loginUserList[0].isSucess) {
+              _showToast(loginUser.loginUserList[0].error);
+            } else {
+              _writerDataToFile();
+              Navigator.of(context).pushAndRemoveUntil(
+                  new MaterialPageRoute(builder: (context) => Tabs()),
+                  (route) => route == null);
+            }
+          });
+        }
       }
     });
   }
@@ -132,7 +132,9 @@ class _LoginPageState extends State<LoginPage> {
               child: new Image.asset(
                 'assets/images/normal_user_icon.png',
                 width: MediaQuery.of(context).size.width * 0.25,
-                color: isQ ? Colors.lightBlue[900]:Theme.of(context).primaryColor,
+                color: isQ
+                    ? Colors.lightBlue[900]
+                    : Theme.of(context).primaryColor,
               ),
             ),
           ),
