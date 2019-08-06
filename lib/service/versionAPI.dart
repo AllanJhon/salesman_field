@@ -8,7 +8,7 @@ import 'package:connectivity/connectivity.dart';
 import '../models/versionModel.dart' show Version;
 
 class VersionAPI {
-  static Future<Map> getVersion({String platform="andriod"}) async {
+  static Future<Version> getVersion({String platform="andriod"}) async {
     var date = new DateTime.now();
     String timestamp =
         "${date.year.toString()}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}${date.hour.toString().padLeft(2, '0')}${date.minute.toString().padLeft(2, '0')}${date.second.toString().padLeft(2, '0')}";
