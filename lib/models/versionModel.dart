@@ -5,6 +5,7 @@ class Version {
   String updateFile;
   String content;
   Version(this.versionCode, this.updateFile,this.content);
+  
   static xml2Model(outputxmlstr) {
         xml.XmlElement node = xml
         .parse(outputxmlstr).findAllElements("data").first;
