@@ -13,7 +13,7 @@ getSAPURL(String funcName) {
   funcName = funcName.toUpperCase();
   return flag == "Q"
       ? "http://dstbj.jdsn.com.cn:8081/sap/bc/srt/rfc/sap/$funcName/102/service/binding"
-      : "http://dstbj.jdsn.com.cn:8081/sap/bc/srt/rfc/sap/$funcName/800/service/binding";
+      : "http://dstbj.jdsn.com.cn:8083/sap/bc/srt/rfc/sap/$funcName/800/service/binding";
 }
 
 getSAPHeader(String funcName) {
