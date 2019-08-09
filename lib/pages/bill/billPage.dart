@@ -122,7 +122,7 @@ class _BillPageState extends State<BillPage> {
                         title: Text(
                           "" +
                               _dataList[index].zname1 +
-                              ", 余量：" +
+                              ", 余量:" +
                               _dataList[index].zskwmeng +
                               "吨,  ",
                           style: double.parse(_dataList[index].zskwmeng) <

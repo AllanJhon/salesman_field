@@ -51,22 +51,12 @@ class _ContractQueryState extends State<ContractQuery> {
 
   List<Widget> getData(List arg) {
     List<Widget> list = new List();
-    var pz;
-    var dj;
-    var cj;
-    var yf;
-
     for (var i = 0; i < arg.length; i++) {
-      pz = arg[i].pz;
-      dj = arg[i].hkdj;
-      cj = arg[i].fhcj;
-      yf = arg[i].yfj;
-
       list.add(Container(
         child: ListTile(
-          title: Text('''品种: $pz,  货款单价: $dj
-发货厂家: $cj
-运费单价: $yf''', style: TextStyle(fontSize: 16)),
+          title: Text('''品种: ${arg[i].pz},
+发货厂家: ${arg[i].fhcj}
+货款单价: ${arg[i].hkdj}, 运费单价: ${arg[i].yfj},''', style: TextStyle(fontSize: 16)),
           // Text("品种:" +
           //     arg[i].pz +
           //     ", 货款单价:" +
