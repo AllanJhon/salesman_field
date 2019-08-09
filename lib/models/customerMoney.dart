@@ -18,6 +18,7 @@ class CustomerMoney {
 
 //butxt 公司描述，dmbtr4 应收账款期末余额，ddwqje 订单未清到位价金额，jhwqje 交货到位价未清金额，fpwqje 发票到位价未清金额
   CustomerMoney.xml2List(outputxmlstr) {
+  try {
     List list = xml
         .parse(outputxmlstr)
         .findAllElements('RESULT')
@@ -46,6 +47,10 @@ class CustomerMoney {
                 "error"))
             .toList();
       }
+    }
+     } catch (Exception) {
+       print("sssssssssssss");
+      customerMoneyList = null;
     }
   }
 }

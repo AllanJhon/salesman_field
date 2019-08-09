@@ -43,7 +43,6 @@ class CustomerMoneyAPI {
 
     var document = xml.parse(response.body);
     var outputxmlstr = document.findAllElements('OUTPUTXMLSTR').single.text;
-    // print("..................................$outputxmlstr");
     return CustomerMoney.xml2List(outputxmlstr);
   }
 }

@@ -4,13 +4,14 @@ import '../../untils/ProgressDialog.dart';
 import '../../models/loginUser.dart';
 
 List _dataList = new List();
-bool _isSucess = true;
+bool _isSucess = false;
 bool _loading = false;
 var customerName;
 var customerCode;
 var saleCode = currentUser.salesCode;
 var saleOfficeCode = currentUser.salesOffice;
 bool _isTable = true;
+var msg;
 
 class CustomerDetail extends StatefulWidget {
   final arguments;
@@ -40,7 +41,8 @@ class _CustomerDetailState extends State<CustomerDetail> {
         .then((customerMoney) {
       setState(() {
         _dataList = customerMoney.customerMoneyList;
-        _isSucess = _dataList.length > 0 ? _dataList[0].isSucess : _isSucess;
+        _isSucess = _dataList !=null ? _dataList[0].isSucess : _isSucess;
+        msg = _dataList != null ? _dataList[0].message : "未取到数据!";
         _loading = false;
       });
     });
@@ -72,7 +74,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
           : !_isSucess
               ? new Center(
                   child: Text(
-                    _dataList[0].message,
+                    msg,
                     style: TextStyle(fontSize: 22, color: Colors.red[400]),
                   ),
                 )

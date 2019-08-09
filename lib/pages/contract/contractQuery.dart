@@ -83,8 +83,8 @@ class _ContractQueryState extends State<ContractQuery> {
         .then((contract4OA) {
       setState(() {
         _dataList = contract4OA.contract4OAList;
-        _isSucess = _dataList.length > 0 ? _dataList[0].isSucess : _isSucess;
-        msg = _dataList.length > 0 ? _dataList[0].message : "调用远端服务异常!";
+        _isSucess = _dataList !=null ? _dataList[0].isSucess : _isSucess;
+        msg = _dataList != null ? _dataList[0].message : "未取到数据!";
         _loading = false;
       });
     });

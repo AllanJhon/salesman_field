@@ -35,7 +35,6 @@ class BillAPI {
             </urn:ZIF_WQ_IN_WS>
         </soapenv:Body>
       </soapenv:Envelope>''';
-
     var response = await http.post(Uri.parse(getSAPURL("ZIF_WQ_IN_WS")),
         headers: getSAPHeader("ZIF_WQ_IN_WS"),
         body: utf8.encode(soap),
