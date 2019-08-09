@@ -17,6 +17,7 @@ class CustomerMoneyAPI {
         '''<![CDATA[<?xml version="1.0" encoding="UTF-8"?> <ZIF_SALES_OUT_ORDER>
         <KUNNR>$customerCode</KUNNR>
         <SALES>$saleCode</SALES>
+        <SALES_OFFICES>$saleOfficeCode</SALES_OFFICES>
        </ZIF_SALES_OUT_ORDER>]]>''';
 
     String soap = '''
