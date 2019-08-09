@@ -100,6 +100,7 @@ class _UpgradeState extends State<Upgrade> {
   Future<void> executeDownload() async {
     if (!ifUpdate) return;
     final path = await _apkLocalPath;
+
     //下载
     final taskId = await FlutterDownloader.enqueue(
         url: getSelfURL() + _version.updateFile,

@@ -31,7 +31,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
     customerCode =
         this.widget.arguments != null ? this.widget.arguments["code"] : "";
 
-    _dataList.clear();
+    if (_dataList != null) _dataList.clear();
     _getCustomerMoney();
   }
 
@@ -41,7 +41,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
         .then((customerMoney) {
       setState(() {
         _dataList = customerMoney.customerMoneyList;
-        _isSucess = _dataList !=null ? _dataList[0].isSucess : _isSucess;
+        _isSucess = _dataList != null ? _dataList[0].isSucess : _isSucess;
         msg = _dataList != null ? _dataList[0].message : "未取到数据!";
         _loading = false;
       });
@@ -52,18 +52,19 @@ class _CustomerDetailState extends State<CustomerDetail> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-          title: Text("$customerName"),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.toys),
-                tooltip: '切换',
-                onPressed: () {
-                  setState(() {
-                    _isTable = !_isTable;
-                  });
-                }),
-          ],),
+        title: Text("$customerName"),
+        centerTitle: true,
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.toys),
+              tooltip: '切换',
+              onPressed: () {
+                setState(() {
+                  _isTable = !_isTable;
+                });
+              }),
+        ],
+      ),
       body: _loading
           ? new Center(
               child: ProgressDialog(
@@ -78,106 +79,106 @@ class _CustomerDetailState extends State<CustomerDetail> {
                     style: TextStyle(fontSize: 22, color: Colors.red[400]),
                   ),
                 )
-             : _isTable?
-              new Scrollbar(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: SingleChildScrollView(
-                      child: DataTable(
-                        sortColumnIndex: _sortColumnIndex,
-                        sortAscending: _sortAscending,
-                        columns: [
-                          DataColumn(
-                            label: Text(
-                              "公司描述",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                          DataColumn(
-                            label: Text(
-                              " 应收账款余额",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            onSort: (int index, bool ascending) {
-                              setState(() {
-                                _sortColumnIndex = index;
-                                _sortAscending = ascending;
-                                _dataList.sort((a, b) {
-                                  if (!ascending) {
-                                    final c = a;
-                                    a = b;
-                                    b = c;
-                                  }
-                                  return double.parse(a.money)
-                                      .compareTo(double.parse(b.money));
-                                });
-                              });
-                            },
-                          ),
-                          DataColumn(
-                            label: Text(
-                              '订单未提金额',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            onSort: (int index, bool ascending) {
-                              setState(() {
-                                _sortColumnIndex = index;
-                                _sortAscending = ascending;
-                                _dataList.sort((a, b) {
-                                  if (!ascending) {
-                                    final c = a;
-                                    a = b;
-                                    b = c;
-                                  }
-                                  return double.parse(a.ddwqje)
-                                      .compareTo(double.parse(b.ddwqje));
-                                });
-                              });
-                            },
-                          ),
-                        ],
-                        rows: _dataList.map((customerMoney) {
-                          return DataRow(
-                            cells: [
-                              DataCell(Text(
-                                customerMoney.qydw,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 15),
-                              )),
-                              DataCell(Text(
-                                customerMoney.money,
-                                style: TextStyle(fontSize: 15),
-                              )),
-                              DataCell(Text(
-                                customerMoney.ddwqje,
-                                style: TextStyle(fontSize: 15),
-                              )),
+              : _isTable
+                  ? new Scrollbar(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: SingleChildScrollView(
+                          child: DataTable(
+                            sortColumnIndex: _sortColumnIndex,
+                            sortAscending: _sortAscending,
+                            columns: [
+                              DataColumn(
+                                label: Text(
+                                  "公司描述",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  " 应收账款余额",
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                onSort: (int index, bool ascending) {
+                                  setState(() {
+                                    _sortColumnIndex = index;
+                                    _sortAscending = ascending;
+                                    _dataList.sort((a, b) {
+                                      if (!ascending) {
+                                        final c = a;
+                                        a = b;
+                                        b = c;
+                                      }
+                                      return double.parse(a.money)
+                                          .compareTo(double.parse(b.money));
+                                    });
+                                  });
+                                },
+                              ),
+                              DataColumn(
+                                label: Text(
+                                  '订单未提金额',
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                onSort: (int index, bool ascending) {
+                                  setState(() {
+                                    _sortColumnIndex = index;
+                                    _sortAscending = ascending;
+                                    _dataList.sort((a, b) {
+                                      if (!ascending) {
+                                        final c = a;
+                                        a = b;
+                                        b = c;
+                                      }
+                                      return double.parse(a.ddwqje)
+                                          .compareTo(double.parse(b.ddwqje));
+                                    });
+                                  });
+                                },
+                              ),
                             ],
-                          );
-                        }).toList(),
+                            rows: _dataList.map((customerMoney) {
+                              return DataRow(
+                                cells: [
+                                  DataCell(Text(
+                                    customerMoney.qydw,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 15),
+                                  )),
+                                  DataCell(Text(
+                                    customerMoney.money,
+                                    style: TextStyle(fontSize: 15),
+                                  )),
+                                  DataCell(Text(
+                                    customerMoney.ddwqje,
+                                    style: TextStyle(fontSize: 15),
+                                  )),
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        ),
                       ),
+                    )
+                  : ListView.builder(
+                      itemCount: _dataList.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          child: ListTile(
+                            title: Text(_dataList[index].qydw),
+                            subtitle: Text("应收账款余额: " +
+                                _dataList[index].money +
+                                "元,  订单未提金额: " +
+                                _dataList[index].ddwqje +
+                                "元"),
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Color.fromRGBO(233, 233, 233, 1),
+                                  width: 1)),
+                        );
+                      },
                     ),
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: _dataList.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      child: ListTile(
-                        title: Text(_dataList[index].qydw),
-                        subtitle: Text("应收账款余额: " +
-                            _dataList[index].money +
-                            "元,  订单未提金额: " +
-                            _dataList[index].ddwqje +
-                            "元"),
-                      ),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Color.fromRGBO(233, 233, 233, 1),
-                              width: 1)),
-                    );
-                  },
-                ),
     );
   }
 }

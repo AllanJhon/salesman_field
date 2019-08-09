@@ -56,7 +56,7 @@ class _ContractQueryState extends State<ContractQuery> {
         child: ListTile(
           title: Text('''品种: ${arg[i].pz},
 发货厂家: ${arg[i].fhcj}
-货款单价: ${arg[i].hkdj}, 运费单价: ${arg[i].yfj},''', style: TextStyle(fontSize: 16)),
+货款单价: ${arg[i].hkdj},  运费单价: ${arg[i].yfj}''', style: TextStyle(fontSize: 16)),
           // Text("品种:" +
           //     arg[i].pz +
           //     ", 货款单价:" +
