@@ -5,7 +5,7 @@ import '../../untils/ProgressDialog.dart';
 import '../../models/loginUser.dart';
 
 List _dataList = new List();
-var sales = currentUser.userName;
+var sales ;
 var bDate;
 var eDate;
 var customer;
@@ -27,6 +27,8 @@ class _ContractQueryState extends State<ContractQuery> {
     // TODO: implement initState
     super.initState();
     _dataList.clear();
+    sales = "";
+    sales = currentUser.userName;
 
     bDate = this.widget.arguments != null
         ? this.widget.arguments["vBegDate"]

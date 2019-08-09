@@ -31,7 +31,8 @@ class _BillPageState extends State<BillPage> {
     // TODO: implement initState
     super.initState();
     _dataList.clear();
-
+    zvkgrp = "";
+    zvkbur = "";
     zvkbur = currentUser.salesOffice;
     zvkgrp = currentUser.salesCode;
 
