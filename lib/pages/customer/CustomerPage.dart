@@ -31,7 +31,7 @@ class _CustomerPage extends State<CustomerPage> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         print('滑动到了最底部');
-        _getMore();
+        // _getMore();
       }
     });
   }
