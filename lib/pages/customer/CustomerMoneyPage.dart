@@ -96,7 +96,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
                               ),
                               DataColumn(
                                 label: Text(
-                                  " 应收账款余额",
+                                  " 可发货余额",
                                   style: TextStyle(fontSize: 16),
                                 ),
                                 onSort: (int index, bool ascending) {
@@ -117,7 +117,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
                               ),
                               DataColumn(
                                 label: Text(
-                                  '订单未提金额',
+                                  '可办单余额',
                                   style: TextStyle(fontSize: 16),
                                 ),
                                 onSort: (int index, bool ascending) {
