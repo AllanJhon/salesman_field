@@ -38,6 +38,7 @@ class _TabsState extends State<Tabs> {
               icon: Icon(Icons.accessibility_new), title: Text("我的")),
         ],
       ),
+/*      
       drawer: Drawer(
         child: Column(
           children: <Widget>[
@@ -46,10 +47,11 @@ class _TabsState extends State<Tabs> {
                 Expanded(
                   child: UserAccountsDrawerHeader(
                     accountName: Text(currentUser.displayName),
-                    accountEmail: Text("luxiaofeng@163.com"),
+                    accountEmail: Text(""),
                     currentAccountPicture: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          "http://ww1.sinaimg.cn/large/679db862jw1eu39hc1hagj21hd0u0n2m.jpg"),
+                      backgroundImage: 
+                      NetworkImage(
+                          ""),
                     ),
                   ),
                 )
@@ -60,6 +62,7 @@ class _TabsState extends State<Tabs> {
                 child: Icon(Icons.settings),
               ),
               title: Text("设置"),
+              onTap: () =>Navigator.pushNamed(context, "/myConfig")
             ),
             Divider(),
             ListTile(
@@ -75,6 +78,7 @@ class _TabsState extends State<Tabs> {
           ],
         ),
       ),
+*/
     );
   }
 }
