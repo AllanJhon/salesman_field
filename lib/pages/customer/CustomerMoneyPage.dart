@@ -22,7 +22,6 @@ class CustomerDetail extends StatefulWidget {
 class _CustomerDetailState extends State<CustomerDetail> {
   int _sortColumnIndex = 1;
   bool _sortAscending = true;
-
   @override
   void initState() {
     super.initState();
@@ -42,7 +41,9 @@ class _CustomerDetailState extends State<CustomerDetail> {
       setState(() {
         _dataList = customerMoney.customerMoneyList;
         _isSucess = _dataList != null ? _dataList[0].isSucess : _isSucess;
+        print(_isSucess);
         msg = _dataList != null ? _dataList[0].message : "未取到数据!";
+        print(msg);
         _loading = false;
       });
     });
@@ -166,9 +167,9 @@ class _CustomerDetailState extends State<CustomerDetail> {
                         return Container(
                           child: ListTile(
                             title: Text(_dataList[index].qydw),
-                            subtitle: Text("应收账款余额: " +
+                            subtitle: Text("可发货余额: " +
                                 _dataList[index].money +
-                                "元,  订单未提金额: " +
+                                "元,  可办单余额: " +
                                 _dataList[index].ddwqje +
                                 "元"),
                           ),

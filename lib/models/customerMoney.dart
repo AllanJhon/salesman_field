@@ -49,8 +49,7 @@ class CustomerMoney {
       }
     }
      } catch (Exception) {
-       print("sssssssssssss");
-      customerMoneyList = null;
+      customerMoneyList = [new CustomerMoney(false,"获取数据异常："+ Exception.toString(),"error","error","error")];
     }
   }
 }

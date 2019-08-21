@@ -19,7 +19,6 @@ class CustomerMoneyAPI {
         <SALES>$saleCode</SALES>
         <SALES_OFFICES>$saleOfficeCode</SALES_OFFICES>
        </ZIF_SALES_OUT_ORDER>]]>''';
-
     String soap = '''
         <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:rfc:functions">
         <soapenv:Body>
