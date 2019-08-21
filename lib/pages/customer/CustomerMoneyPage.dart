@@ -41,9 +41,7 @@ class _CustomerDetailState extends State<CustomerDetail> {
       setState(() {
         _dataList = customerMoney.customerMoneyList;
         _isSucess = _dataList != null ? _dataList[0].isSucess : _isSucess;
-        print(_isSucess);
         msg = _dataList != null ? _dataList[0].message : "未取到数据!";
-        print(msg);
         _loading = false;
       });
     });
