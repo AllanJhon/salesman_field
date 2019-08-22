@@ -1,4 +1,4 @@
-var flag = "Q";
+var flag = "P";
 
 var sapURL =
     'http://dstbj.jdsn.com.cn:8081/sap/bc/srt/rfc/sap/zif_wq_in_ws/102/service/binding';

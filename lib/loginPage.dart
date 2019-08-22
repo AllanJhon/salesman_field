@@ -16,7 +16,7 @@ TextEditingController _pwdController = TextEditingController();
 String _user;
 String _pwd;
 bool isObscure = true;
-bool isQ = true;
+bool isQ = false;
 
 class LoginPage extends StatefulWidget {
   @override
