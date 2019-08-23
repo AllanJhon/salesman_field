@@ -43,7 +43,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 2
-        versionName "1.0.4"
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         manifestPlaceholders = [ 
@@ -62,8 +62,8 @@ android {
 
    buildTypes {
     release {
-        signingConfig signingConfigs.debug
-        // signingConfig signingConfigs.release
+        // signingConfig signingConfigs.debug
+        signingConfig signingConfigs.release
 
     }
 }

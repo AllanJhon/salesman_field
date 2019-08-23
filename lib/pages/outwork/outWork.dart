@@ -46,8 +46,8 @@ class _OutWorkState extends State<OutWork> {
                     child: new IconButton(
                       icon: Icon(Icons.gesture),
                       onPressed: () {
-                        Navigator.pushNamed(context, "/busi");
-                        // _showToast("版本努力升级中。");
+                        // Navigator.pushNamed(context, "/busi");
+                        _showToast("版本努力升级中。");
                       },
                     ),
                   ),
@@ -71,7 +71,8 @@ class _OutWorkState extends State<OutWork> {
                       child: new IconButton(
                         icon: Icon(Icons.location_on, color: Colors.white),
                         onPressed: () {
-                          Navigator.pushNamed(context, "/test");
+                          // Navigator.pushNamed(context, "/test");
+                          _showToast("版本努力升级中。");
                         },
                       ),
                       backgroundColor: Theme.of(context).primaryColor,
